@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>JSON to CSV Converter - Free Offline Data Export | Toolenix</title>
+    <meta name="title" content="JSON to CSV Converter - Free Offline Data Export | Toolenix">
+    <meta name="description" content="Convert JSON data to Excel-ready CSV format instantly. A 100% free, private, and offline data parsing tool for developers and analysts.">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.toolenix.com/json-to-csv.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/json-to-csv.html">
+    <meta property="og:title" content="JSON to CSV Converter - Secure Offline Export">
+    <meta property="og:description" content="Transform API payloads and JSON arrays into clean, spreadsheet-ready CSV files without uploading your data to any server.">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/json-to-csv.html">
+    <meta property="twitter:title" content="JSON to CSV Converter - Secure Offline Export">
+    <meta property="twitter:description" content="Transform API payloads and JSON arrays into clean, spreadsheet-ready CSV files without uploading your data to any server.">
+    
+    <!-- Assets -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <!-- Schema.org for SoftwareApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix JSON to CSV Converter",
+      "operatingSystem": "All",
+      "applicationCategory": "DeveloperApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A client-side utility for parsing JSON objects and arrays into Comma-Separated Values (CSV) format for spreadsheet software compatibility."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Dev Tools",
+        "item": "https://www.toolenix.com/#dev-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "JSON to CSV"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 900px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .editor-pane {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            background: var(--card-bg);
+            height: 500px;
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: rgba(37, 99, 235, 0.05);
+            border-bottom: 1px solid var(--border-glass);
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .text-area {
+            width: 100%;
+            height: 100%;
+            padding: 1.5rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: none;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            resize: none;
+            outline: none;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .text-area:focus {
+            box-shadow: inset 0 0 0 2px rgba(37, 99, 235, 0.2);
+        }
+
+        .output-area {
+            background: rgba(0, 0, 0, 0.01);
+        }
+
+        .toolbar {
+            grid-column: 1 / -1;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .status-bar {
+            grid-column: 1 / -1;
+            text-align: center;
+            color: #EF4444;
+            font-weight: 600;
+            padding: 1rem;
+            background: rgba(239, 68, 68, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            display: none;
+            margin-bottom: 1rem;
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <!-- Breadcrumbs -->
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#dev-tools">Developer Tools</a> &gt; JSON to CSV Converter
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <!-- Tool Interface -->
+        <section style="padding: 3rem 0;">
+            <div class="container">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">JSON to CSV Converter</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Transform raw JSON arrays into Microsoft Excel-ready CSV sheets instantly and securely.</p>
+                </div>
+
+                <div class="workspace-grid">
+                    
+                    <div class="toolbar">
+                        <button class="btn btn-primary" id="convert-btn" style="padding: 0.8rem 2rem; font-size: 1.1rem;">🔄 Convert to CSV</button>
+                    </div>
+
+                    <div id="status-bar" class="status-bar">Invalid JSON Format. Please check your syntax.</div>
+
+                    <!-- Input Pane -->
+                    <div class="editor-pane">
+                        <div class="editor-header">
+                            <span>Input (JSON Array)</span>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="btn btn-outline" id="paste-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem;">📋 Paste</button>
+                                <button class="btn btn-outline" id="clear-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem; color: #EF4444; border-color: rgba(239, 68, 68, 0.3);">🗑️ Clear</button>
+                            </div>
+                        </div>
+                        <textarea id="json-input" class="text-area" placeholder='Paste your JSON array here...
+
+Example:
+[
+  { "id": 1, "name": "Alice", "role": "Admin" },
+  { "id": 2, "name": "Bob", "role": "Editor" }
+]'></textarea>
+                    </div>
+
+                    <!-- Output Pane -->
+                    <div class="editor-pane">
+                        <div class="editor-header">
+                            <span style="color: var(--primary);">Output (CSV)</span>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="btn btn-outline" id="copy-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem;">📄 Copy</button>
+                                <button class="btn btn-primary" id="download-btn" style="padding: 0.2rem 0.8rem; font-size: 0.85rem;">📥 Download .csv</button>
+                            </div>
+                        </div>
+                        <textarea id="csv-output" class="text-area output-area" readonly placeholder="Comma-Separated Values (CSV) will appear here..."></textarea>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Deep SEO Editorial Section -->
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>Bridging the Gap Between Code and Spreadsheets</h2>
+                <p>In modern web architecture, systems communicate using <strong>JSON (JavaScript Object Notation)</strong>. Whenever a developer pulls a list of users from a database, retrieves product inventory from Shopify, or downloads lead data from a marketing API, the output is generated as a JSON array. While computers can read JSON perfectly, business analysts and marketing teams cannot.</p>
+                
+                <p>To analyze this data, create graphs, or import contacts into software like Mailchimp, the data must be formatted as a <strong>CSV (Comma-Separated Values)</strong> file. CSVs can be opened naturally by Microsoft Excel, Google Sheets, and Apple Numbers. The Toolenix JSON to CSV Converter is built to bridge this technical gap, allowing you to instantly transform nested code structures into clean, tabular spreadsheet data.</p>
+
+                <h2>How the JSON to CSV Conversion Algorithm Works</h2>
+                <p>Converting a multidimensional array into a flat, two-dimensional spreadsheet requires intelligent parsing. Our algorithm handles the heavy lifting through a three-step localized process:</p>
+                
+                <h3>1. Header Extraction</h3>
+                <p>When you paste your JSON array, the script analyzes the first object in the list and extracts all of its "keys" (e.g., <code>id</code>, <code>first_name</code>, <code>email</code>). These keys are placed on the very first line of the output, separated by commas, forming the column headers for your spreadsheet.</p>
+
+                <h3>2. Value Mapping & Flattening</h3>
+                <p>The algorithm then iterates through every object in your array. It matches the values to their respective headers, ensuring data stays in the correct column. If an object is missing a value, the algorithm outputs a blank space rather than throwing an error. If a value contains a nested object or array (like a list of tags), our engine cleanly stringifies it so it fits into a single Excel cell without breaking the row layout.</p>
+
+                <h3>3. Smart Quotation Escaping</h3>
+                <p>The biggest issue with manual CSV creation is handling commas inside the data itself. If a user's bio is "Hello, my name is John," the comma will accidentally push "my name is John" into the next Excel column. Our converter employs strict standard formatting: any value containing a comma or line break is automatically wrapped in double quotes (<code>"..."</code>), ensuring your spreadsheet layout remains perfectly intact.</p>
+
+                <h2>The Mission-Critical Importance of Data Privacy</h2>
+                <p>Consider the data you are converting: Customer email lists, confidential financial transactions, e-commerce order histories. Uploading this JSON payload to a random, cloud-based converter exposes your company’s most sensitive data to third-party server logging.</p>
+                <p><strong>Toolenix provides enterprise-grade data security.</strong> This tool processes everything using 100% Client-Side JavaScript. Your JSON string is parsed within your web browser's local sandbox memory. When you click "Download .csv", the file is generated directly on your local hard drive. Your proprietary data never touches the internet, keeping you fully compliant with modern data protection regulations.</p>
+
+                <h2>Complementary Data & Developer Tools</h2>
+                <p>Streamline your data management workflow with our other free, secure utilities:</p>
+                <ul>
+                    <li><a href="json-formatter.html"><strong>JSON Formatter:</strong></a> If your raw JSON is throwing an error, use our formatter to indent it and identify missing brackets before converting.</li>
+                    <li><a href="xml-to-json.html"><strong>XML to JSON Converter:</strong></a> If you are working with legacy systems, convert XML to JSON first, and then run it through this tool to get a CSV.</li>
+                    <li><a href="text-list-organizer.html"><strong>Text List Organizer:</strong></a> Clean up string data by removing duplicates or sorting items alphabetically before exporting.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Analyzing web data shouldn't require writing custom Python scripts or risking customer privacy on cloud servers. By utilizing the Toolenix JSON to CSV Converter, you gain access to an instantaneous, mathematically accurate parsing engine. Export your database records to Excel safely, and bookmark this utility to keep your data processing workflow fast and secure.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <!-- Tool Execution Code -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            const jsonInput = document.getElementById('json-input');
+            const csvOutput = document.getElementById('csv-output');
+            const statusBar = document.getElementById('status-bar');
+            
+            const convertBtn = document.getElementById('convert-btn');
+            const copyBtn = document.getElementById('copy-btn');
+            const clearBtn = document.getElementById('clear-btn');
+            const pasteBtn = document.getElementById('paste-btn');
+            const downloadBtn = document.getElementById('download-btn');
+
+            // --- Conversion Logic ---
+            function jsonToCsv(jsonString) {
+                // Parse JSON
+                const data = JSON.parse(jsonString);
+                
+                // Ensure data is an array
+                const array = Array.isArray(data) ? data : [data];
+                
+                if (array.length === 0) {
+                    return '';
+                }
+
+                // Extract Headers from the first object
+                const headers = Object.keys(array[0]);
+                
+                // Build CSV String
+                let csv = headers.join(',') + '\n';
+
+                for (const row of array) {
+                    const values = headers.map(header => {
+                        let val = row[header];
+                        
+                        // Handle null/undefined
+                        if (val === null || val === undefined) {
+                            val = '';
+                        } 
+                        // Handle nested objects/arrays by stringifying
+                        else if (typeof val === 'object') {
+                            val = JSON.stringify(val);
+                        } else {
+                            val = String(val);
+                        }
+                        
+                        // Escape double quotes by doubling them
+                        val = val.replace(/"/g, '""');
+                        
+                        // Wrap in quotes if it contains comma, newline, or double quotes
+                        if (val.search(/("|,|\n)/g) >= 0) {
+                            val = `"${val}"`;
+                        }
+                        
+                        return val;
+                    });
+                    
+                    csv += values.join(',') + '\n';
+                }
+                
+                return csv;
+            }
+
+            function processConversion() {
+                const rawJson = jsonInput.value.trim();
+                statusBar.style.display = 'none';
+
+                if (!rawJson) {
+                    csvOutput.value = '';
+                    return;
+                }
+
+                try {
+                    const csvData = jsonToCsv(rawJson);
+                    csvOutput.value = csvData;
+                    if(window.showToast) window.showToast('Converted to CSV!', 'success');
+                } catch (error) {
+                    csvOutput.value = '';
+                    statusBar.style.display = 'block';
+                    console.error("JSON Parse Error:", error);
+                }
+            }
+
+            // --- Event Listeners ---
+            convertBtn.addEventListener('click', processConversion);
+
+            // Action: Copy
+            copyBtn.addEventListener('click', () => {
+                if (!csvOutput.value) {
+                    if (window.showToast) window.showToast('Nothing to copy!', 'error');
+                    return;
+                }
+                
+                navigator.clipboard.writeText(csvOutput.value).then(() => {
+                    if (window.showToast) window.showToast('CSV copied to clipboard!', 'success');
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✅ Copied!';
+                    setTimeout(() => { copyBtn.textContent = originalText; }, 2000);
+                });
+            });
+
+            // Action: Download File
+            downloadBtn.addEventListener('click', () => {
+                const csvData = csvOutput.value;
+                if (!csvData) {
+                    if (window.showToast) window.showToast('Generate CSV data first.', 'error');
+                    return;
+                }
+
+                // Create a Blob containing the CSV data
+                const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+                
+                // Create a hidden download link
+                const link = document.createElement('a');
+                const url = URL.createObjectURL(blob);
+                link.setAttribute('href', url);
+                link.setAttribute('download', 'data_export.csv');
+                
+                // Append to DOM, click, and cleanup
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+
+            // Action: Clear
+            clearBtn.addEventListener('click', () => {
+                jsonInput.value = '';
+                csvOutput.value = '';
+                statusBar.style.display = 'none';
+                jsonInput.focus();
+            });
+
+            // Action: Paste
+            pasteBtn.addEventListener('click', async () => {
+                try {
+                    const text = await navigator.clipboard.readText();
+                    jsonInput.value = text;
+                    processConversion();
+                    if (window.showToast) window.showToast('Pasted from clipboard!', 'success');
+                } catch (err) {
+                    console.error('Paste failed: ', err);
+                    if (window.showToast) window.showToast('Please press Ctrl+V / Cmd+V to paste.', 'error');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

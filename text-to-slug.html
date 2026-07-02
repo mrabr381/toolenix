@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Text to Slug Converter - Create SEO-Friendly URLs | Toolenix</title>
+    <meta name="title" content="Text to Slug Converter - Create SEO-Friendly URLs | Toolenix">
+    <meta name="description" content="Convert your blog titles and text into clean, SEO-friendly URL slugs instantly. 100% free, offline text string manipulation tool for digital marketers.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/text-to-slug.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/text-to-slug.html">
+    <meta property="og:title" content="Text to Slug Converter - Instant SEO URLs">
+    <meta property="og:description" content="Generate clean, readable URLs by stripping special characters and stop words locally in your browser.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/text-to-slug.html">
+    <meta property="twitter:title" content="Text to Slug Converter - Instant SEO URLs">
+    <meta property="twitter:description" content="Generate clean, readable URLs by stripping special characters and stop words locally in your browser.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix Text to Slug Converter",
+      "operatingSystem": "All",
+      "applicationCategory": "UtilitiesApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A client-side utility for web developers and SEO specialists to convert text strings into clean, hyphenated URL slugs by stripping special characters and formatting spaces."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Text Tools",
+        "item": "https://www.toolenix.com/#seo-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Text to Slug Converter"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .editor-pane {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: rgba(37, 99, 235, 0.05);
+            border-bottom: 1px solid var(--border-glass);
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .text-input-area {
+            width: 100%;
+            padding: 1.5rem;
+            background: transparent;
+            color: var(--text-main);
+            border: none;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            resize: vertical;
+            outline: none;
+        }
+
+        .input-box {
+            height: 150px;
+        }
+
+        .output-box {
+            height: 100px;
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--primary);
+            font-weight: 600;
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            box-shadow: var(--shadow-soft);
+            align-items: center;
+        }
+
+        .settings-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .setting-label {
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Custom Checkboxes */
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-main);
+            user-select: none;
+        }
+        
+        .checkbox-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+        
+        .checkmark {
+            height: 20px;
+            width: 20px;
+            background-color: var(--bg-main);
+            border: 2px solid var(--border-glass);
+            border-radius: 4px;
+            margin-right: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .checkbox-container:hover input ~ .checkmark {
+            border-color: var(--primary);
+        }
+        
+        .checkbox-container input:checked ~ .checkmark {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .checkmark:after {
+            content: "";
+            display: none;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            margin-bottom: 2px;
+        }
+        
+        .checkbox-container input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        /* Select Dropdown */
+        .separator-select {
+            padding: 0.5rem;
+            border: 1px solid var(--border-glass);
+            border-radius: 6px;
+            background: var(--bg-main);
+            color: var(--text-main);
+            font-family: monospace;
+            font-size: 1rem;
+            outline: none;
+        }
+        .separator-select:focus {
+            border-color: var(--primary);
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+        .seo-article code { background: rgba(100, 116, 139, 0.1); padding: 0.2rem 0.4rem; border-radius: 4px; font-family: monospace; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#seo-tools">Text Tools</a> &gt; Text to Slug Converter
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 900px;">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">Text to Slug Converter</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Transform messy article titles into clean, hyphenated URLs instantly. Processed completely offline for maximum privacy.</p>
+                </div>
+
+                <div class="workspace-grid">
+                    
+                    <div class="toolbar">
+                        <div class="settings-group">
+                            <span class="setting-label">Options:</span>
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="opt-lowercase" checked>
+                                <span class="checkmark"></span>
+                                Force Lowercase
+                            </label>
+                            <label class="checkbox-container" title="Removes common words like a, an, the, and, or">
+                                <input type="checkbox" id="opt-stopwords">
+                                <span class="checkmark"></span>
+                                Remove Stop Words
+                            </label>
+                        </div>
+
+                        <div style="width: 1px; height: 30px; background: var(--border-glass); margin: 0 0.5rem;"></div>
+
+                        <div class="settings-group">
+                            <span class="setting-label">Separator:</span>
+                            <select id="separator-select" class="separator-select">
+                                <option value="-">Hyphen (-)</option>
+                                <option value="_">Underscore (_)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="editor-pane">
+                        <div class="editor-header">
+                            <span>Input Title / Text</span>
+                            <button class="btn btn-outline" id="clear-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem; color: #EF4444; border-color: rgba(239, 68, 68, 0.3);">🗑️ Clear</button>
+                        </div>
+                        <textarea id="text-input" class="text-input-area input-box" placeholder="Type or paste your blog post headline here...
+
+Example: How to Design a Beautiful Website in 2026! 🚀"></textarea>
+                    </div>
+
+                    <div class="editor-pane">
+                        <div class="editor-header">
+                            <span>Generated URL Slug</span>
+                            <button class="btn btn-primary" id="copy-btn" style="padding: 0.3rem 1rem; font-size: 0.85rem;">📄 Copy Slug</button>
+                        </div>
+                        <textarea id="slug-output" class="text-input-area output-box" readonly placeholder="your-generated-seo-slug-will-appear-here"></textarea>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Comprehensive Guide to SEO-Friendly URL Slugs</h2>
+                <p>When you publish a new article, product page, or portfolio piece on the internet, the content management system (like WordPress or Shopify) automatically generates a web address for it. The portion of the URL that specifically identifies the page is called a <strong>slug</strong>. For example, in <code>www.toolenix.com/text-to-slug.html</code>, the phrase <code>text-to-slug</code> is the slug.</p>
+                
+                <p>If you leave your URLs to be generated randomly by databases (resulting in messy strings like <code>?post_id=9876&cat=2</code>) or if you simply paste a massive headline with spaces and symbols into the URL bar, you are severely damaging your search engine rankings. A clean, descriptive URL is one of the most fundamental pillars of On-Page SEO. Welcome to the Toolenix Text to Slug Converter. We engineered this tool to instantly translate messy headlines into perfectly formatted, Google-approved URLs.</p>
+
+                <h2>Why Do URLs Need to be "Slugified"?</h2>
+                <p>The foundational architecture of the internet (specifically the HTTP protocol) dictates that URLs cannot contain spaces. If you attempt to force a space into a URL, the web browser will automatically "URL Encode" it, turning the space into <code>%20</code>. </p>
+                <p>A URL like <code>mywebsite.com/how%20to%20bake%20a%20cake</code> is visually atrocious, difficult for humans to read, and breaks trust when shared on social media. <strong>Slugification</strong> solves this by replacing all spaces with a designated separator (almost always a hyphen), converting all characters to lowercase, and aggressively stripping out punctuation and emojis that could break the web link.</p>
+
+                <h2>Hyphens vs. Underscores in URLs</h2>
+                <p>A common debate among junior web developers is whether to use hyphens (<code>-</code>) or underscores (<code>_</code>) to separate words in a slug. Our tool provides a dropdown to select either, but the SEO industry standard is clear:</p>
+                <p><strong>Always use hyphens for SEO.</strong> Google's search crawlers (Googlebot) are programmed to read a hyphen as a word separator. If Google sees <code>how-to-code</code>, it reads three distinct words: "how", "to", and "code". Conversely, Googlebot treats underscores as word connectors. If it sees <code>how_to_code</code>, it attempts to read it as one massive, misspelled word: "howtocode". Using hyphens ensures your keywords are indexed accurately.</p>
+
+                <h2>The Importance of Removing Stop Words</h2>
+                <p>Stop words are the most common, structurally necessary words in a language. In English, these include words like "a", "an", "the", "and", "or", "but", "in", and "on". While they are necessary for writing readable headlines, they provide <strong>zero value</strong> to search engine algorithms.</p>
+                <p>For example, if your article headline is <em>"The Ultimate Guide on How to Train a Puppy in the House"</em>, generating a raw slug results in a massively long URL. By checking the <strong>"Remove Stop Words"</strong> box in the Toolenix converter, the script mathematically strips out the fluff, resulting in a punchy, highly targeted URL: <code>ultimate-guide-how-train-puppy-house</code>. Shorter, keyword-dense URLs are proven to rank higher and receive better click-through rates (CTR).</p>
+
+                <h2>The Privacy of Client-Side Text Processing</h2>
+                <p>When drafting unreleased press releases, confidential financial product pages, or proprietary legal blogs, pasting your headlines into cloud-based formatting tools is a security risk. Those headlines are transmitted across the web and potentially logged in a third-party server's database before your content is officially published.</p>
+                <p><strong>Toolenix eliminates this vulnerability.</strong> Our utility is built purely on Vanilla JavaScript running natively inside your browser. When you type your headline into our tool, the string manipulation (converting characters, stripping symbols) happens on your local CPU. Your unreleased content is completely secure and is never transmitted to our servers.</p>
+
+                <h2>Step-by-Step Guide: Generating Your Perfect URL</h2>
+                <p>Optimizing your web addresses takes less than a second:</p>
+                <ol>
+                    <li><strong>Paste Your Headline:</strong> Drop your raw, messy blog post title directly into the input area. The tool will parse it in real-time.</li>
+                    <li><strong>Configure Settings:</strong> Ensure "Force Lowercase" is checked (URLs should always be lowercase to avoid server case-sensitivity issues). Toggle the "Remove Stop Words" option if your title is too long.</li>
+                    <li><strong>Select the Separator:</strong> Leave it on the default Hyphen (-) for standard web pages, or switch it to Underscore (_) if you are generating variable names for a backend database.</li>
+                    <li><strong>Copy and Deploy:</strong> Click the blue "Copy Slug" button and paste the clean string directly into your CMS (like WordPress, Ghost, or Shopify).</li>
+                </ol>
+
+                <h2>Complementary Text Optimization Utilities</h2>
+                <p>Ensure your digital content is perfectly formatted with our other free local tools:</p>
+                <ul>
+                    <li><a href="case-converter.html"><strong>Case Converter:</strong></a> Need to format your headline in perfect Title Case before you slugify it? Use our instant converter.</li>
+                    <li><a href="url-encoder-decoder.html"><strong>URL Encoder:</strong></a> If you are building complex tracking links with UTM parameters rather than basic page slugs, use our encoder to secure the special characters.</li>
+                    <li><a href="word-counter.html"><strong>Word Counter:</strong></a> Ensure your blog post hits the exact word count necessary to dominate the search engine rankings.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>A messy, unoptimized URL damages your site's professionalism and cripples your SEO potential. By utilizing the Toolenix Text to Slug Converter, you gain access to an instantaneous, client-side engine that formats your web addresses perfectly. Protect your unreleased content drafts, enforce hyphenation standards, and bookmark this page to streamline your content publishing workflow today.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const textInput = document.getElementById('text-input');
+            const slugOutput = document.getElementById('slug-output');
+            
+            const optLowercase = document.getElementById('opt-lowercase');
+            const optStopwords = document.getElementById('opt-stopwords');
+            const separatorSelect = document.getElementById('separator-select');
+            
+            const clearBtn = document.getElementById('clear-btn');
+            const copyBtn = document.getElementById('copy-btn');
+
+            // Standard English stop words
+            const stopWords = new Set([
+                'a', 'an', 'and', 'are', 'as', 'at', 'be', 'but', 'by', 'for', 
+                'if', 'in', 'into', 'is', 'it', 'no', 'not', 'of', 'on', 'or', 
+                'such', 'that', 'the', 'their', 'then', 'there', 'these', 
+                'they', 'this', 'to', 'was', 'will', 'with'
+            ]);
+
+            function generateSlug() {
+                let text = textInput.value;
+                const separator = separatorSelect.value;
+                const forceLower = optLowercase.checked;
+                const removeStop = optStopwords.checked;
+
+                if (!text.trim()) {
+                    slugOutput.value = '';
+                    return;
+                }
+
+                // 1. Normalize unicode characters (removes accents/diacritics: é -> e)
+                text = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+                // 2. Force lowercase
+                if (forceLower) {
+                    text = text.toLowerCase();
+                }
+
+                // 3. Remove stop words if checked
+                if (removeStop) {
+                    // Split into words, filter, rejoin
+                    const words = text.split(/\s+/);
+                    text = words.filter(word => {
+                        // strip punctuation from word just for the stop word check
+                        const cleanWord = word.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+                        return !stopWords.has(cleanWord);
+                    }).join(' ');
+                }
+
+                // 4. Replace invalid characters with separator
+                // Replace non-alphanumeric with separator
+                text = text.replace(/[^a-zA-Z0-9]+/g, separator);
+
+                // 5. Clean up multiple consecutive separators
+                const multiSeparatorRegex = new RegExp(`\\${separator}+`, 'g');
+                text = text.replace(multiSeparatorRegex, separator);
+
+                // 6. Trim separator from start and end
+                const trimRegex = new RegExp(`^\\${separator}+|\\${separator}+$`, 'g');
+                text = text.replace(trimRegex, '');
+
+                slugOutput.value = text;
+            }
+
+            // Real-time Event Listeners
+            textInput.addEventListener('input', generateSlug);
+            optLowercase.addEventListener('change', generateSlug);
+            optStopwords.addEventListener('change', generateSlug);
+            separatorSelect.addEventListener('change', generateSlug);
+
+            // Clear Button
+            clearBtn.addEventListener('click', () => {
+                textInput.value = '';
+                generateSlug();
+                textInput.focus();
+            });
+
+            // Copy Button
+            copyBtn.addEventListener('click', () => {
+                if (!slugOutput.value) {
+                    if (window.showToast) window.showToast('Nothing to copy!', 'error');
+                    return;
+                }
+                
+                navigator.clipboard.writeText(slugOutput.value).then(() => {
+                    if (window.showToast) window.showToast('Slug copied to clipboard!', 'success');
+                    
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✅ Copied!';
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                    }, 2000);
+                });
+            });
+
+            // Init on load if text exists
+            generateSlug();
+        });
+    </script>
+</body>
+</html>

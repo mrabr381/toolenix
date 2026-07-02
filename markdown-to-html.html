@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Markdown to HTML Converter - Live Preview Editor | Toolenix</title>
+    <meta name="title" content="Markdown to HTML Converter - Live Preview Editor | Toolenix">
+    <meta name="description" content="Convert Markdown text into clean HTML code instantly. Features a live visual preview and 100% secure, offline client-side processing.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/markdown-to-html.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/markdown-to-html.html">
+    <meta property="og:title" content="Markdown to HTML Converter - Instant & Offline">
+    <meta property="og:description" content="Write in Markdown and instantly generate production-ready HTML code. Perfect for README files, blogs, and documentation.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/markdown-to-html.html">
+    <meta property="twitter:title" content="Markdown to HTML Converter - Instant & Offline">
+    <meta property="twitter:description" content="Write in Markdown and instantly generate production-ready HTML code. Perfect for README files, blogs, and documentation.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix Markdown to HTML Converter",
+      "operatingSystem": "All",
+      "applicationCategory": "DeveloperApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A client-side utility to parse Markdown syntax and compile it into HyperText Markup Language (HTML) with real-time visual previews."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Dev Tools",
+        "item": "https://www.toolenix.com/#dev-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Markdown to HTML Converter"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 900px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .editor-pane {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            background: var(--card-bg);
+            height: 600px;
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1.5rem;
+            background: rgba(37, 99, 235, 0.05);
+            border-bottom: 1px solid var(--border-glass);
+            font-weight: 600;
+        }
+
+        .text-area {
+            width: 100%;
+            height: 100%;
+            padding: 1.5rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: none;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1rem;
+            line-height: 1.6;
+            resize: none;
+            outline: none;
+        }
+        
+        .text-area:focus {
+            box-shadow: inset 0 0 0 2px rgba(37, 99, 235, 0.2);
+        }
+
+        /* Toggle Buttons for Output Pane */
+        .view-toggles {
+            display: flex;
+            background: var(--bg-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .toggle-btn {
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            padding: 0.4rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .toggle-btn.active {
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        /* Live Preview Styles */
+        .live-preview-box {
+            display: none; /* Hidden by default, toggled via JS */
+            width: 100%;
+            height: 100%;
+            padding: 1.5rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            overflow-y: auto;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+        }
+        
+        .live-preview-box.active {
+            display: block;
+        }
+
+        /* Markdown Standard Visual Styling inside Preview */
+        .live-preview-box h1, .live-preview-box h2, .live-preview-box h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+        .live-preview-box h1 { font-size: 2em; border-bottom: 1px solid var(--border-glass); padding-bottom: 0.3em; }
+        .live-preview-box h2 { font-size: 1.5em; border-bottom: 1px solid var(--border-glass); padding-bottom: 0.3em; }
+        .live-preview-box p { margin-bottom: 1rem; }
+        .live-preview-box code {
+            background: rgba(100, 116, 139, 0.1);
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        .live-preview-box pre {
+            background: rgba(0, 0, 0, 0.05);
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-glass);
+        }
+        .live-preview-box pre code { background: transparent; padding: 0; }
+        .live-preview-box blockquote {
+            border-left: 4px solid var(--primary);
+            padding-left: 1rem;
+            color: var(--text-muted);
+            margin: 1rem 0;
+            background: rgba(37, 99, 235, 0.05);
+            padding: 1rem;
+            border-radius: 0 8px 8px 0;
+        }
+        .live-preview-box img { max-width: 100%; border-radius: 8px; }
+        .live-preview-box ul, .live-preview-box ol { margin-bottom: 1rem; padding-left: 2rem; }
+        .live-preview-box a { color: var(--primary); text-decoration: none; }
+        .live-preview-box a:hover { text-decoration: underline; }
+        .live-preview-box table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+        .live-preview-box th, .live-preview-box td { border: 1px solid var(--border-glass); padding: 0.5rem; text-align: left; }
+        .live-preview-box th { background: rgba(0,0,0,0.02); }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#dev-tools">Developer Tools</a> &gt; Markdown to HTML Converter
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 1200px;">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">Markdown to HTML Converter</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Transform Markdown syntax into clean HTML instantly. View live previews and securely export code offline.</p>
+                </div>
+
+                <div class="workspace-grid">
+                    
+                    <div class="editor-pane">
+                        <div class="editor-header">
+                            <span>Markdown Input</span>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="btn btn-outline" id="paste-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem;">📋 Paste</button>
+                                <button class="btn btn-outline" id="clear-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem; color: #EF4444; border-color: rgba(239, 68, 68, 0.3);">🗑️ Clear</button>
+                            </div>
+                        </div>
+                        <textarea id="markdown-input" class="text-area" placeholder="Type your Markdown here...
+
+# Hello World!
+This is a **bold** statement and this is *italic*.
+
+## Features
+- Fast processing
+- Offline security
+- Live preview
+
+> This is a blockquote demonstrating how Markdown works.
+
+```javascript
+console.log('You can even add code blocks!');
+```"></textarea>
+                    </div>
+
+                    <div class="editor-pane">
+                        <div class="editor-header">
+                            <div class="view-toggles">
+                                <button class="toggle-btn active" id="btn-view-preview">👁️ Live Preview</button>
+                                <button class="toggle-btn" id="btn-view-html">💻 HTML Code</button>
+                            </div>
+                            <button class="btn btn-primary" id="copy-btn" style="padding: 0.2rem 0.8rem; font-size: 0.85rem;">📄 Copy HTML</button>
+                        </div>
+                        
+                        <div id="live-preview" class="live-preview-box active"></div>
+                        <textarea id="html-output" class="text-area" readonly style="display: none; background: rgba(0,0,0,0.01);" placeholder="HTML code will generate here..."></textarea>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Developer's Guide to Markdown and HTML</h2>
+                <p>Writing raw HyperText Markup Language (HTML) is tedious. Continuously typing out opening and closing tags like <code>&lt;strong&gt;</code> and <code>&lt;h2&gt;</code> breaks the flow of writing and clutters the document, making it difficult for humans to read. To solve this friction, developers and technical writers use <strong>Markdown</strong>.</p>
+                
+                <p>Created in 2004 by John Gruber, Markdown is a lightweight markup language with plain-text-formatting syntax. It allows you to write using easy-to-read symbols (like <code>**bold**</code> or <code># Heading</code>) that a parsing engine can quickly convert into structurally valid HTML. Welcome to the Toolenix Markdown to HTML Converter. This utility allows you to write seamlessly in plain text while generating production-ready code instantly.</p>
+
+                <h2>Why Markdown is the Standard for Documentation</h2>
+                <p>Markdown has become the absolute standard across the software development industry. Here is why you must master it:</p>
+                <ul>
+                    <li><strong>GitHub and Version Control:</strong> Every open-source repository on GitHub requires a <code>README.md</code> file. GitHub automatically parses this Markdown file to generate the visual landing page for your software project.</li>
+                    <li><strong>Static Site Generators:</strong> Modern web architectures (like Next.js, Hugo, and Jekyll) rely entirely on Markdown files to generate blog posts. This allows writers to focus on content without worrying about complex DOM structures.</li>
+                    <li><strong>Readability:</strong> A raw Markdown document looks like a standard, cleanly formatted text file. Even without a parser, another human can open the file and understand the hierarchy perfectly.</li>
+                </ul>
+
+                <h2>How the Toolenix Conversion Engine Works</h2>
+                <p>Our utility bridges the gap between writing and coding by providing two distinct output modes:</p>
+                
+                <h3>1. The Live HTML Preview</h3>
+                <p>When you type into the left workspace, the Toolenix parsing engine instantly converts your symbols into DOM nodes and injects them into the <strong>Live Preview</strong> window. We have carefully mapped CSS styles to this preview window so that your headings, blockquotes, lists, and code snippets look exactly as they would on a professional blog or GitHub repository. This allows you to proofread your documentation visually in real-time.</p>
+
+                <h3>2. Clean Code Extraction</h3>
+                <p>By clicking the "HTML Code" toggle, you can switch from the visual preview to the raw, compiled markup string. The engine ensures that every list item is properly enclosed in <code>&lt;li&gt;</code> tags and every paragraph is wrapped in <code>&lt;p&gt;</code> tags. You can copy this output directly into an email template, a legacy Content Management System (CMS), or a raw HTML file.</p>
+
+                <h2>The Security of Offline Rendering</h2>
+                <p>Many online Markdown editors save your documents to cloud servers so you can access them later. If you are drafting confidential internal corporate documentation, API logic, or unreleased product manuals, saving your drafts to a random web app is a critical data vulnerability.</p>
+                <p><strong>Toolenix respects your privacy.</strong> By leveraging the client-side <code>marked.js</code> library, our converter parses your document entirely within your local browser tab. The data never leaves your computer. When you close the tab, the data disappears forever, guaranteeing absolute security for your technical documentation.</p>
+
+                <h2>Complementary Writing & Development Tools</h2>
+                <p>Optimize your content workflow with our other free local utilities:</p>
+                <ul>
+                    <li><a href="html-minifier.html"><strong>HTML Minifier:</strong></a> Once you generate your HTML code, run it through our minifier to strip out spaces and compress the payload before uploading it to a server.</li>
+                    <li><a href="text-to-slug.html"><strong>Text to Slug:</strong></a> If you are writing a blog post, use this tool to convert your Markdown <code># Heading 1</code> into an SEO-friendly URL slug.</li>
+                    <li><a href="word-counter.html"><strong>Word Counter:</strong></a> Paste your generated content here to check reading time and keyword density metrics.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Writing technical documentation shouldn't require fighting with complex HTML tags or risking your proprietary drafts on cloud servers. By utilizing the Toolenix Markdown to HTML Converter, you gain an instantaneous, secure drafting environment. Streamline your writing workflow, view live formatting instantly, and bookmark this page to ensure your README files are always perfectly compiled.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mdInput = document.getElementById('markdown-input');
+            const htmlOutput = document.getElementById('html-output');
+            const livePreview = document.getElementById('live-preview');
+            
+            const btnPreview = document.getElementById('btn-view-preview');
+            const btnHtml = document.getElementById('btn-view-html');
+            const copyBtn = document.getElementById('copy-btn');
+            const clearBtn = document.getElementById('clear-btn');
+            const pasteBtn = document.getElementById('paste-btn');
+
+            let currentView = 'preview'; // 'preview' or 'html'
+
+            // Parse Markdown function
+            function parseMarkdown() {
+                const rawMd = mdInput.value;
+                if (!rawMd) {
+                    livePreview.innerHTML = '';
+                    htmlOutput.value = '';
+                    return;
+                }
+
+                // Parse securely
+                const htmlStr = marked.parse(rawMd);
+                
+                livePreview.innerHTML = htmlStr;
+                htmlOutput.value = htmlStr;
+            }
+
+            // Real-time updates
+            mdInput.addEventListener('input', parseMarkdown);
+
+            // Toggle Views
+            btnPreview.addEventListener('click', () => {
+                currentView = 'preview';
+                btnPreview.classList.add('active');
+                btnHtml.classList.remove('active');
+                
+                htmlOutput.style.display = 'none';
+                livePreview.style.display = 'block';
+            });
+
+            btnHtml.addEventListener('click', () => {
+                currentView = 'html';
+                btnHtml.classList.add('active');
+                btnPreview.classList.remove('active');
+                
+                livePreview.style.display = 'none';
+                htmlOutput.style.display = 'block';
+            });
+
+            // Action: Copy
+            copyBtn.addEventListener('click', () => {
+                if (!htmlOutput.value) {
+                    if (window.showToast) window.showToast('Nothing to copy!', 'error');
+                    return;
+                }
+                
+                navigator.clipboard.writeText(htmlOutput.value).then(() => {
+                    if (window.showToast) window.showToast('HTML code copied!', 'success');
+                    
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✅ Copied!';
+                    setTimeout(() => { copyBtn.textContent = originalText; }, 2000);
+                });
+            });
+
+            // Action: Clear
+            clearBtn.addEventListener('click', () => {
+                mdInput.value = '';
+                parseMarkdown();
+                mdInput.focus();
+            });
+
+            // Action: Paste
+            pasteBtn.addEventListener('click', async () => {
+                try {
+                    const text = await navigator.clipboard.readText();
+                    // Insert text at cursor position or just append if simple
+                    mdInput.value = text;
+                    parseMarkdown();
+                    if (window.showToast) window.showToast('Pasted from clipboard!', 'success');
+                } catch (err) {
+                    console.error('Paste failed: ', err);
+                    if (window.showToast) window.showToast('Please press Ctrl+V / Cmd+V to paste.', 'error');
+                }
+            });
+
+            // Initial Parse if content exists
+            parseMarkdown();
+        });
+    </script>
+</body>
+</html>

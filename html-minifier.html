@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>HTML Minifier - Compress HTML Code Free Offline | Toolenix</title>
+    <meta name="title" content="HTML Minifier - Compress HTML Code Free Offline | Toolenix">
+    <meta name="description" content="Minify and compress your raw HTML code instantly to boost page speed and SEO. 100% free, private, and offline processing for developers.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/html-minifier.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/html-minifier.html">
+    <meta property="og:title" content="HTML Minifier - Boost Page Speed Instantly">
+    <meta property="og:description" content="Shrink your HTML file size by removing whitespace and comments securely in your browser. Improve Core Web Vitals offline.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/html-minifier.html">
+    <meta property="twitter:title" content="HTML Minifier - Boost Page Speed Instantly">
+    <meta property="twitter:description" content="Shrink your HTML file size by removing whitespace and comments securely in your browser. Improve Core Web Vitals offline.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix HTML Minifier",
+      "operatingSystem": "All",
+      "applicationCategory": "DeveloperApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A secure client-side application for web developers to minify, compress, and optimize HyperText Markup Language (HTML) code by stripping unnecessary whitespace and comments locally."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Developer Tools",
+        "item": "https://www.toolenix.com/#dev-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "HTML Minifier"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 900px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .editor-pane {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1.2rem;
+            background: rgba(37, 99, 235, 0.05);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px 12px 0 0;
+            border-bottom: none;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .code-textarea {
+            width: 100%;
+            height: 400px;
+            padding: 1.5rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 0 0 12px 12px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .code-textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            box-shadow: var(--shadow-soft);
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Stats Box */
+        .stats-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .stat-savings {
+            color: #10B981;
+        }
+
+        [data-theme="dark"] .stats-box { background: rgba(16, 185, 129, 0.1); }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+        .seo-article code { background: rgba(100, 116, 139, 0.1); padding: 0.2rem 0.4rem; border-radius: 4px; font-family: monospace; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#dev-tools">Developer Tools</a> &gt; HTML Minifier
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 1200px;">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">HTML Minifier</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Shrink your source code by removing unnecessary whitespace and comments. Boost your Core Web Vitals instantly using secure offline processing.</p>
+                </div>
+
+                <div class="glass" style="padding: 1.5rem;">
+                    
+                    <div class="toolbar">
+                        <button class="btn btn-primary" id="minify-btn" style="padding: 0.8rem 2rem; font-size: 1.1rem;">🗜️ Minify HTML</button>
+                        <div style="width: 1px; height: 30px; background: var(--border-glass); margin: 0 0.5rem;"></div>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--text-main); font-weight: 500;">
+                            <input type="checkbox" id="remove-comments" checked style="width: 16px; height: 16px;">
+                            Remove Comments
+                        </label>
+                        <div style="width: 1px; height: 30px; background: var(--border-glass); margin: 0 0.5rem;"></div>
+                        <button class="btn btn-outline" id="clear-btn" style="color: #EF4444; border-color: rgba(239, 68, 68, 0.3);">🗑️ Clear</button>
+                    </div>
+
+                    <div class="workspace-grid">
+                        
+                        <div class="editor-pane">
+                            <div class="editor-header">
+                                <span>Input (Raw HTML)</span>
+                                <button class="btn btn-outline" id="paste-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem;">📋 Paste</button>
+                            </div>
+                            <textarea id="html-input" class="code-textarea" placeholder="Paste your uncompressed, formatted HTML code here...
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Website</title>
+  </head>
+  <body>
+    <h1>Hello World</h1>
+  </body>
+</html>"></textarea>
+                        </div>
+
+                        <div class="editor-pane">
+                            <div class="editor-header">
+                                <span>Output (Minified)</span>
+                                <button class="btn btn-outline" id="copy-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem;">📄 Copy</button>
+                            </div>
+                            <textarea id="html-output" class="code-textarea" readonly placeholder="Your minified code will appear here..."></textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="stats-box" id="stats-container" style="display: none;">
+                        <div class="stat-item">
+                            <span class="stat-label">Original Size</span>
+                            <span class="stat-value" id="original-size">0 KB</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Minified Size</span>
+                            <span class="stat-value" id="minified-size">0 KB</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Data Saved</span>
+                            <span class="stat-value stat-savings" id="savings-percent">0%</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Comprehensive Guide to HTML Minification and Core Web Vitals</h2>
+                <p>When web developers write HyperText Markup Language (HTML), they structure the document for human readability. They use deep indentation, line breaks, white space, and extensive developer comments to keep the code organized and maintainable. However, web browsers (like Google Chrome or Safari) do not care about human readability. To a browser, spaces and newlines are just unnecessary bytes of data that must be downloaded before the page can render.</p>
+                
+                <p>If you are serious about Technical SEO, passing your Core Web Vitals assessment, and providing a lightning-fast user experience, serving raw, uncompressed code is a critical error. You must implement an <strong>HTML Minifier</strong>. Toolenix provides a powerful, privacy-first minification engine that processes your code instantly within your browser. Below, we explore the mechanics of minification, the impact on SEO, and why client-side processing is essential for developers.</p>
+
+                <h2>What Exactly Does an HTML Minifier Do?</h2>
+                <p>Minification is the process of removing all unnecessary characters from source code without altering its functionality. When you paste your raw code into the Toolenix minifier, our advanced parsing algorithm performs several aggressive optimizations:</p>
+                <ul>
+                    <li><strong>Whitespace Removal:</strong> It strips out all tabs, double spaces, and line breaks (carriage returns) outside of specific content tags, condensing the file into a continuous, single line of code.</li>
+                    <li><strong>Comment Deletion:</strong> Developer comments (e.g., <code>&lt;!-- Start of Navigation Bar --&gt;</code>) are essential during development but useless in production. The tool strips these out to save precious bytes.</li>
+                    <li><strong>Tag Optimization:</strong> It safely removes spaces between closing and opening tags (e.g., turning <code>&lt;/div&gt; &lt;div&gt;</code> into <code>&lt;/div&gt;&lt;div&gt;</code>).</li>
+                </ul>
+                <p>Crucially, our sophisticated algorithm is <strong>context-aware</strong>. It actively protects formatting inside sensitive tags like <code>&lt;pre&gt;</code>, <code>&lt;code&gt;</code>, and <code>&lt;textarea&gt;</code>, ensuring your actual website content is not mangled during the compression process.</p>
+
+                <h2>The SEO Impact: Minification vs. Core Web Vitals</h2>
+                <p>Search engines rank websites based on user experience. A primary component of this is page load speed, specifically measured by metrics like <strong>Largest Contentful Paint (LCP)</strong> and <strong>First Contentful Paint (FCP)</strong>.</p>
+                <p>Every byte of HTML must be downloaded, parsed, and converted into the Document Object Model (DOM) before the browser can even begin to paint the screen. A raw HTML file might be 150KB. By minifying it, you can often reduce the size by 20% to 30%, dropping it to 100KB. This reduction means the browser finishes downloading the document milliseconds faster, unblocking the rendering path and drastically improving your Core Web Vitals scores.</p>
+
+                <h2>Gzip/Brotli Compression vs. Minification</h2>
+                <p>A common misconception among junior developers is that they don't need to minify their HTML because their server utilizes Gzip or Brotli compression. This is factually incorrect; the two processes are complementary.</p>
+                <p><strong>Minification</strong> alters the actual structure of the code, permanently removing characters. <strong>Gzip</strong> is a server-level zipping algorithm that mathematically compresses the file for transit over the network. The browser then unzips it back to its original state.</p>
+                <p>If you zip a messy, unminified file, the browser still has to unpack and parse all those useless spaces and comments. By minifying the file <em>first</em>, and then serving it via Gzip, you achieve the absolute maximum performance optimization possible.</p>
+
+                <h2>The Security Advantage of Local Offline Processing</h2>
+                <p>Many developers paste their production code into "free online minifiers" without considering the security implications. If you are building a proprietary web application, pasting your raw HTML into a random cloud server means you are handing over your unreleased UI structure, internal API endpoint URLs, and hidden developer comments to a third party.</p>
+                <p><strong>Toolenix eliminates this massive security hole.</strong> Our utility is built using pure Vanilla JavaScript that executes entirely within your browser's local sandbox. When you click "Minify," your own computer's RAM and CPU perform the string parsing. Your proprietary source code is <em>never</em> transmitted across the internet or logged in an external database. You receive enterprise-grade optimization with absolute privacy.</p>
+
+                <h2>Step-by-Step Guide: How to Compress Your Code</h2>
+                <p>Optimizing your production files takes only a few seconds:</p>
+                <ol>
+                    <li><strong>Paste Your Code:</strong> Copy your raw, formatted HTML document from your code editor (like VS Code) and paste it into the left Input pane.</li>
+                    <li><strong>Configure Settings:</strong> Ensure the "Remove Comments" checkbox is checked for maximum file size reduction.</li>
+                    <li><strong>Minify:</strong> Click the solid blue "🗜️ Minify HTML" button. Our local script will instantaneously strip the code.</li>
+                    <li><strong>Review the Savings:</strong> Check the green stats box at the bottom of the workspace to see exactly how many kilobytes you successfully shaved off the file size.</li>
+                    <li><strong>Deploy:</strong> Click the "📄 Copy" button to securely copy the minified code, paste it back into your production build file, and upload it to your server.</li>
+                </ol>
+
+                <h2>Frequently Asked Questions (FAQs)</h2>
+                
+                <h3>Will minifying HTML break my website?</h3>
+                <p>Standard minification (removing spaces between tags and deleting comments) is perfectly safe and will not affect the visual layout of your website. Toolenix specifically safeguards tags where white space matters (like <code>&lt;pre&gt;</code> and <code>&lt;textarea&gt;</code>). However, if your CSS relies on highly specific inline formatting hacks, you should test the minified version in a staging environment first.</p>
+
+                <h3>How do I edit the code after it is minified?</h3>
+                <p>You should never edit minified code. Always maintain your original, formatted "source" file in your development environment. Make your edits to the readable source file, and then run it through the minifier again right before you deploy it to production.</p>
+
+                <h3>Does this tool also minify inline CSS and JavaScript?</h3>
+                <p>This specific utility is designed exclusively to parse and minify HTML node structures. While it will remove some spacing within inline <code>&lt;style&gt;</code> and <code>&lt;script&gt;</code> tags, it does not rewrite variables or minify functions. We offer dedicated CSS and JS minifiers for those specific languages.</p>
+
+                <h2>Complementary Developer Utilities</h2>
+                <p>Ensure your entire web stack is perfectly optimized with our other free local utilities:</p>
+                <ul>
+                    <li><a href="image-compressor.html"><strong>Image Compressor:</strong></a> HTML is only one part of the puzzle. Crush your image file sizes to guarantee a lightning-fast Largest Contentful Paint (LCP).</li>
+                    <li><a href="base64-encoder-decoder.html"><strong>Base64 Encoder:</strong></a> Convert your small icons into Base64 strings and embed them directly into your minified HTML to save HTTP requests.</li>
+                    <li><a href="json-formatter.html"><strong>JSON Formatter:</strong></a> If you are dealing with unreadable, minified API responses, use this tool to instantly beautify and format the data.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Serving bloated, unoptimized code is an unacceptable practice in modern web development. By utilizing the Toolenix HTML Minifier, you gain access to an instantaneous, mathematically precise compression engine that operates entirely offline. Protect your proprietary source code, maximize your Core Web Vitals, and bookmark this tool to ensure your web applications are always optimized for peak performance.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const htmlInput = document.getElementById('html-input');
+            const htmlOutput = document.getElementById('html-output');
+            
+            const minifyBtn = document.getElementById('minify-btn');
+            const clearBtn = document.getElementById('clear-btn');
+            const copyBtn = document.getElementById('copy-btn');
+            const pasteBtn = document.getElementById('paste-btn');
+            const removeCommentsCheckbox = document.getElementById('remove-comments');
+            
+            const statsContainer = document.getElementById('stats-container');
+            const originalSizeDisplay = document.getElementById('original-size');
+            const minifiedSizeDisplay = document.getElementById('minified-size');
+            const savingsPercentDisplay = document.getElementById('savings-percent');
+
+            function formatBytes(bytes, decimals = 2) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const dm = decimals < 0 ? 0 : decimals;
+                const sizes = ['Bytes', 'KB', 'MB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+            }
+
+            function minifyHTML(rawHTML, removeComments) {
+                let processed = rawHTML;
+                const preservedBlocks = [];
+
+                // 1. Extract sensitive tags that require precise whitespace
+                // This regex safely captures everything between <pre>, <textarea>, <script>, <style>
+                const sensitiveRegex = /<(pre|textarea|script|style)[^>]*>[\s\S]*?<\/\1>/gi;
+                
+                processed = processed.replace(sensitiveRegex, (match) => {
+                    preservedBlocks.push(match);
+                    return `___PRESERVED_BLOCK_${preservedBlocks.length - 1}___`;
+                });
+
+                // 2. Remove HTML Comments (if checked)
+                if (removeComments) {
+                    // Removes standard comments but ignores IE conditional comments just in case
+                    processed = processed.replace(/)(.|\n))*-->/g, '');
+                }
+
+                // 3. Minify HTML Structure
+                // Remove spaces before closing tags and opening tags
+                processed = processed.replace(/\s+</g, '<');
+                processed = processed.replace(/>\s+/g, '>');
+                
+                // Collapse multiple spaces into one single space
+                processed = processed.replace(/\s{2,}/g, ' ');
+
+                // Remove new lines
+                processed = processed.replace(/\n/g, '');
+
+                // 4. Restore preserved blocks exactly as they were
+                processed = processed.replace(/___PRESERVED_BLOCK_(\d+)___/g, (match, index) => {
+                    return preservedBlocks[index];
+                });
+
+                return processed.trim();
+            }
+
+            minifyBtn.addEventListener('click', () => {
+                const raw = htmlInput.value;
+                
+                if (!raw.trim()) {
+                    if (window.showToast) window.showToast('Please enter HTML code to minify.', 'error');
+                    return;
+                }
+                
+                try {
+                    const originalBytes = new Blob([raw]).size;
+                    
+                    const minified = minifyHTML(raw, removeCommentsCheckbox.checked);
+                    htmlOutput.value = minified;
+                    
+                    const newBytes = new Blob([minified]).size;
+                    
+                    // Update Stats
+                    originalSizeDisplay.textContent = formatBytes(originalBytes);
+                    minifiedSizeDisplay.textContent = formatBytes(newBytes);
+                    
+                    if (newBytes < originalBytes) {
+                        const savings = ((originalBytes - newBytes) / originalBytes) * 100;
+                        savingsPercentDisplay.textContent = `${savings.toFixed(2)}%`;
+                        savingsPercentDisplay.style.color = '#10B981';
+                    } else {
+                        savingsPercentDisplay.textContent = '0%';
+                        savingsPercentDisplay.style.color = 'var(--text-muted)';
+                    }
+                    
+                    statsContainer.style.display = 'flex';
+                    if (window.showToast) window.showToast('HTML Successfully Minified!', 'success');
+                    
+                } catch (error) {
+                    console.error('Minification Error:', error);
+                    if (window.showToast) window.showToast('An error occurred during minification.', 'error');
+                }
+            });
+
+            // Clear Action
+            clearBtn.addEventListener('click', () => {
+                htmlInput.value = '';
+                htmlOutput.value = '';
+                statsContainer.style.display = 'none';
+                htmlInput.focus();
+            });
+
+            // Copy Action
+            copyBtn.addEventListener('click', () => {
+                if (!htmlOutput.value) {
+                    if (window.showToast) window.showToast('Nothing to copy!', 'error');
+                    return;
+                }
+                
+                navigator.clipboard.writeText(htmlOutput.value).then(() => {
+                    if (window.showToast) window.showToast('Minified code copied!', 'success');
+                    
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✅ Copied!';
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Copy failed: ', err);
+                });
+            });
+
+            // Paste Action
+            pasteBtn.addEventListener('click', async () => {
+                try {
+                    const text = await navigator.clipboard.readText();
+                    htmlInput.value = text;
+                    if (window.showToast) window.showToast('Pasted from clipboard!', 'success');
+                } catch (err) {
+                    console.error('Failed to read clipboard: ', err);
+                    if (window.showToast) window.showToast('Please press Ctrl+V / Cmd+V to paste manually.', 'error');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

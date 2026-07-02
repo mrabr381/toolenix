@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>ROI Calculator - Calculate Return on Investment Free | Toolenix</title>
+    <meta name="title" content="ROI Calculator - Calculate Return on Investment Free | Toolenix">
+    <meta name="description" content="Calculate your Return on Investment (ROI) and Annualized ROI instantly. A 100% free, private, and offline financial calculator for investors and businesses.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/roi-calculator.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/roi-calculator.html">
+    <meta property="og:title" content="ROI Calculator - Instant Financial Analysis">
+    <meta property="og:description" content="Find out the exact profitability of your investments, marketing campaigns, and real estate easily in your browser.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/roi-calculator.html">
+    <meta property="twitter:title" content="ROI Calculator - Instant Financial Analysis">
+    <meta property="twitter:description" content="Find out the exact profitability of your investments, marketing campaigns, and real estate easily in your browser.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix ROI Calculator",
+      "operatingSystem": "All",
+      "applicationCategory": "BusinessApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A client-side financial tool for calculating the Return on Investment (ROI) and Annualized Return percentage for business and financial assets."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Calculators",
+        "item": "https://www.toolenix.com/#calculators"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "ROI Calculator"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .calculator-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        @media (max-width: 900px) {
+            .calculator-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .input-group label {
+            font-weight: 600;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .prefix {
+            position: absolute;
+            left: 1rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .suffix {
+            position: absolute;
+            right: 1rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .calc-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 2.5rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .calc-input.year-input {
+            padding: 1rem 3rem 1rem 1rem;
+        }
+
+        .calc-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Results Display */
+        .results-section {
+            background: rgba(37, 99, 235, 0.02);
+            border: 1px solid rgba(37, 99, 235, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .result-card {
+            background: var(--bg-main);
+            border: 1px solid var(--border-glass);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .result-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .profit-value { color: #10B981; } /* Green */
+        .loss-value { color: #EF4444; }   /* Red */
+
+        .roi-highlight {
+            font-size: 3rem;
+            line-height: 1;
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+        .seo-article .formula-box { background: rgba(37, 99, 235, 0.05); padding: 1rem; border-left: 4px solid var(--primary); font-family: monospace; font-size: 1.1rem; margin-bottom: 1.5rem; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#calculators">Everyday Calculators</a> &gt; ROI Calculator
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">ROI Calculator</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Calculate the exact Return on Investment and Annualized Yield for your financial assets instantly.</p>
+                </div>
+
+                <div class="calculator-wrapper">
+                    
+                    <div class="input-section">
+                        <div class="input-group">
+                            <label for="inv-amount">Amount Invested (Cost)</label>
+                            <div class="input-wrapper">
+                                <span class="prefix">$</span>
+                                <input type="number" id="inv-amount" class="calc-input" placeholder="10000" step="any" min="0">
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="ret-amount">Amount Returned (Total Revenue)</label>
+                            <div class="input-wrapper">
+                                <span class="prefix">$</span>
+                                <input type="number" id="ret-amount" class="calc-input" placeholder="12500" step="any" min="0">
+                            </div>
+                        </div>
+
+                        <div style="border-top: 1px solid var(--border-glass); margin: 0.5rem 0;"></div>
+
+                        <div class="input-group">
+                            <label for="inv-time">Investment Duration (Optional)</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="inv-time" class="calc-input year-input" placeholder="2.5" step="any" min="0.1">
+                                <span class="suffix">Years</span>
+                            </div>
+                            <small style="color: var(--text-muted); font-size: 0.8rem;">Enter years to calculate the Annualized ROI.</small>
+                        </div>
+                    </div>
+
+                    <div class="results-section">
+                        
+                        <div class="result-card">
+                            <span class="result-label">Return on Investment (ROI)</span>
+                            <div class="result-value roi-highlight" id="res-roi">0.00%</div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                            <div class="result-card" style="padding: 1rem;">
+                                <span class="result-label">Net Profit / Loss</span>
+                                <div class="result-value" id="res-profit" style="font-size: 1.5rem;">$0.00</div>
+                            </div>
+                            <div class="result-card" style="padding: 1rem;">
+                                <span class="result-label">Annualized ROI</span>
+                                <div class="result-value" id="res-annual" style="font-size: 1.5rem;">-%</div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>What is Return on Investment (ROI)?</h2>
+                <p>Whether you are investing in real estate, launching a digital marketing campaign, or buying stocks, every financial decision boils down to one fundamental question: <em>"Was it worth the cost?"</em></p>
+                
+                <p><strong>Return on Investment (ROI)</strong> is a universal financial metric used to evaluate the efficiency and profitability of an investment. It measures the amount of return (net profit) on a particular asset relative to the investment's original cost. Expressed as a percentage, a high ROI means the investment's gains compare favorably to its cost, while a negative ROI indicates a financial loss.</p>
+
+                <h2>How to Calculate ROI</h2>
+                <p>The standard algebraic formula for calculating Return on Investment is relatively straightforward:</p>
+                <div class="formula-box">ROI = [(Amount Returned - Amount Invested) / Amount Invested] × 100</div>
+                <p><strong>Practical Example:</strong> Suppose you spend $500 running Facebook Ads for an e-book. Because of those ads, you generate $1,500 in total book sales.
+                <br>1. Net Profit = $1,500 - $500 = $1,000.
+                <br>2. ROI = ($1,000 / $500) × 100 = <strong>200%</strong>.</p>
+                <p>This means for every $1 you spent on advertising, you received your $1 back, plus an additional $2 in pure profit.</p>
+
+                <h2>The Importance of Annualized ROI</h2>
+                <p>While standard ROI is a great metric, it has one major flaw: <strong>It ignores the passage of time.</strong></p>
+                <p>Imagine Investment A yields a 50% ROI, and Investment B yields a 30% ROI. At first glance, Investment A looks better. However, what if Investment A took 5 years to achieve that 50%, while Investment B took only 1 year to achieve 30%?</p>
+                <p>To accurately compare investments over different timeframes, financial analysts use <strong>Annualized ROI</strong>. This calculation smooths out the return, showing you the equivalent average growth rate <em>per year</em>. The Toolenix ROI Calculator features an optional "Investment Duration" input. Simply type in the number of years you held the asset, and our engine will instantly compute your true Annualized Return.</p>
+
+                <h2>Why Offline Financial Tools Are Essential</h2>
+                <p>If you are an entrepreneur calculating the returns on proprietary business acquisitions or analyzing confidential stock portfolios, entering those figures into an online, cloud-based calculator is highly insecure. Many free financial websites log user inputs to harvest data on retail investing trends.</p>
+                <p><strong>Toolenix guarantees your financial privacy.</strong> Our ROI Calculator is built using Vanilla JavaScript that executes exclusively within your personal browser's sandbox. The mathematical operations happen on your local CPU, ensuring your investment data is never transmitted across the internet or stored on external servers.</p>
+
+                <h2>Complementary Financial Calculators</h2>
+                <p>Ensure your business metrics are mathematically flawless with our other free offline tools:</p>
+                <ul>
+                    <li><a href="margin-markup-calculator.html"><strong>Margin & Markup Calculator:</strong></a> Perfect for e-commerce sellers needing to set accurate retail prices based on target profits.</li>
+                    <li><a href="percentage-calculator.html"><strong>Percentage Calculator:</strong></a> Calculate standard percentage increases or decreases in your portfolio value quickly.</li>
+                    <li><a href="unit-converter.html"><strong>Unit Converter:</strong></a> If you are dealing with international real estate, easily convert square meters to square feet.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Making smart financial decisions requires accurate, immediate data. By utilizing the Toolenix ROI Calculator, you gain access to an instantaneous, mathematically perfect engine capable of providing deep insights into your portfolio's growth. Bookmark this utility to ensure you can evaluate the profitability of any asset safely and securely, anytime.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const invAmount = document.getElementById('inv-amount');
+            const retAmount = document.getElementById('ret-amount');
+            const invTime = document.getElementById('inv-time');
+            
+            const resRoi = document.getElementById('res-roi');
+            const resProfit = document.getElementById('res-profit');
+            const resAnnual = document.getElementById('res-annual');
+
+            // Formatter for Currency
+            function formatMoney(num) {
+                const sign = num < 0 ? '-' : '';
+                return sign + '$' + Math.abs(num).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+
+            // Formatter for Percentages
+            function formatPercent(num) {
+                const sign = num > 0 ? '+' : '';
+                return sign + num.toFixed(2) + '%';
+            }
+
+            function calculateROI() {
+                const cost = parseFloat(invAmount.value);
+                const returnAmt = parseFloat(retAmount.value);
+                const years = parseFloat(invTime.value);
+
+                if (!isNaN(cost) && !isNaN(returnAmt) && cost > 0) {
+                    
+                    // 1. Calculate Net Profit
+                    const netProfit = returnAmt - cost;
+                    
+                    // 2. Calculate Basic ROI
+                    const roi = (netProfit / cost) * 100;
+
+                    // Update UI: Net Profit
+                    resProfit.textContent = formatMoney(netProfit);
+                    if (netProfit > 0) {
+                        resProfit.className = 'result-value profit-value';
+                    } else if (netProfit < 0) {
+                        resProfit.className = 'result-value loss-value';
+                    } else {
+                        resProfit.className = 'result-value';
+                    }
+
+                    // Update UI: Basic ROI
+                    resRoi.textContent = formatPercent(roi);
+                    if (roi > 0) {
+                        resRoi.className = 'result-value roi-highlight profit-value';
+                    } else if (roi < 0) {
+                        resRoi.className = 'result-value roi-highlight loss-value';
+                    } else {
+                        resRoi.className = 'result-value roi-highlight';
+                    }
+
+                    // 3. Calculate Annualized ROI (If years provided)
+                    if (!isNaN(years) && years > 0) {
+                        // Formula: ((Return / Cost) ^ (1 / Years) - 1) * 100
+                        // Note: If return is 0 or negative, this formula can break mathematically for fractional powers.
+                        // We will handle it safely.
+                        
+                        if (returnAmt > 0) {
+                            const annualized = (Math.pow((returnAmt / cost), (1 / years)) - 1) * 100;
+                            resAnnual.textContent = formatPercent(annualized);
+                            
+                            if (annualized > 0) resAnnual.className = 'result-value profit-value';
+                            else if (annualized < 0) resAnnual.className = 'result-value loss-value';
+                            else resAnnual.className = 'result-value';
+
+                        } else {
+                            // If total loss
+                            resAnnual.textContent = '-100.00%';
+                            resAnnual.className = 'result-value loss-value';
+                        }
+                    } else {
+                        resAnnual.textContent = '-%';
+                        resAnnual.className = 'result-value';
+                    }
+
+                } else {
+                    // Reset UI if inputs are missing/invalid
+                    resRoi.textContent = '0.00%';
+                    resRoi.className = 'result-value roi-highlight';
+                    
+                    resProfit.textContent = '$0.00';
+                    resProfit.className = 'result-value';
+                    
+                    resAnnual.textContent = '-%';
+                    resAnnual.className = 'result-value';
+                }
+            }
+
+            // Real-time Event Listeners
+            invAmount.addEventListener('input', calculateROI);
+            retAmount.addEventListener('input', calculateROI);
+            invTime.addEventListener('input', calculateROI);
+
+        });
+    </script>
+</body>
+</html>

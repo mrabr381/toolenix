@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>All-in-One Unit Converter - Length, Weight, Temperature | Toolenix</title>
+    <meta name="title" content="All-in-One Unit Converter - Length, Weight, Temperature | Toolenix">
+    <meta name="description" content="Instantly convert units of Length, Weight, Temperature, and Area. A completely free, offline, and accurate universal measurement calculator.">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.toolenix.com/unit-converter.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/unit-converter.html">
+    <meta property="og:title" content="Universal Unit Converter - Instant Offline Math">
+    <meta property="og:description" content="Easily convert meters to feet, kilograms to pounds, and Celsius to Fahrenheit. Perfect for students and professionals.">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/unit-converter.html">
+    <meta property="twitter:title" content="Universal Unit Converter - Instant Offline Math">
+    <meta property="twitter:description" content="Easily convert meters to feet, kilograms to pounds, and Celsius to Fahrenheit. Perfect for students and professionals.">
+    
+    <!-- Assets -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <!-- Schema.org for SoftwareApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix Unit Converter",
+      "operatingSystem": "All",
+      "applicationCategory": "UtilitiesApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A client-side calculator utility for instantly converting measurements across Length, Mass, Temperature, and Area systems using standard ISO conversion factors."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Everyday Calculators",
+        "item": "https://www.toolenix.com/#calculators"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Unit Converter"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .converter-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-soft);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .category-selector {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .cat-btn {
+            background: var(--bg-main);
+            color: var(--text-muted);
+            border: 1px solid var(--border-glass);
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .cat-btn.active {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary);
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
+        }
+
+        .cat-btn:hover:not(.active) {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .io-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .io-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .swap-icon {
+                transform: rotate(90deg);
+                margin: 0.5rem 0;
+            }
+        }
+
+        .input-box {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            background: rgba(37, 99, 235, 0.02);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-glass);
+        }
+
+        .num-input {
+            width: 100%;
+            padding: 1rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .num-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .unit-select {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .swap-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            background: rgba(37, 99, 235, 0.1);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .swap-icon:hover {
+            transform: scale(1.1);
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+        .seo-article table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+        .seo-article th, .seo-article td { border: 1px solid var(--border-glass); padding: 0.8rem; text-align: left; }
+        .seo-article th { background: rgba(0,0,0,0.02); font-weight: 700; }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <!-- Breadcrumbs -->
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#calculators">Calculators & Utilities</a> &gt; Unit Converter
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <!-- Tool Interface -->
+        <section style="padding: 3rem 0;">
+            <div class="container">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">Unit Converter</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Instantly and accurately convert measurements across Metric and Imperial systems. 100% offline.</p>
+                </div>
+
+                <div class="converter-container">
+                    
+                    <!-- Category Tabs -->
+                    <div class="category-selector" id="category-tabs">
+                        <button class="cat-btn active" data-cat="length">📏 Length</button>
+                        <button class="cat-btn" data-cat="weight">⚖️ Weight / Mass</button>
+                        <button class="cat-btn" data-cat="temperature">🌡️ Temperature</button>
+                        <button class="cat-btn" data-cat="area">📐 Area</button>
+                    </div>
+
+                    <!-- Input / Output Interface -->
+                    <div class="io-grid">
+                        
+                        <!-- Left Box -->
+                        <div class="input-box">
+                            <input type="number" id="input-from" class="num-input" value="1" step="any">
+                            <select id="unit-from" class="unit-select">
+                                <!-- Options populated by JS -->
+                            </select>
+                        </div>
+
+                        <!-- Equal / Swap -->
+                        <div class="swap-icon" id="swap-btn" title="Swap Units">⇄</div>
+
+                        <!-- Right Box -->
+                        <div class="input-box">
+                            <input type="number" id="input-to" class="num-input" value="" step="any">
+                            <select id="unit-to" class="unit-select">
+                                <!-- Options populated by JS -->
+                            </select>
+                        </div>
+
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 1.5rem; color: var(--text-muted); font-size: 0.85rem;">
+                        <span id="formula-hint">1 Meter = 100 Centimeters</span>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Deep SEO Editorial Section -->
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Ultimate Guide to Measurement Conversions</h2>
+                <p>Throughout human history, various civilizations developed their own unique methods for measuring the physical world around them. Today, global commerce, science, and education primarily rely on two distinct systems: the <strong>International System of Units (SI/Metric)</strong> and the <strong>Imperial/US Customary System</strong>. Because different countries and industries utilize different standards, the ability to seamlessly convert units is a critical everyday mathematical skill.</p>
+                
+                <p>Welcome to the Toolenix All-in-One Unit Converter. We engineered this utility to act as an instantaneous bridge between complex mathematical factors. Whether you are an architecture student trying to calculate square footage, a baker measuring grams to ounces, or a traveler converting Fahrenheit to Celsius, this tool provides scientifically accurate computations completely offline.</p>
+
+                <h2>Understanding the Core Measurement Systems</h2>
+                
+                <h3>1. Length and Distance</h3>
+                <p>The metric system approaches length using powers of 10. The fundamental base unit is the <strong>Meter (m)</strong>. From there, everything scales perfectly: 1 kilometer is precisely 1,000 meters, and 1 centimeter is 1/100th of a meter. The Imperial system, conversely, uses fixed ratios that are not base-10. You must manually calculate that 1 foot contains exactly 12 inches, and 1 yard contains 3 feet.</p>
+                <p><em>Standard Conversion Rule:</em> 1 Inch is mathematically defined as exactly <strong>2.54 Centimeters</strong>.</p>
+
+                <h3>2. Mass and Weight</h3>
+                <p>In standard scientific terms, mass (amount of matter) and weight (gravitational pull) are different, but in everyday language, they are used interchangeably. The metric system uses the <strong>Gram (g)</strong> as its base unit, while the Imperial system uses Ounces and Pounds.</p>
+                <p><em>Standard Conversion Rule:</em> 1 Kilogram is approximately equal to <strong>2.20462 Pounds</strong>.</p>
+
+                <h3>3. Temperature</h3>
+                <p>Unlike length or weight, temperature conversion is not a simple multiplicative ratio. The scales do not start at the same "zero" point. Water freezes at 0°C but at 32°F.</p>
+                <ul>
+                    <li><strong>Celsius to Fahrenheit:</strong> Multiply the Celsius temperature by 1.8 (or 9/5), then add 32.</li>
+                    <li><strong>Fahrenheit to Celsius:</strong> Subtract 32 from the Fahrenheit temperature, then divide the result by 1.8.</li>
+                </ul>
+
+                <h3>4. Area</h3>
+                <p>Area conversions frequently trip up students because they forget that area is two-dimensional ($length \times width$). If 1 meter equals 100 centimeters, 1 square meter ($m^2$) does NOT equal 100 square centimeters. It equals $100 \times 100$, which is exactly <strong>10,000 square centimeters ($cm^2$)</strong>. Our calculator handles these exponential equations automatically, ensuring you never miscalculate land sizes or room dimensions.</p>
+
+                <h2>Quick Reference Conversion Table</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>From Unit</th>
+                            <th>To Unit</th>
+                            <th>Conversion Factor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Length</td>
+                            <td>Kilometer (km)</td>
+                            <td>Mile (mi)</td>
+                            <td>Multiply by 0.621371</td>
+                        </tr>
+                        <tr>
+                            <td>Length</td>
+                            <td>Meter (m)</td>
+                            <td>Feet (ft)</td>
+                            <td>Multiply by 3.28084</td>
+                        </tr>
+                        <tr>
+                            <td>Weight</td>
+                            <td>Kilogram (kg)</td>
+                            <td>Pound (lb)</td>
+                            <td>Multiply by 2.20462</td>
+                        </tr>
+                        <tr>
+                            <td>Weight</td>
+                            <td>Ounce (oz)</td>
+                            <td>Gram (g)</td>
+                            <td>Multiply by 28.3495</td>
+                        </tr>
+                        <tr>
+                            <td>Area</td>
+                            <td>Hectare (ha)</td>
+                            <td>Acre (ac)</td>
+                            <td>Multiply by 2.47105</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>The Safety of Client-Side Mathematical Parsing</h2>
+                <p>Many digital calculators require a network connection to ping a remote server for simple math answers. This process is slow, frustrating, and unnecessary. <strong>The Toolenix Unit Converter is 100% offline.</strong> The conversion matrices and calculation scripts are loaded directly into your browser's local RAM. As soon as you type a number, the interface instantly updates the resulting calculation with zero latency. You can even bookmark this page and use the calculator while completely disconnected from Wi-Fi.</p>
+
+                <h2>Complementary Productivity Tools</h2>
+                <p>Explore our other completely free utilities to supercharge your daily workflow:</p>
+                <ul>
+                    <li><a href="word-counter.html"><strong>Word Counter:</strong></a> Calculate exact text metrics and reading times for essays and articles.</li>
+                    <li><a href="text-list-organizer.html"><strong>Text List Organizer:</strong></a> Sort and deduplicate lists of data effortlessly.</li>
+                    <li><a href="svg-to-png.html"><strong>SVG to PNG:</strong></a> Automatically scale vector graphics to precise pixel dimensions for web layouts.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Calculating unit conversions manually leaves room for costly errors in academic, professional, and domestic environments. By utilizing the Toolenix Universal Unit Converter, you gain access to a lightning-fast, mathematically precise engine capable of handling complex exponential and ratio-based equations instantly. Bookmark this page to ensure reliable calculations are always just a click away.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <!-- Tool Execution Code -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.cat-btn');
+            const inputFrom = document.getElementById('input-from');
+            const inputTo = document.getElementById('input-to');
+            const selectFrom = document.getElementById('unit-from');
+            const selectTo = document.getElementById('unit-to');
+            const swapBtn = document.getElementById('swap-btn');
+            const formulaHint = document.getElementById('formula-hint');
+
+            // --- Database & Conversion Rates ---
+            
+            // For length, weight, and area, we define a "Base Unit" and multiply/divide.
+            // Base Length: Meter (m)
+            // Base Weight: Gram (g)
+            // Base Area: Square Meter (sqm)
+
+            const conversionRates = {
+                length: {
+                    mm: 0.001, cm: 0.01, m: 1, km: 1000,
+                    in: 0.0254, ft: 0.3048, yd: 0.9144, mi: 1609.344
+                },
+                weight: {
+                    mg: 0.001, g: 1, kg: 1000,
+                    oz: 28.3495231, lb: 453.59237
+                },
+                area: {
+                    sqm: 1, sqkm: 1000000, sqft: 0.09290304,
+                    sqmi: 2589988.110336, acre: 4046.85642, hectare: 10000
+                }
+            };
+
+            const unitDefinitions = {
+                length: [
+                    {val: 'mm', label: 'Millimeter (mm)'},
+                    {val: 'cm', label: 'Centimeter (cm)'},
+                    {val: 'm', label: 'Meter (m)'},
+                    {val: 'km', label: 'Kilometer (km)'},
+                    {val: 'in', label: 'Inch (in)'},
+                    {val: 'ft', label: 'Foot (ft)'},
+                    {val: 'yd', label: 'Yard (yd)'},
+                    {val: 'mi', label: 'Mile (mi)'}
+                ],
+                weight: [
+                    {val: 'mg', label: 'Milligram (mg)'},
+                    {val: 'g', label: 'Gram (g)'},
+                    {val: 'kg', label: 'Kilogram (kg)'},
+                    {val: 'oz', label: 'Ounce (oz)'},
+                    {val: 'lb', label: 'Pound (lb)'}
+                ],
+                temperature: [
+                    {val: 'c', label: 'Celsius (°C)'},
+                    {val: 'f', label: 'Fahrenheit (°F)'},
+                    {val: 'k', label: 'Kelvin (K)'}
+                ],
+                area: [
+                    {val: 'sqm', label: 'Square Meter (m²)'},
+                    {val: 'sqkm', label: 'Square Kilometer (km²)'},
+                    {val: 'sqft', label: 'Square Foot (ft²)'},
+                    {val: 'sqmi', label: 'Square Mile (mi²)'},
+                    {val: 'acre', label: 'Acre (ac)'},
+                    {val: 'hectare', label: 'Hectare (ha)'}
+                ]
+            };
+
+            let currentCategory = 'length';
+
+            // --- Logic Functions ---
+
+            function populateSelects(category) {
+                const options = unitDefinitions[category];
+                selectFrom.innerHTML = '';
+                selectTo.innerHTML = '';
+                
+                options.forEach(opt => {
+                    selectFrom.appendChild(new Option(opt.label, opt.val));
+                    selectTo.appendChild(new Option(opt.label, opt.val));
+                });
+
+                // Set sensible defaults based on category
+                if (category === 'length') {
+                    selectFrom.value = 'm'; selectTo.value = 'cm';
+                } else if (category === 'weight') {
+                    selectFrom.value = 'kg'; selectTo.value = 'lb';
+                } else if (category === 'temperature') {
+                    selectFrom.value = 'c'; selectTo.value = 'f';
+                } else if (category === 'area') {
+                    selectFrom.value = 'sqm'; selectTo.value = 'sqft';
+                }
+            }
+
+            function convertTemp(value, from, to) {
+                // Convert input to base Celsius first
+                let c;
+                if (from === 'c') c = value;
+                else if (from === 'f') c = (value - 32) * 5/9;
+                else if (from === 'k') c = value - 273.15;
+                
+                // Convert from Celsius to Target
+                if (to === 'c') return c;
+                if (to === 'f') return (c * 9/5) + 32;
+                if (to === 'k') return c + 273.15;
+            }
+
+            // Removes scientific e-notation and cleans long decimals beautifully
+            function formatNumber(num) {
+                if (isNaN(num)) return '';
+                // Max 6 decimal places, trim trailing zeroes
+                return parseFloat(num.toFixed(6)); 
+            }
+
+            function calculate(direction) {
+                const uFrom = selectFrom.value;
+                const uTo = selectTo.value;
+                
+                if (currentCategory === 'temperature') {
+                    if (direction === 'forward') {
+                        const val = parseFloat(inputFrom.value);
+                        if (!isNaN(val)) inputTo.value = formatNumber(convertTemp(val, uFrom, uTo));
+                        else inputTo.value = '';
+                    } else {
+                        const val = parseFloat(inputTo.value);
+                        if (!isNaN(val)) inputFrom.value = formatNumber(convertTemp(val, uTo, uFrom));
+                        else inputFrom.value = '';
+                    }
+                } else {
+                    // Ratio based conversion (Length, Weight, Area)
+                    const rates = conversionRates[currentCategory];
+                    
+                    if (direction === 'forward') {
+                        const val = parseFloat(inputFrom.value);
+                        if (!isNaN(val)) {
+                            const baseValue = val * rates[uFrom];
+                            inputTo.value = formatNumber(baseValue / rates[uTo]);
+                        } else inputTo.value = '';
+                    } else {
+                        const val = parseFloat(inputTo.value);
+                        if (!isNaN(val)) {
+                            const baseValue = val * rates[uTo];
+                            inputFrom.value = formatNumber(baseValue / rates[uFrom]);
+                        } else inputFrom.value = '';
+                    }
+                }
+                
+                updateFormulaHint();
+            }
+
+            function updateFormulaHint() {
+                const uFromText = selectFrom.options[selectFrom.selectedIndex].text.split(' (')[0];
+                const uToText = selectTo.options[selectTo.selectedIndex].text.split(' (')[0];
+                
+                if (currentCategory === 'temperature') {
+                    formulaHint.textContent = `${uFromText} to ${uToText} Conversion Formula Applied`;
+                } else {
+                    const rates = conversionRates[currentCategory];
+                    const factor = rates[selectFrom.value] / rates[selectTo.value];
+                    formulaHint.textContent = `1 ${uFromText} = ${formatNumber(factor)} ${uToText}`;
+                }
+            }
+
+            // --- Event Listeners ---
+
+            // Tab Switcher
+            tabs.forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    // UI Update
+                    tabs.forEach(t => t.classList.remove('active'));
+                    e.target.classList.add('active');
+                    
+                    // Logic Update
+                    currentCategory = e.target.getAttribute('data-cat');
+                    populateSelects(currentCategory);
+                    inputFrom.value = 1;
+                    calculate('forward');
+                });
+            });
+
+            // Input fields listener
+            inputFrom.addEventListener('input', () => calculate('forward'));
+            inputTo.addEventListener('input', () => calculate('backward'));
+            
+            // Dropdowns listener
+            selectFrom.addEventListener('change', () => calculate('forward'));
+            selectTo.addEventListener('change', () => calculate('forward'));
+
+            // Swap Button
+            swapBtn.addEventListener('click', () => {
+                const tempVal = inputFrom.value;
+                const tempUnit = selectFrom.value;
+                
+                inputFrom.value = inputTo.value;
+                selectFrom.value = selectTo.value;
+                selectTo.value = tempUnit;
+                
+                calculate('forward');
+            });
+
+            // --- Initialization ---
+            populateSelects('length');
+            calculate('forward');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Extract PDF Pages - Visually Select Pages Free & Offline | Toolenix</title>
+    <meta name="title" content="Extract PDF Pages - Visually Select Pages Free & Offline | Toolenix">
+    <meta name="description" content="Visually select and extract specific pages from your PDF into a new document. 100% free, perfectly secure, and client-side processed.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/extract-pdf-pages.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/extract-pdf-pages.html">
+    <meta property="og:title" content="Extract PDF Pages - Secure Visual Extraction">
+    <meta property="og:description" content="Visually select and extract specific pages from your PDF file without uploading your document to a cloud server. Fast, free, and secure.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/extract-pdf-pages.html">
+    <meta property="twitter:title" content="Extract PDF Pages - Secure Visual Extraction">
+    <meta property="twitter:description" content="Visually select and extract specific pages from your PDF file without uploading your document to a cloud server. Fast, free, and secure.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix PDF Page Extractor",
+      "operatingSystem": "All",
+      "applicationCategory": "UtilitiesApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A secure client-side application that allows users to visually inspect a PDF document and selectively extract specific pages into a new document without server uploads."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "PDF Tools",
+        "item": "https://www.toolenix.com/#pdf-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Extract PDF Pages"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .upload-area {
+            border: 2px dashed var(--primary);
+            border-radius: 16px;
+            padding: 4rem 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: rgba(37, 99, 235, 0.05);
+            cursor: pointer;
+            margin-bottom: 2rem;
+        }
+        .upload-area:hover, .upload-area.dragover {
+            background: rgba(37, 99, 235, 0.1);
+            transform: translateY(-2px);
+            border-color: var(--secondary);
+        }
+        .hidden { display: none !important; }
+
+        /* Interactive Grid for Extraction */
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+            max-height: 550px;
+            overflow-y: auto;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: 12px;
+            border: 1px solid var(--border-glass);
+        }
+        
+        .page-card {
+            position: relative;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: var(--shadow-soft);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+            opacity: 0.6; /* Default state is unselected */
+        }
+        
+        .page-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-color: var(--primary);
+            opacity: 0.9;
+        }
+        
+        /* Extraction Selection State Styling */
+        .page-card.selected {
+            opacity: 1;
+            border-color: #10B981;
+            background: rgba(16, 185, 129, 0.05);
+            box-shadow: 0 0 0 2px #10B981;
+        }
+        
+        .selected-overlay {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #10B981;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            z-index: 10;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.4);
+            transform: scale(0.5);
+        }
+        
+        .page-card.selected .selected-overlay {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .page-canvas-wrapper {
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+        
+        .page-canvas-wrapper canvas {
+            max-width: 100%;
+            max-height: 100%;
+            border: 1px solid #e2e8f0;
+            background: #ffffff;
+        }
+        
+        .page-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .page-card.selected .page-label {
+            color: #10B981;
+        }
+
+        .info-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(37, 99, 235, 0.05);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            border: 1px solid rgba(37, 99, 235, 0.1);
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#pdf-tools">PDF Tools</a> &gt; Extract PDF Pages
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 1000px;">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">Extract PDF Pages</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Visually select the exact pages you want to pull from a document to create a new PDF. 100% private client-side processing.</p>
+                </div>
+
+                <div class="glass" style="padding: 2rem;">
+                    
+                    <div id="upload-state" class="upload-area">
+                        <input type="file" id="pdf-input" accept="application/pdf" class="hidden">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">📑</div>
+                        <h3 style="margin-bottom: 0.5rem;">Drag & drop your PDF file here</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">or</p>
+                        <button class="btn btn-primary" onclick="document.getElementById('pdf-input').click()">Select PDF File</button>
+                    </div>
+
+                    <div id="processing-state" class="hidden">
+                        
+                        <div class="info-bar">
+                            <div style="font-weight: 600;">
+                                <span style="color: var(--primary);">📄 <span id="filename-display">document.pdf</span></span>
+                            </div>
+                            <div style="color: var(--text-muted); font-size: 0.95rem; display: flex; align-items: center; gap: 1rem;">
+                                <span>Selected Pages: <strong id="extract-count" style="color: #10B981; font-size: 1.1rem;">0</strong></span>
+                                <button class="btn btn-outline" id="select-all-btn" style="padding: 0.2rem 0.8rem; font-size: 0.8rem;">Select All</button>
+                            </div>
+                        </div>
+                        
+                        <p style="color: var(--text-muted); font-size: 0.95rem; text-align: center; margin-bottom: 0.5rem;">Click on the thumbnails below to select the pages you want to extract.</p>
+
+                        <div id="preview-grid" class="preview-grid"></div>
+
+                        <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
+                            <button class="btn btn-outline" id="reset-btn">Cancel</button>
+                            <button class="btn btn-primary" id="apply-btn" disabled>Extract Selected Pages</button>
+                        </div>
+                    </div>
+
+                    <div id="result-state" class="hidden" style="text-align: center; padding: 3rem 0;">
+                        <div style="font-size: 4rem; color: #10B981; margin-bottom: 1rem;">✅</div>
+                        <h3 style="margin-bottom: 1rem; font-size: 1.5rem;">Pages Extracted Successfully!</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 2rem;">A new document containing only your selected pages has been generated securely.</p>
+                        <div style="display: flex; gap: 1rem; justify-content: center;">
+                            <button class="btn btn-outline" id="start-over-btn">Extract from Another PDF</button>
+                            <a id="download-link" class="btn btn-primary" href="#" download="Toolenix_Extracted.pdf">Download New Document</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Comprehensive Guide to Extracting Specific PDF Pages</h2>
+                <p>In the digital age, we frequently deal with massive master documents. You might receive a 300-page corporate financial report, but your specific department only needs the three pages detailing Q4 marketing expenses. Sending the entire 300-page file to your team causes confusion, wastes storage space, and runs the risk of exposing unrelated, confidential data to the wrong people. The most elegant solution is to <strong>extract specific pages from the PDF</strong>, isolating only the critical information into a brand-new, lightweight document.</p>
+                
+                <p>Welcome to the Toolenix <strong>Extract PDF Pages</strong> utility. Unlike our standard Split PDF tool (which requires you to type in numerical page ranges like "1-5"), this extraction utility features a highly intuitive, visual click-to-select interface. You can literally *see* the pages you are pulling from the document. Most importantly, we process your files using state-of-the-art client-side rendering, ensuring your private documents never leave your computer. Let’s dive into how visual extraction works, why it is superior to cloud-based tools, and the best practices for managing your digital assets.</p>
+
+                <h2>Visual Extraction vs. Range Splitting: Which Do You Need?</h2>
+                <p>PDF manipulation generally falls into two categories when dealing with subsets of a document: Splitting and Extracting. While the underlying code (copying page nodes into a new binary file) is similar, the user experience serves different purposes:</p>
+                <ul>
+                    <li><strong>Range Splitting:</strong> Ideal when you already know the exact page numbers you need. If a professor says "Read pages 45 through 60," using a text-based Split tool is the fastest way to generate that file.</li>
+                    <li><strong>Visual Extraction:</strong> Ideal when dealing with visual documents like portfolios, scanned receipts, or slide decks where you don't know the page numbers off the top of your head. If you need to pull five specific invoice scans out of a 50-page unorganized PDF bundle, seeing the thumbnails and clicking them visually is infinitely faster and more accurate than scrolling back and forth trying to memorize page numbers.</li>
+                </ul>
+
+                <h2>The Privacy Flaws of Cloud-Based PDF Extractors</h2>
+                <p>If you search for "extract PDF pages online," almost every tool you find relies on cloud processing. They require you to upload your master document to their remote servers. Their server generates the thumbnails, you click them on their website, their server builds the new file, and you download it.</p>
+                <p>This method presents a massive security vulnerability. The very reason you are extracting pages is often to isolate public information from a highly confidential master document. By uploading the master document to an unverified third-party server, you have already compromised the entire file. You are trusting that the company deletes your unencrypted data from their caches, which is a risk professionals should never take.</p>
+                <p><strong>Toolenix eliminates this risk through Local Browser Processing.</strong> Using modern HTML5 Canvas APIs and WebAssembly, our utility parses your PDF locally. Your computer's graphics card renders the thumbnails, and your CPU executes the extraction. The master document never touches our servers. You get the privacy of expensive desktop software entirely for free.</p>
+
+                <h2>Features of the Toolenix PDF Extractor</h2>
+                <p>Our commitment to privacy and professional design yields a premium toolset:</p>
+                <ul>
+                    <li><strong>Visual Click-to-Select Interface:</strong> Stop guessing. Our grid generates high-quality thumbnails of every page, allowing you to confidently build your new document visually.</li>
+                    <li><strong>Instant Generation:</strong> Because we bypass network uploads, the extraction process begins instantly and typically finishes in under a second.</li>
+                    <li><strong>Lossless Duplication:</strong> We do not compress or alter the pages you select. The text, vector graphics, and images remain identical to the original master file.</li>
+                    <li><strong>No Artificial Limitations:</strong> Process massive architectural blueprints or lengthy legal filings without hitting arbitrary "Premium Tier" file size limits.</li>
+                </ul>
+
+                <h2>Step-by-Step Guide: How to Extract Pages Visually</h2>
+                <p>Building your new, streamlined document is an incredibly satisfying process. Follow these steps:</p>
+                <ol>
+                    <li><strong>Load the Master Document:</strong> Drag and drop your heavy PDF into the dashed upload zone. The local script will instantly read the file and generate a visual grid.</li>
+                    <li><strong>Select Your Pages:</strong> The grid starts with all pages unselected (dimmed). Scroll through the thumbnails and click the pages you want to keep. A green highlight and checkmark will indicate your selection. (Click again to deselect).</li>
+                    <li><strong>Review the Count:</strong> Check the "Selected Pages" counter at the top of the workspace to ensure you haven't missed anything.</li>
+                    <li><strong>Execute the Extraction:</strong> Click the solid blue "Extract Selected Pages" button. The local script will instantly construct a new PDF containing only your selected pages in their original order.</li>
+                    <li><strong>Download:</strong> Click the download button to save the newly minted document directly to your local hard drive.</li>
+                </ol>
+
+                <h2>Best Practices for PDF Organization</h2>
+                <p>To maximize your efficiency when handling digital documents, consider these professional tips:</p>
+                <p><strong>Use the "Select All" Strategy:</strong> If you have a 50-page document and you only want to remove 3 pages, it is faster to click the "Select All" button at the top of our interface, and then manually click the 3 pages you *don't* want to deselect them. (Alternatively, you can use our <a href="delete-pdf-pages.html">Delete PDF Pages</a> tool which operates natively in reverse).</p>
+                <p><strong>Check Hyperlinks:</strong> If you are extracting a chapter from a textbook that contains an interactive Table of Contents, the internal hyperlinks pointing to the pages you did not extract will break. Keep this in mind when distributing the new file.</p>
+                <p><strong>Compress After Extracting:</strong> If you extracted high-resolution image pages (like scanned photographs), your new document might still be quite large. Run it through our <a href="compress-pdf.html">Compress PDF Tool</a> before emailing it to a client.</p>
+
+                <h2>Frequently Asked Questions (FAQs)</h2>
+                
+                <h3>Does extracting pages alter my original master document?</h3>
+                <p>No, your original file is completely safe. Our tool performs a read-only parsing of your master document, copies the data of the pages you selected, and writes a completely new file for you to download. Your original PDF remains untouched.</p>
+
+                <h3>Can I extract non-consecutive pages?</h3>
+                <p>Absolutely. That is the primary benefit of a visual interface. You can click page 1, page 14, and page 32. Our script will seamlessly stitch those three unrelated pages into a cohesive 3-page document.</p>
+
+                <h3>Is my confidential data safe?</h3>
+                <p>Yes. The entire rendering, selection, and extraction process happens locally inside your web browser. Toolenix does not have access to the files you load into the workspace.</p>
+
+                <h3>Why does the new file have a different page numbering?</h3>
+                <p>When you generate a new PDF, the internal structural numbering resets. If you extracted page 14 of the master document, it becomes page 1 of the new document. Note that printed numbers (like a footer that says "Page 14") are considered flat text and will not magically change to "Page 1".</p>
+
+                <h2>Complementary Document Utilities</h2>
+                <p>Refine your digital paperwork workflow further with our other free utilities:</p>
+                <ul>
+                    <li><a href="merge-pdf.html"><strong>Merge PDF:</strong></a> Combine your newly extracted document with other files into a master presentation.</li>
+                    <li><a href="pdf-to-jpg.html"><strong>PDF to JPG:</strong></a> Convert your extracted pages into high-resolution image files for social media or graphic design.</li>
+                    <li><a href="protect-pdf.html"><strong>Protect PDF:</strong></a> Add a strong encryption password to your newly generated document before sending it via email.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Managing massive digital documents should not require clunky software or compromises on data privacy. By utilizing the Toolenix Extract PDF Pages utility, you gain access to an intuitive, highly visual editing workspace powered entirely by your local machine. Simplify your digital sharing, protect your sensitive data, and bookmark this tool to ensure you always have total control over your PDF files.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        // Initialize PDF.js worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const uploadArea = document.getElementById('upload-state');
+            const fileInput = document.getElementById('pdf-input');
+            const processingState = document.getElementById('processing-state');
+            const resultState = document.getElementById('result-state');
+            
+            const filenameDisplay = document.getElementById('filename-display');
+            const extractCountDisplay = document.getElementById('extract-count');
+            const previewGrid = document.getElementById('preview-grid');
+            
+            const selectAllBtn = document.getElementById('select-all-btn');
+            const applyBtn = document.getElementById('apply-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const startOverBtn = document.getElementById('start-over-btn');
+            const downloadLink = document.getElementById('download-link');
+            
+            let currentFileBuffer = null;
+            let currentFileName = "";
+            let numPages = 0;
+            
+            // Boolean array tracking which indices (0-based) are selected for extraction
+            let pagesToExtract = [];
+            let totalSelected = 0;
+
+            // Drag and Drop Logic
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaultBehavior, false);
+            });
+
+            function preventDefaultBehavior(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.add('dragover'), false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.remove('dragover'), false);
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                handleFileSelection(e.dataTransfer.files[0]);
+            });
+
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) handleFileSelection(this.files[0]);
+            });
+
+            async function handleFileSelection(file) {
+                if (!file || file.type !== 'application/pdf') {
+                    if (window.showToast) window.showToast('Please provide a valid PDF document.', 'error');
+                    return;
+                }
+                
+                currentFileName = file.name.replace(/\.[^/.]+$/, "");
+                filenameDisplay.textContent = file.name;
+                
+                try {
+                    currentFileBuffer = await file.arrayBuffer();
+                    
+                    // Load into PDF.js to generate visual thumbnails
+                    const loadingTask = pdfjsLib.getDocument({ data: currentFileBuffer });
+                    const pdfDoc = await loadingTask.promise;
+                    
+                    numPages = pdfDoc.numPages;
+                    
+                    // Initialize selection tracking array (default all false)
+                    pagesToExtract = new Array(numPages).fill(false);
+                    totalSelected = 0;
+                    updateSelectionCount();
+                    
+                    previewGrid.innerHTML = '';
+                    
+                    uploadArea.classList.add('hidden');
+                    processingState.classList.remove('hidden');
+                    
+                    // Generate asynchronous thumbnails
+                    for (let i = 1; i <= numPages; i++) {
+                        const page = await pdfDoc.getPage(i);
+                        
+                        const card = document.createElement('div');
+                        card.className = 'page-card';
+                        card.id = `page-card-${i-1}`;
+                        card.dataset.index = i - 1; // 0-based index for arrays
+                        
+                        // Overlay for selected state
+                        const overlay = document.createElement('div');
+                        overlay.className = 'selected-overlay';
+                        overlay.innerHTML = '✓';
+                        card.appendChild(overlay);
+                        
+                        const canvasWrapper = document.createElement('div');
+                        canvasWrapper.className = 'page-canvas-wrapper';
+                        
+                        const canvas = document.createElement('canvas');
+                        const context = canvas.getContext('2d');
+                        
+                        // Low resolution for fast preview rendering
+                        const viewport = page.getViewport({ scale: 0.5 });
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
+                        
+                        canvasWrapper.appendChild(canvas);
+                        card.appendChild(canvasWrapper);
+                        
+                        const label = document.createElement('div');
+                        label.className = 'page-label';
+                        label.textContent = `Page ${i}`;
+                        card.appendChild(label);
+                        
+                        // Toggle Selection Logic
+                        card.addEventListener('click', function() {
+                            const idx = parseInt(this.dataset.index);
+                            pagesToExtract[idx] = !pagesToExtract[idx];
+                            
+                            if (pagesToExtract[idx]) {
+                                this.classList.add('selected');
+                                totalSelected++;
+                            } else {
+                                this.classList.remove('selected');
+                                totalSelected--;
+                            }
+                            
+                            updateSelectionCount();
+                        });
+                        
+                        previewGrid.appendChild(card);
+                        
+                        await page.render({
+                            canvasContext: context,
+                            viewport: viewport
+                        }).promise;
+                    }
+
+                } catch (err) {
+                    console.error('File parsing error:', err);
+                    if (window.showToast) window.showToast('Failed to read PDF. It might be encrypted or corrupted.', 'error');
+                    resetWorkspace();
+                }
+            }
+
+            // Select All Toggle Logic
+            selectAllBtn.addEventListener('click', () => {
+                const isSelectingAll = totalSelected < numPages;
+                
+                for (let i = 0; i < numPages; i++) {
+                    pagesToExtract[i] = isSelectingAll;
+                    const card = document.getElementById(`page-card-${i}`);
+                    if (card) {
+                        if (isSelectingAll) {
+                            card.classList.add('selected');
+                        } else {
+                            card.classList.remove('selected');
+                        }
+                    }
+                }
+                
+                totalSelected = isSelectingAll ? numPages : 0;
+                selectAllBtn.textContent = isSelectingAll ? 'Deselect All' : 'Select All';
+                updateSelectionCount();
+            });
+
+            function updateSelectionCount() {
+                extractCountDisplay.textContent = totalSelected;
+                
+                if (totalSelected === numPages) {
+                    selectAllBtn.textContent = 'Deselect All';
+                } else {
+                    selectAllBtn.textContent = 'Select All';
+                }
+
+                if (totalSelected > 0) {
+                    applyBtn.disabled = false;
+                } else {
+                    applyBtn.disabled = true;
+                }
+            }
+
+            function resetWorkspace() {
+                currentFileBuffer = null;
+                currentFileName = "";
+                numPages = 0;
+                pagesToExtract = [];
+                totalSelected = 0;
+                fileInput.value = '';
+                
+                if (downloadLink.href) {
+                    URL.revokeObjectURL(downloadLink.href);
+                    downloadLink.href = '#';
+                }
+                
+                processingState.classList.add('hidden');
+                resultState.classList.add('hidden');
+                uploadArea.classList.remove('hidden');
+            }
+
+            resetBtn.addEventListener('click', resetWorkspace);
+            startOverBtn.addEventListener('click', resetWorkspace);
+
+            // Core PDF Modification Logic
+            applyBtn.addEventListener('click', async () => {
+                if (totalSelected === 0) return;
+                
+                applyBtn.textContent = 'Extracting...';
+                applyBtn.disabled = true;
+
+                try {
+                    const { PDFDocument } = PDFLib;
+                    
+                    // Load original bytes into pdf-lib
+                    const originalPdf = await PDFDocument.load(currentFileBuffer);
+                    
+                    // Create new empty document
+                    const newPdf = await PDFDocument.create();
+                    
+                    // Gather indices to KEEP
+                    const indicesToExtract = [];
+                    for (let i = 0; i < numPages; i++) {
+                        if (pagesToExtract[i]) {
+                            indicesToExtract.push(i);
+                        }
+                    }
+                    
+                    // Copy selected pages and append to new document
+                    const copiedPages = await newPdf.copyPages(originalPdf, indicesToExtract);
+                    copiedPages.forEach((page) => newPdf.addPage(page));
+
+                    // Save and initiate download
+                    const extractedPdfBytes = await newPdf.save();
+                    const blob = new Blob([extractedPdfBytes], { type: 'application/pdf' });
+                    const url = URL.createObjectURL(blob);
+
+                    downloadLink.href = url;
+                    downloadLink.download = `${currentFileName}_extracted.pdf`;
+                    
+                    processingState.classList.add('hidden');
+                    resultState.classList.remove('hidden');
+                    if (window.showToast) window.showToast('Pages successfully extracted!', 'success');
+
+                } catch (error) {
+                    console.error('Extraction execution error:', error);
+                    if (window.showToast) window.showToast('An error occurred while building the document.', 'error');
+                } finally {
+                    applyBtn.textContent = 'Extract Selected Pages';
+                    applyBtn.disabled = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

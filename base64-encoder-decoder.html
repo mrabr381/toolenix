@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Base64 Encoder & Decoder - Secure Offline Conversion | Toolenix</title>
+    <meta name="title" content="Base64 Encoder & Decoder - Secure Offline Conversion | Toolenix">
+    <meta name="description" content="Encode and decode text to Base64 format instantly. 100% free, perfectly secure, and client-side processed for developers. Unicode safe.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/base64-encoder-decoder.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/base64-encoder-decoder.html">
+    <meta property="og:title" content="Base64 Encoder & Decoder - Secure Developer Tool">
+    <meta property="og:description" content="Safely encode and decode strings into Base64 format using fast, secure, client-side browser processing.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/base64-encoder-decoder.html">
+    <meta property="twitter:title" content="Base64 Encoder & Decoder - Secure Developer Tool">
+    <meta property="twitter:description" content="Safely encode and decode strings into Base64 format using fast, secure, client-side browser processing.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix Base64 Encoder Decoder",
+      "operatingSystem": "All",
+      "applicationCategory": "DeveloperApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A secure client-side application for developers to encode and decode strings into Base64 binary-to-text encoding schemes natively in the browser."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Developer Tools",
+        "item": "https://www.toolenix.com/#dev-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Base64 Encoder Decoder"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 900px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .editor-pane {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1.2rem;
+            background: rgba(37, 99, 235, 0.05);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px 12px 0 0;
+            border-bottom: none;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .code-textarea {
+            width: 100%;
+            height: 350px;
+            padding: 1.5rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 0 0 12px 12px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1rem;
+            line-height: 1.6;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            word-break: break-all;
+        }
+
+        .code-textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            box-shadow: var(--shadow-soft);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .live-stats {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+        .seo-article code { background: rgba(100, 116, 139, 0.1); padding: 0.2rem 0.4rem; border-radius: 4px; font-family: monospace; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#dev-tools">Developer Tools</a> &gt; Base64 Encoder Decoder
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 1200px;">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">Base64 Encoder & Decoder</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Convert text strings to Base64 format instantly. Fully Unicode-safe and processed offline for maximum privacy.</p>
+                </div>
+
+                <div class="glass" style="padding: 1.5rem;">
+                    
+                    <div class="toolbar">
+                        <button class="btn btn-primary" id="encode-btn" style="padding: 0.8rem 2rem; font-size: 1.1rem;">🔒 Encode Base64</button>
+                        <button class="btn btn-primary" id="decode-btn" style="padding: 0.8rem 2rem; font-size: 1.1rem;">🔓 Decode Base64</button>
+                        <div style="width: 1px; height: 30px; background: var(--border-glass); margin: 0 0.5rem;"></div>
+                        <button class="btn btn-outline" id="swap-btn" title="Swap Input and Output">🔄 Swap</button>
+                        <button class="btn btn-outline" id="clear-btn" style="color: #EF4444; border-color: rgba(239, 68, 68, 0.3);">🗑️ Clear All</button>
+                    </div>
+
+                    <div class="workspace-grid">
+                        
+                        <div class="editor-pane">
+                            <div class="editor-header">
+                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                    <span>Input Text</span>
+                                    <div class="live-stats">
+                                        <span id="input-length">Length: 0</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-outline" id="paste-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem;">📋 Paste</button>
+                            </div>
+                            <textarea id="text-input" class="code-textarea" placeholder="Paste your raw text, JSON payload, or Base64 string here...
+
+Example: Hello World! 👋"></textarea>
+                        </div>
+
+                        <div class="editor-pane">
+                            <div class="editor-header">
+                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                    <span>Output Result</span>
+                                    <div class="live-stats">
+                                        <span id="output-length">Length: 0</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-outline" id="copy-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem;">📄 Copy</button>
+                            </div>
+                            <textarea id="text-output" class="code-textarea" readonly placeholder="Your processed Base64 or decoded text will appear here..."></textarea>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Comprehensive Guide to Base64 Encoding and Decoding</h2>
+                <p>In modern web development, data is not always transmitted smoothly. Many legacy communication protocols, email servers, and JSON Web Token (JWT) structures are strictly designed to handle readable, printable text formats (ASCII). When a developer attempts to transmit complex binary data—such as an embedded image, a compiled PDF document, or complex multi-byte characters—through these text-only pipelines, the data becomes corrupted. The universal solution to this structural limitation is to use a <strong>Base64 Encoder</strong>.</p>
+                
+                <p>Welcome to the Toolenix Base64 Encoder and Decoder. We engineered this utility to be the most reliable, developer-friendly conversion tool available on the web. Not only does it process strings instantly without relying on cloud servers, but it is also perfectly <strong>Unicode-safe</strong>. This means it flawlessly handles emojis, non-Latin alphabets, and special symbols that crash standard web encoders. Read on to explore how Base64 mathematics works, why it is a critical tool for frontend developers, and the crucial distinction between encoding and encryption.</p>
+
+                <h2>What is Base64 and How Does it Work?</h2>
+                <p>Base64 is a binary-to-text encoding scheme. Its primary purpose is to take 8-bit binary data (raw computer data) and translate it into a string of characters that are universally safe to print and transmit across any network. </p>
+                <p>The "64" in Base64 refers to the specific alphabet of 64 characters used to represent the data. This alphabet consists of:</p>
+                <ul>
+                    <li>26 uppercase letters (A-Z)</li>
+                    <li>26 lowercase letters (a-z)</li>
+                    <li>10 numbers (0-9)</li>
+                    <li>2 symbols (usually <code>+</code> and <code>/</code>)</li>
+                    <li>A padding character (usually <code>=</code>) used at the very end of the string to balance the mathematical length.</li>
+                </ul>
+                <p>When you type a word into our tool, the underlying algorithm translates the text into its binary form. It then divides that binary stream into 6-bit chunks, maps those chunks to the 64-character alphabet, and outputs the final string. For example, the word <code>Hello</code> becomes <code>SGVsbG8=</code>.</p>
+
+                <h2>Crucial Security Warning: Base64 is NOT Encryption</h2>
+                <p>One of the most dangerous and common misconceptions among junior developers is confusing encoding with encryption. <strong>Base64 is not secure. It is not encrypted. It provides zero security.</strong></p>
+                <p>Base64 is merely a translation of data. It is the digital equivalent of translating an English sentence into French; anyone who speaks French (or has access to a decoder tool like ours) can read it instantly. There is no password, key, or cryptographic hash protecting the data. </p>
+                <p>If you encode a database password or a secret API key into Base64 and store it in your frontend JavaScript code, a hacker can copy that string, paste it into our Toolenix Decoder, and read your password in milliseconds. If you need to obscure data securely, use cryptographic hashing or AES encryption, not Base64.</p>
+
+                <h2>Why Do Developers Use Base64? (Common Use Cases)</h2>
+                <p>If it isn't secure, why is it used everywhere? Because it solves structural data transmission problems elegantly.</p>
+                <p><strong>1. Data URIs (Embedding Images in CSS):</strong> Every time a web browser loads an image file (like a tiny icon or background pattern), it makes a separate HTTP request to the server. If your website has 50 icons, that's 50 requests slowing down your page load time. By converting those tiny images into Base64 strings and pasting them directly into your CSS or HTML file (e.g., <code>&lt;img src="data:image/png;base64,iVBORw0K..."&gt;</code>), the browser loads the image instantly without making a network request.</p>
+                <p><strong>2. Email Attachments:</strong> The SMTP protocol used for sending emails was originally designed to only handle basic text. If you attach a PDF or an image to an email, your email client automatically encodes that file into Base64 before sending it. The recipient's email client decodes it back into a file seamlessly.</p>
+                <p><strong>3. JSON Web Tokens (JWTs):</strong> When you log into modern web applications, the server often assigns you a JWT to keep you authenticated. A JWT consists of a header, a payload, and a signature. The header and the payload are encoded in Base64 so they can be safely transmitted inside HTTP headers and URLs without colliding with reserved HTML characters.</p>
+
+                <h2>The Client-Side Privacy Advantage</h2>
+                <p>Even though Base64 isn't encryption, the data you are converting is often highly proprietary. Developers frequently decode JWT payloads to inspect the user claims, roles, and session identifiers within. Pasting a production JWT payload into a random cloud-based decoder exposes your application's internal logic to a third-party server.</p>
+                <p><strong>Toolenix eliminates this vulnerability.</strong> Our conversion utility relies entirely on your browser's native JavaScript functions (<code>btoa()</code> and <code>atob()</code>). When you paste your data and click decode, your CPU processes the math locally in your RAM. Your proprietary payloads are never transmitted across the internet, logged, or saved to a database.</p>
+
+                <h2>Step-by-Step Guide: How to Use the Encoder/Decoder</h2>
+                <p>Converting your strings is an effortless, instantaneous process:</p>
+                <ol>
+                    <li><strong>Input the Data:</strong> Paste your raw text or Base64 string into the left Input pane. The live length counter will update immediately.</li>
+                    <li><strong>Encode:</strong> If you want to convert plain text into Base64 (e.g., to create a basic auth header), click the "🔒 Encode Base64" button.</li>
+                    <li><strong>Decode:</strong> If you have an unreadable Base64 string ending in equals signs (e.g., <code>=</code> or <code>==</code>) and want to see the hidden text, click the "🔓 Decode Base64" button.</li>
+                    <li><strong>Swap:</strong> Use the "🔄 Swap" button to move your output back to the input pane if you need to perform sequential operations.</li>
+                    <li><strong>Copy to Clipboard:</strong> Click the "📄 Copy" button to securely save the translated string for use in your code editor.</li>
+                </ol>
+
+                <h2>Frequently Asked Questions (FAQs)</h2>
+                
+                <h3>Why does my Base64 string have an equals sign (=) at the end?</h3>
+                <p>The Base64 algorithm processes data in groups of 3 bytes (24 bits). If the text you input does not perfectly divide into a multiple of 3, the algorithm adds "padding" characters to the end of the string to make the math work. The equals sign <code>=</code> is the official Base64 padding character.</p>
+
+                <h3>Why do basic Base64 encoders fail on emojis?</h3>
+                <p>Native browser functions (<code>btoa</code>) expect 8-bit ASCII characters. Emojis and foreign alphabets (like Arabic or Japanese) use 16-bit or 32-bit Unicode mapping. If you feed an emoji into a poorly coded tool, it throws a "String contains an invalid character" error. The Toolenix utility applies a secure URI component escape wrapper before encoding, guaranteeing 100% Unicode safety.</p>
+
+                <h3>Does encoding a string make it smaller?</h3>
+                <p>No, the exact opposite happens. Because Base64 represents 3 bytes of raw data using 4 bytes of text characters, the resulting encoded string will always be roughly <strong>33% larger</strong> than the original input data. This is why you should only Base64 encode small assets (like icons), not massive high-definition images.</p>
+
+                <h2>Complementary Developer Utilities</h2>
+                <p>Expand your development toolkit with our other free, offline processing utilities:</p>
+                <ul>
+                    <li><a href="url-encoder-decoder.html"><strong>URL Encoder/Decoder:</strong></a> If you are trying to transmit data specifically inside a web link, use percent-encoding rather than Base64.</li>
+                    <li><a href="json-formatter.html"><strong>JSON Formatter:</strong></a> After decoding a Base64 JWT payload, paste the resulting messy JSON here to beautify and validate it.</li>
+                    <li><a href="html-minifier.html"><strong>HTML/CSS Minifier:</strong></a> Once you embed your Base64 images into your CSS file, minify the entire document to maximize page load speeds.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Translating binary data into safe, printable text is a foundational requirement of modern web architecture. By utilizing the Toolenix Base64 Encoder and Decoder, you gain access to an instantaneous, Unicode-safe conversion engine. Protect your sensitive payloads by completely avoiding cloud-based development tools. Bookmark this page to ensure you always have a mathematically perfect, private translation utility ready at a moment's notice.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputArea = document.getElementById('text-input');
+            const outputArea = document.getElementById('text-output');
+            
+            const inputLength = document.getElementById('input-length');
+            const outputLength = document.getElementById('output-length');
+            
+            const encodeBtn = document.getElementById('encode-btn');
+            const decodeBtn = document.getElementById('decode-btn');
+            const swapBtn = document.getElementById('swap-btn');
+            const clearBtn = document.getElementById('clear-btn');
+            
+            const copyBtn = document.getElementById('copy-btn');
+            const pasteBtn = document.getElementById('paste-btn');
+
+            // Live length counters
+            function updateLengths() {
+                inputLength.textContent = `Length: ${inputArea.value.length}`;
+                outputLength.textContent = `Length: ${outputArea.value.length}`;
+            }
+
+            inputArea.addEventListener('input', updateLengths);
+
+            // Unicode-safe Base64 Encoding
+            function utf8_to_b64(str) {
+                return window.btoa(unescape(encodeURIComponent(str)));
+            }
+
+            // Unicode-safe Base64 Decoding
+            function b64_to_utf8(str) {
+                return decodeURIComponent(escape(window.atob(str)));
+            }
+
+            // Execution: Encode
+            encodeBtn.addEventListener('click', () => {
+                const text = inputArea.value;
+                if (!text) {
+                    if (window.showToast) window.showToast('Please enter text to encode.', 'error');
+                    return;
+                }
+                
+                try {
+                    const encoded = utf8_to_b64(text);
+                    outputArea.value = encoded;
+                    updateLengths();
+                    if (window.showToast) window.showToast('Successfully encoded to Base64!', 'success');
+                } catch (e) {
+                    if (window.showToast) window.showToast('An error occurred during encoding.', 'error');
+                }
+            });
+
+            // Execution: Decode
+            decodeBtn.addEventListener('click', () => {
+                const text = inputArea.value.trim(); // Trim spaces/newlines which break atob
+                if (!text) {
+                    if (window.showToast) window.showToast('Please enter Base64 string to decode.', 'error');
+                    return;
+                }
+                
+                try {
+                    const decoded = b64_to_utf8(text);
+                    outputArea.value = decoded;
+                    updateLengths();
+                    if (window.showToast) window.showToast('Successfully decoded Base64!', 'success');
+                } catch (e) {
+                    outputArea.value = "Error: Invalid Base64 string. Please ensure the input is properly formatted.";
+                    updateLengths();
+                    if (window.showToast) window.showToast('Failed to decode. Malformed string.', 'error');
+                }
+            });
+
+            // Swap Input/Output
+            swapBtn.addEventListener('click', () => {
+                const temp = inputArea.value;
+                inputArea.value = outputArea.value;
+                outputArea.value = temp;
+                updateLengths();
+            });
+
+            // Clear All
+            clearBtn.addEventListener('click', () => {
+                inputArea.value = '';
+                outputArea.value = '';
+                updateLengths();
+                inputArea.focus();
+            });
+
+            // Copy to Clipboard
+            copyBtn.addEventListener('click', () => {
+                if (!outputArea.value || outputArea.value.startsWith("Error:")) {
+                    if (window.showToast) window.showToast('Nothing valid to copy!', 'error');
+                    return;
+                }
+                
+                navigator.clipboard.writeText(outputArea.value).then(() => {
+                    if (window.showToast) window.showToast('Copied to clipboard!', 'success');
+                    
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✅ Copied!';
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                });
+            });
+
+            // Paste from Clipboard
+            pasteBtn.addEventListener('click', async () => {
+                try {
+                    const text = await navigator.clipboard.readText();
+                    inputArea.value = text;
+                    updateLengths();
+                    if (window.showToast) window.showToast('Pasted from clipboard!', 'success');
+                } catch (err) {
+                    console.error('Failed to read clipboard contents: ', err);
+                    if (window.showToast) window.showToast('Please press Ctrl+V / Cmd+V to paste manually.', 'error');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

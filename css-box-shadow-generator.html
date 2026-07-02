@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>CSS Box Shadow Generator - Visual UI Design Tool | Toolenix</title>
+    <meta name="title" content="CSS Box Shadow Generator - Visual UI Design Tool | Toolenix">
+    <meta name="description" content="Visually design beautiful CSS box shadows. Adjust blur, spread, and opacity to instantly generate cross-browser compatible CSS code offline.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/css-box-shadow-generator.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/css-box-shadow-generator.html">
+    <meta property="og:title" content="CSS Box Shadow Generator - Free Web Design Tool">
+    <meta property="og:description" content="Create stunning UI depth and elevated cards with our interactive CSS shadow builder. Generate code instantly.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/css-box-shadow-generator.html">
+    <meta property="twitter:title" content="CSS Box Shadow Generator - Free Web Design Tool">
+    <meta property="twitter:description" content="Create stunning UI depth and elevated cards with our interactive CSS shadow builder. Generate code instantly.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix CSS Box Shadow Generator",
+      "operatingSystem": "All",
+      "applicationCategory": "DesignApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A visual client-side utility for web designers to interactively construct and export Cascading Style Sheets (CSS) box-shadow properties."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Calculators & Utilities",
+        "item": "https://www.toolenix.com/#calculators"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "CSS Box Shadow Generator"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Controls Panel */
+        .controls-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+        
+        .slider-value {
+            color: var(--primary);
+            font-weight: 700;
+            background: rgba(37, 99, 235, 0.1);
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            font-family: monospace;
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            margin-top: -6px;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.4);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 6px;
+            cursor: pointer;
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        [data-theme="dark"] input[type=range]::-webkit-slider-runnable-track {
+            background: #334155;
+        }
+
+        .colors-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .color-picker-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .color-picker-wrapper label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .color-input {
+            width: 100%;
+            height: 45px;
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            cursor: pointer;
+            background: var(--bg-main);
+            padding: 0 0.5rem;
+        }
+
+        /* Checkbox */
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-main);
+            user-select: none;
+            padding: 1rem;
+            background: rgba(37, 99, 235, 0.05);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+        }
+        
+        .checkbox-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+        
+        .checkmark {
+            height: 22px;
+            width: 22px;
+            background-color: var(--bg-main);
+            border: 2px solid var(--border-glass);
+            border-radius: 4px;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .checkbox-container input:checked ~ .checkmark {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .checkmark:after {
+            content: "";
+            display: none;
+            width: 6px;
+            height: 12px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            margin-bottom: 2px;
+        }
+        
+        .checkbox-container input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        /* Preview Panel */
+        .preview-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .preview-canvas {
+            width: 100%;
+            height: 350px;
+            background: #f8fafc;
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+            overflow: hidden;
+        }
+
+        .preview-box {
+            width: 200px;
+            height: 200px;
+            background: #ffffff;
+            border-radius: 12px;
+            transition: all 0.1s ease;
+        }
+
+        .code-output-area {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1.2rem;
+            background: rgba(37, 99, 235, 0.05);
+            border-bottom: 1px solid var(--border-glass);
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .css-textarea {
+            width: 100%;
+            height: 120px;
+            padding: 1.2rem;
+            background: var(--bg-main);
+            color: var(--primary);
+            border: none;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1rem;
+            line-height: 1.5;
+            resize: none;
+            outline: none;
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+        .seo-article code { background: rgba(100, 116, 139, 0.1); padding: 0.2rem 0.4rem; border-radius: 4px; font-family: monospace; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#calculators">Calculators & Utilities</a> &gt; CSS Box Shadow Generator
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">CSS Box Shadow Generator</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Visually design dramatic, elevated UI cards. Generate pixel-perfect CSS shadow code instantly.</p>
+                </div>
+
+                <div class="workspace-grid">
+                    
+                    <div class="controls-panel">
+                        
+                        <div class="control-group">
+                            <div class="slider-header">
+                                <span>Horizontal Offset (X)</span>
+                                <span class="slider-value" id="val-x">0px</span>
+                            </div>
+                            <input type="range" id="slide-x" min="-50" max="50" value="0">
+                        </div>
+
+                        <div class="control-group">
+                            <div class="slider-header">
+                                <span>Vertical Offset (Y)</span>
+                                <span class="slider-value" id="val-y">15px</span>
+                            </div>
+                            <input type="range" id="slide-y" min="-50" max="50" value="15">
+                        </div>
+
+                        <div class="control-group">
+                            <div class="slider-header">
+                                <span>Blur Radius</span>
+                                <span class="slider-value" id="val-blur">30px</span>
+                            </div>
+                            <input type="range" id="slide-blur" min="0" max="100" value="30">
+                        </div>
+
+                        <div class="control-group">
+                            <div class="slider-header">
+                                <span>Spread Radius</span>
+                                <span class="slider-value" id="val-spread">-5px</span>
+                            </div>
+                            <input type="range" id="slide-spread" min="-50" max="50" value="-5">
+                        </div>
+                        
+                        <div class="control-group">
+                            <div class="slider-header">
+                                <span>Shadow Opacity</span>
+                                <span class="slider-value" id="val-opacity">0.3</span>
+                            </div>
+                            <input type="range" id="slide-opacity" min="0" max="1" step="0.05" value="0.3">
+                        </div>
+
+                        <div class="colors-grid">
+                            <div class="color-picker-wrapper">
+                                <label for="color-shadow">Shadow Color</label>
+                                <input type="color" id="color-shadow" class="color-input" value="#000000">
+                            </div>
+                            <div class="color-picker-wrapper">
+                                <label for="color-box">Box Color</label>
+                                <input type="color" id="color-box" class="color-input" value="#ffffff">
+                            </div>
+                            <div class="color-picker-wrapper" style="grid-column: 1 / -1;">
+                                <label for="color-bg">Background Color</label>
+                                <input type="color" id="color-bg" class="color-input" value="#f8fafc">
+                            </div>
+                        </div>
+
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="opt-inset">
+                            <span class="checkmark"></span>
+                            Inset (Inner Shadow)
+                        </label>
+
+                    </div>
+
+                    <div class="preview-panel">
+                        
+                        <div class="preview-canvas" id="preview-canvas">
+                            <div class="preview-box" id="preview-box"></div>
+                        </div>
+                        
+                        <div class="code-output-area">
+                            <div class="code-header">
+                                <span>CSS Rules</span>
+                                <button class="btn btn-primary" id="copy-btn" style="padding: 0.3rem 0.8rem; font-size: 0.85rem;">📄 Copy Code</button>
+                            </div>
+                            <textarea id="css-output" class="css-textarea" readonly></textarea>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Art of CSS Box Shadows in UI Design</h2>
+                <p>Modern web design is heavily reliant on the concept of depth. On a two-dimensional screen, how do you signal to a user that a specific button is clickable, or that a pricing card is the primary focus? You achieve this by mimicking physical light and elevation. In CSS, this is accomplished using the <code>box-shadow</code> property.</p>
+                
+                <p>Writing a perfect shadow manually in CSS is highly tedious because it requires visualizing the interaction of five distinct mathematical variables (X, Y, Blur, Spread, and Color). Rather than guessing numbers and repeatedly refreshing the browser, professional front-end developers use visual generators. Welcome to the Toolenix CSS Box Shadow Generator. We engineered this tool to provide an interactive, real-time canvas where you can sculpt the perfect moody, dark-academia atmosphere or a crisp, elevated corporate design.</p>
+
+                <h2>Deconstructing the Box Shadow Property</h2>
+                <p>To master UI elevation, you must understand what each slider in our generator controls within the CSS syntax:</p>
+                
+                <h3>1. Horizontal Offset (X-Axis)</h3>
+                <p>This determines where the shadow is cast horizontally. A positive value (e.g., <code>10px</code>) pushes the shadow to the right of the element. A negative value (e.g., <code>-10px</code>) pulls it to the left. Setting this to <code>0px</code> keeps the shadow perfectly centered horizontally.</p>
+
+                <h3>2. Vertical Offset (Y-Axis)</h3>
+                <p>This dictates the vertical drop. A positive value pushes the shadow down below the element, simulating a light source shining from above. A negative value pushes the shadow above the element. Most modern UI designs rely on a positive Y offset (like <code>15px</code>) to create a natural, bottom-heavy shadow.</p>
+
+                <h3>3. Blur Radius</h3>
+                <p>The blur radius softens the edges of the shadow. A value of <code>0px</code> creates a harsh, solid block of color (often used in brutalist or retro web design). A high value (like <code>30px</code>) diffuses the color over a wide area, creating a highly realistic, ambient glow.</p>
+
+                <h3>4. Spread Radius</h3>
+                <p>This is the secret weapon of professional designers. Spread causes the shadow to expand or shrink before the blur is applied. A positive spread makes the shadow physically larger than the box. A <strong>negative spread</strong> (e.g., <code>-5px</code>) shrinks the shadow so it doesn't peek out from the sides of the box, creating a highly elegant, strictly bottom-anchored lift.</p>
+
+                <h3>5. Color and Opacity (RGBA)</h3>
+                <p>Shadows are rarely pitch black. To achieve realism, the shadow's color must allow the background color to bleed through. Our tool automatically calculates your selected HEX color and Opacity slider, outputting an <code>rgba(R, G, B, Opacity)</code> value in the CSS string.</p>
+
+                <h2>Inset Shadows (Inner Depth)</h2>
+                <p>By default, shadows are cast outside the element (a drop shadow). Checking the <strong>Inset</strong> box forces the shadow inside the boundaries of the element. This makes the box appear as though it is stamped or carved into the background, a technique frequently used for search input fields and pressed-state buttons.</p>
+
+                <h2>Complementary Frontend Developer Tools</h2>
+                <p>Enhance your visual coding workflow with our other free local utilities:</p>
+                <ul>
+                    <li><a href="css-gradient-generator.html"><strong>CSS Gradient Generator:</strong></a> Design beautiful linear and radial backgrounds to pair perfectly with your newly elevated cards.</li>
+                    <li><a href="color-converter.html"><strong>Color Converter:</strong></a> Translate your brand's HEX colors into HSL or RGB instantly.</li>
+                    <li><a href="html-minifier.html"><strong>HTML Minifier:</strong></a> Compress your DOM elements once your design is finalized for production deployment.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Designing sophisticated web interfaces shouldn't involve blind guesswork in a text editor. By utilizing the Toolenix CSS Box Shadow Generator, you gain access to an instantaneous, highly visual builder that generates cross-browser compliant CSS rules securely offline. Bookmark this tool to ensure your UI cards and buttons always have the perfect touch of elevation.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // Sliders
+            const sX = document.getElementById('slide-x');
+            const sY = document.getElementById('slide-y');
+            const sBlur = document.getElementById('slide-blur');
+            const sSpread = document.getElementById('slide-spread');
+            const sOpacity = document.getElementById('slide-opacity');
+            
+            // Displays
+            const vX = document.getElementById('val-x');
+            const vY = document.getElementById('val-y');
+            const vBlur = document.getElementById('val-blur');
+            const vSpread = document.getElementById('val-spread');
+            const vOpacity = document.getElementById('val-opacity');
+
+            // Colors
+            const colorShadow = document.getElementById('color-shadow');
+            const colorBox = document.getElementById('color-box');
+            const colorBg = document.getElementById('color-bg');
+
+            // Toggle
+            const optInset = document.getElementById('opt-inset');
+
+            // Targets
+            const previewBox = document.getElementById('preview-box');
+            const previewCanvas = document.getElementById('preview-canvas');
+            const cssOutput = document.getElementById('css-output');
+            const copyBtn = document.getElementById('copy-btn');
+
+            // HEX to RGB helper
+            function hexToRgb(hex) {
+                // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+                var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+                hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+                    return r + r + g + g + b + b;
+                });
+
+                var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+                return result ? {
+                    r: parseInt(result[1], 16),
+                    g: parseInt(result[2], 16),
+                    b: parseInt(result[3], 16)
+                } : { r: 0, g: 0, b: 0 };
+            }
+
+            // Core Logic
+            function updateShadow() {
+                // Get Values
+                const x = sX.value;
+                const y = sY.value;
+                const blur = sBlur.value;
+                const spread = sSpread.value;
+                const opacity = sOpacity.value;
+                const inset = optInset.checked ? 'inset ' : '';
+
+                // Update Labels
+                vX.textContent = `${x}px`;
+                vY.textContent = `${y}px`;
+                vBlur.textContent = `${blur}px`;
+                vSpread.textContent = `${spread}px`;
+                vOpacity.textContent = opacity;
+
+                // Process Color
+                const rgb = hexToRgb(colorShadow.value);
+                const rgbaString = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${opacity})`;
+
+                // Build Shadow String
+                const shadowString = `${inset}${x}px ${y}px ${blur}px ${spread}px ${rgbaString}`;
+
+                // Apply to Visuals
+                previewBox.style.boxShadow = shadowString;
+                previewBox.style.backgroundColor = colorBox.value;
+                previewCanvas.style.backgroundColor = colorBg.value;
+
+                // Generate Output Text
+                // Include -webkit- fallback for legacy support completeness
+                const cssText = `box-shadow: ${shadowString};\n-webkit-box-shadow: ${shadowString};\n-moz-box-shadow: ${shadowString};`;
+                cssOutput.value = cssText;
+            }
+
+            // Event Listeners
+            const inputs = [sX, sY, sBlur, sSpread, sOpacity, colorShadow, colorBox, colorBg, optInset];
+            inputs.forEach(el => {
+                el.addEventListener('input', updateShadow);
+                if(el.type === 'checkbox') el.addEventListener('change', updateShadow);
+            });
+
+            // Copy Action
+            copyBtn.addEventListener('click', () => {
+                if (!cssOutput.value) return;
+                
+                navigator.clipboard.writeText(cssOutput.value).then(() => {
+                    if (window.showToast) window.showToast('CSS copied to clipboard!', 'success');
+                    
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✅ Copied!';
+                    setTimeout(() => { copyBtn.textContent = originalText; }, 2000);
+                });
+            });
+
+            // Init
+            updateShadow();
+        });
+    </script>
+</body>
+</html>

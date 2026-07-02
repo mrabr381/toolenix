@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>CSS Minifier - Compress CSS Code Free Offline | Toolenix</title>
+    <meta name="title" content="CSS Minifier - Compress CSS Code Free Offline | Toolenix">
+    <meta name="description" content="Minify and compress your raw CSS code instantly to boost page speed and SEO. 100% free, private, and offline processing for web developers.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/css-minifier.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/css-minifier.html">
+    <meta property="og:title" content="CSS Minifier - Boost Page Speed Instantly">
+    <meta property="og:description" content="Shrink your CSS file size by removing whitespace and comments securely in your browser. Fix render-blocking resources offline.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/css-minifier.html">
+    <meta property="twitter:title" content="CSS Minifier - Boost Page Speed Instantly">
+    <meta property="twitter:description" content="Shrink your CSS file size by removing whitespace and comments securely in your browser. Fix render-blocking resources offline.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix CSS Minifier",
+      "operatingSystem": "All",
+      "applicationCategory": "DeveloperApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A secure client-side application for web developers to minify, compress, and optimize Cascading Style Sheets (CSS) code locally."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Developer Tools",
+        "item": "https://www.toolenix.com/#dev-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "CSS Minifier"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 900px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .editor-pane {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1.2rem;
+            background: rgba(37, 99, 235, 0.05);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px 12px 0 0;
+            border-bottom: none;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .code-textarea {
+            width: 100%;
+            height: 400px;
+            padding: 1.5rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 0 0 12px 12px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .code-textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            box-shadow: var(--shadow-soft);
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Stats Box */
+        .stats-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .stat-savings {
+            color: #10B981;
+        }
+
+        [data-theme="dark"] .stats-box { background: rgba(16, 185, 129, 0.1); }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+        .seo-article code { background: rgba(100, 116, 139, 0.1); padding: 0.2rem 0.4rem; border-radius: 4px; font-family: monospace; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#dev-tools">Developer Tools</a> &gt; CSS Minifier
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 1200px;">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">CSS Minifier</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Shrink your Cascading Style Sheets instantly. Improve page load speeds by removing render-blocking whitespace using secure, offline processing.</p>
+                </div>
+
+                <div class="glass" style="padding: 1.5rem;">
+                    
+                    <div class="toolbar">
+                        <button class="btn btn-primary" id="minify-btn" style="padding: 0.8rem 2rem; font-size: 1.1rem;">🎨 Minify CSS</button>
+                        <div style="width: 1px; height: 30px; background: var(--border-glass); margin: 0 0.5rem;"></div>
+                        <button class="btn btn-outline" id="clear-btn" style="color: #EF4444; border-color: rgba(239, 68, 68, 0.3);">🗑️ Clear</button>
+                    </div>
+
+                    <div class="workspace-grid">
+                        
+                        <div class="editor-pane">
+                            <div class="editor-header">
+                                <span>Input (Raw CSS)</span>
+                                <button class="btn btn-outline" id="paste-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem;">📋 Paste</button>
+                            </div>
+                            <textarea id="css-input" class="code-textarea" placeholder="Paste your uncompressed CSS code here...
+
+/* Global Header Styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    background-color: #ffffff;
+    padding: 15px;
+}"></textarea>
+                        </div>
+
+                        <div class="editor-pane">
+                            <div class="editor-header">
+                                <span>Output (Minified)</span>
+                                <button class="btn btn-outline" id="copy-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem;">📄 Copy</button>
+                            </div>
+                            <textarea id="css-output" class="code-textarea" readonly placeholder="Your minified CSS will appear here..."></textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="stats-box" id="stats-container" style="display: none;">
+                        <div class="stat-item">
+                            <span class="stat-label">Original Size</span>
+                            <span class="stat-value" id="original-size">0 KB</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Minified Size</span>
+                            <span class="stat-value" id="minified-size">0 KB</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Data Saved</span>
+                            <span class="stat-value stat-savings" id="savings-percent">0%</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Complete Guide to CSS Minification and Render-Blocking Resources</h2>
+                <p>Cascading Style Sheets (CSS) dictate the visual aesthetic of your entire website. During the development phase, frontend engineers write CSS with extensive formatting: deep indentation for nested rules, multiple line breaks to separate classes, and long <code>/* block comments */</code> explaining complex animations or grid layouts. This formatting is vital for human maintainability.</p>
+                
+                <p>However, when a web browser receives this file, it does not care about human readability. To the browser, every single space, tab, and comment is just a useless byte of data that must be downloaded over the network. More importantly, CSS is classified by Google as a <strong>Render-Blocking Resource</strong>. To pass your Core Web Vitals and achieve maximum SEO rankings, you must shrink these files using a <strong>CSS Minifier</strong> before deployment. Welcome to the Toolenix CSS compression utility, powered by secure, offline client-side processing.</p>
+
+                <h2>What Makes CSS "Render-Blocking"?</h2>
+                <p>When a user clicks a link to your website, their browser begins downloading the HTML. As it reads the HTML from top to bottom, it inevitably hits a `<link rel="stylesheet">` tag pointing to your CSS file in the `<head>` section.</p>
+                <p>At this exact moment, <strong>the browser stops painting the screen</strong>. It will not show the user any text, buttons, or images until it has fully downloaded, parsed, and constructed the CSS Object Model (CSSOM). It does this to prevent a "Flash of Unstyled Content" (FOUC) — a split second where the user sees an ugly, unformatted skeleton of the website before the colors and layouts snap into place.</p>
+                <p>Because the browser pauses everything to wait for your CSS, the file size of your stylesheet directly dictates your <strong>First Contentful Paint (FCP)</strong> speed. If your CSS file is a massive, uncompressed 300KB document, mobile users on 4G connections will stare at a blank white screen for several seconds. Minification solves this bottleneck.</p>
+
+                <h2>How the CSS Compression Algorithm Works</h2>
+                <p>When you paste your raw code into the Toolenix CSS Minifier, our client-side regex engine performs aggressive, context-aware optimizations:</p>
+                <ul>
+                    <li><strong>Comment Eradication:</strong> It targets and permanently deletes all `/* ... */` comment blocks.</li>
+                    <li><strong>Whitespace Stripping:</strong> It removes all tabs, line breaks, and excess spaces, condensing the file onto a single line.</li>
+                    <li><strong>Syntax Condensation:</strong> It removes unnecessary spaces around colons, commas, and curly braces. For example, <code>margin: 10px 20px ;</code> becomes <code>margin:10px 20px;</code>.</li>
+                    <li><strong>Trailing Semicolon Removal:</strong> The final semicolon inside a CSS rule block is structurally unnecessary. Our tool safely strips it (e.g., <code>color:red;}</code> instead of <code>color:red;}</code>).</li>
+                </ul>
+
+                <h2>The Privacy Advantage of Local Offline Minification</h2>
+                <p>Many web developers rely on cloud-based web tools to compress their code before deploying to production. This poses a massive, unseen security risk. If you are building a proprietary SaaS platform, your CSS file contains the entire design system, custom variable names, and exact architectural structure of your unreleased product.</p>
+                <p>Pasting this source code into a random internet server means you are handing over your intellectual property to a third-party database. You have no guarantee that your code isn't being logged, scraped, or analyzed by the server administrators.</p>
+                <p><strong>Toolenix eliminates this data vulnerability.</strong> Our utility is engineered entirely in Vanilla JavaScript running inside your browser's local sandbox. When you click "Minify", your personal device's CPU handles the string manipulation. Your code is <em>never</em> sent across the network. You get enterprise-grade, instant file compression with absolute privacy.</p>
+
+                <h2>Step-by-Step Guide: How to Minify Your CSS</h2>
+                <p>Optimizing your stylesheet for production takes only seconds:</p>
+                <ol>
+                    <li><strong>Input Your Source Code:</strong> Copy your raw, heavily formatted CSS from your Integrated Development Environment (IDE) and paste it into the left Input pane.</li>
+                    <li><strong>Minify:</strong> Click the solid blue "🎨 Minify CSS" button. Our local script will instantaneously strip the code.</li>
+                    <li><strong>Analyze Savings:</strong> Look at the green stats box to see exactly how many kilobytes you saved. (It is common to see a 20% to 35% reduction in file size).</li>
+                    <li><strong>Deploy:</strong> Click the "📄 Copy" button to securely copy the minified string. Create a new file in your project named <code>style.min.css</code>, paste the code, and link your HTML file to this new, optimized version.</li>
+                </ol>
+
+                <h2>Frequently Asked Questions (FAQs)</h2>
+                
+                <h3>Will minification change the way my website looks?</h3>
+                <p>No. Minification is a "lossless" process regarding functionality. It only removes characters that the browser's CSS parser ignores anyway (like spaces and comments). Your hex codes, flexbox layouts, and media queries will function exactly as they did before.</p>
+
+                <h3>How do I edit my CSS after it is minified?</h3>
+                <p>You shouldn't. Minified code is intended strictly for production deployment. You should always keep your original, uncompressed "source" file in your codebase. When you need to change a color or add a layout, edit the readable source file, and then run it through our minifier again to generate a fresh <code>.min.css</code> file.</p>
+
+                <h3>Does this tool minify inline styles within HTML?</h3>
+                <p>This specific tool is designed to compress complete `.css` files. If you have inline CSS located inside `<style>` tags within your HTML document, you should use our <a href="html-minifier.html">HTML Minifier</a>, which is specifically designed to parse HTML node structures.</p>
+
+                <h2>Complementary Web Optimization Utilities</h2>
+                <p>Ensure every asset on your website is optimized for lightning-fast delivery with our other free local tools:</p>
+                <ul>
+                    <li><a href="html-minifier.html"><strong>HTML Minifier:</strong></a> Compress your DOM structure to pair perfectly with your newly optimized CSS file.</li>
+                    <li><a href="image-compressor.html"><strong>Image Compressor:</strong></a> Massive images are the number one cause of slow websites. Crush their file size instantly.</li>
+                    <li><a href="base64-encoder-decoder.html"><strong>Base64 Encoder:</strong></a> Convert small SVG graphics or UI icons into Base64 strings and embed them directly into your minified CSS to eliminate extra HTTP network requests.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>In modern web development, speed is directly tied to search engine rankings and user retention. Serving bloated, unoptimized stylesheets forces your users to wait, damaging your Core Web Vitals. By utilizing the Toolenix CSS Minifier, you gain access to a lightning-fast, mathematically precise compression engine that operates entirely offline. Protect your proprietary design systems and bookmark this tool to ensure your web applications are always optimized for peak performance.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cssInput = document.getElementById('css-input');
+            const cssOutput = document.getElementById('css-output');
+            
+            const minifyBtn = document.getElementById('minify-btn');
+            const clearBtn = document.getElementById('clear-btn');
+            const copyBtn = document.getElementById('copy-btn');
+            const pasteBtn = document.getElementById('paste-btn');
+            
+            const statsContainer = document.getElementById('stats-container');
+            const originalSizeDisplay = document.getElementById('original-size');
+            const minifiedSizeDisplay = document.getElementById('minified-size');
+            const savingsPercentDisplay = document.getElementById('savings-percent');
+
+            // Format Bytes utility
+            function formatBytes(bytes, decimals = 2) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const dm = decimals < 0 ? 0 : decimals;
+                const sizes = ['Bytes', 'KB', 'MB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+            }
+
+            // Core CSS Minification Regex Algorithm
+            function minifyCSS(css) {
+                return css
+                    // 1. Remove block comments /* ... */
+                    .replace(/\/\*[\s\S]*?\*\//g, '')
+                    // 2. Remove multiple spaces, newlines, and tabs
+                    .replace(/\s+/g, ' ')
+                    // 3. Remove spaces around special CSS characters ({ } : ; , > + ~)
+                    .replace(/\s*([{}:;,>+~])\s*/g, '$1')
+                    // 4. Remove the last semicolon before a closing brace (unnecessary in CSS)
+                    .replace(/;}/g, '}')
+                    // 5. Remove empty rule blocks (e.g., .class{})
+                    .replace(/[^}]+{}/g, '')
+                    // 6. Trim leading/trailing whitespace
+                    .trim();
+            }
+
+            // Execution: Minify
+            minifyBtn.addEventListener('click', () => {
+                const raw = cssInput.value;
+                
+                if (!raw.trim()) {
+                    if (window.showToast) window.showToast('Please enter CSS code to minify.', 'error');
+                    return;
+                }
+                
+                try {
+                    const originalBytes = new Blob([raw]).size;
+                    
+                    const minified = minifyCSS(raw);
+                    cssOutput.value = minified;
+                    
+                    const newBytes = new Blob([minified]).size;
+                    
+                    // Update Stats
+                    originalSizeDisplay.textContent = formatBytes(originalBytes);
+                    minifiedSizeDisplay.textContent = formatBytes(newBytes);
+                    
+                    if (newBytes < originalBytes) {
+                        const savings = ((originalBytes - newBytes) / originalBytes) * 100;
+                        savingsPercentDisplay.textContent = `${savings.toFixed(2)}%`;
+                        savingsPercentDisplay.style.color = '#10B981';
+                    } else {
+                        savingsPercentDisplay.textContent = '0%';
+                        savingsPercentDisplay.style.color = 'var(--text-muted)';
+                    }
+                    
+                    statsContainer.style.display = 'flex';
+                    if (window.showToast) window.showToast('CSS Successfully Minified!', 'success');
+                    
+                } catch (error) {
+                    console.error('Minification Error:', error);
+                    if (window.showToast) window.showToast('An error occurred during minification.', 'error');
+                }
+            });
+
+            // Action: Clear
+            clearBtn.addEventListener('click', () => {
+                cssInput.value = '';
+                cssOutput.value = '';
+                statsContainer.style.display = 'none';
+                cssInput.focus();
+            });
+
+            // Action: Copy
+            copyBtn.addEventListener('click', () => {
+                if (!cssOutput.value) {
+                    if (window.showToast) window.showToast('Nothing to copy!', 'error');
+                    return;
+                }
+                
+                navigator.clipboard.writeText(cssOutput.value).then(() => {
+                    if (window.showToast) window.showToast('Minified CSS copied!', 'success');
+                    
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✅ Copied!';
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Copy failed: ', err);
+                });
+            });
+
+            // Action: Paste
+            pasteBtn.addEventListener('click', async () => {
+                try {
+                    const text = await navigator.clipboard.readText();
+                    cssInput.value = text;
+                    if (window.showToast) window.showToast('Pasted from clipboard!', 'success');
+                } catch (err) {
+                    console.error('Failed to read clipboard: ', err);
+                    if (window.showToast) window.showToast('Please press Ctrl+V / Cmd+V to paste manually.', 'error');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

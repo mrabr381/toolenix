@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>JPG to PDF - Convert Images to PDF Free & Offline | Toolenix</title>
+    <meta name="title" content="JPG to PDF - Convert Images to PDF Free & Offline | Toolenix">
+    <meta name="description" content="Combine your JPG, JPEG, and PNG images into a single PDF document instantly. 100% free, private, and client-side processed. No uploads, no watermarks.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/jpg-to-pdf.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/jpg-to-pdf.html">
+    <meta property="og:title" content="JPG to PDF - Convert Images to PDF Securely">
+    <meta property="og:description" content="Merge multiple images into a single PDF document without uploading files to a server. Fast, free, and fully secure.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/jpg-to-pdf.html">
+    <meta property="twitter:title" content="JPG to PDF - Convert Images to PDF Securely">
+    <meta property="twitter:description" content="Merge multiple images into a single PDF document without uploading files to a server. Fast, free, and fully secure.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix JPG to PDF Converter",
+      "operatingSystem": "All",
+      "applicationCategory": "UtilitiesApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A secure web utility that compiles multiple raster images (JPG, PNG) into a single unified Portable Document Format (PDF) file using local client-side processing."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "PDF Tools",
+        "item": "https://www.toolenix.com/#pdf-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "JPG to PDF"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .upload-area {
+            border: 2px dashed var(--primary);
+            border-radius: 16px;
+            padding: 4rem 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: rgba(37, 99, 235, 0.05);
+            cursor: pointer;
+            margin-bottom: 2rem;
+        }
+        .upload-area:hover, .upload-area.dragover {
+            background: rgba(37, 99, 235, 0.1);
+            transform: translateY(-2px);
+            border-color: var(--secondary);
+        }
+        .hidden { display: none !important; }
+
+        /* Draggable Image Grid */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+            padding: 1rem;
+            background: var(--bg-main);
+            border-radius: 12px;
+            border: 1px solid var(--border-glass);
+            min-height: 200px;
+        }
+        .image-card {
+            position: relative;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            padding: 0.5rem;
+            box-shadow: var(--shadow-soft);
+            cursor: grab;
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .image-card:active {
+            cursor: grabbing;
+            transform: scale(0.95);
+        }
+        .image-card img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            pointer-events: none;
+        }
+        .image-card .remove-btn {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #EF4444;
+            color: white;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .image-card span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#pdf-tools">PDF Tools</a> &gt; JPG to PDF
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 900px;">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">JPG to PDF Converter</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Combine multiple images into a single professional PDF document. 100% free, drag-and-drop reordering, and strictly private processing.</p>
+                </div>
+
+                <div class="glass" style="padding: 2rem;">
+                    
+                    <div id="upload-state" class="upload-area">
+                        <input type="file" id="image-input" accept="image/jpeg, image/jpg, image/png" multiple class="hidden">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">📸</div>
+                        <h3 style="margin-bottom: 0.5rem;">Drag & drop JPG or PNG images here</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">or</p>
+                        <button class="btn btn-primary" onclick="document.getElementById('image-input').click()">Select Images</button>
+                    </div>
+
+                    <div id="processing-state" class="hidden">
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                            <h3 style="font-weight: 600;">Selected Images (<span id="file-count">0</span>)</h3>
+                            <button class="btn btn-outline" onclick="document.getElementById('image-input').click()" style="padding: 0.5rem 1rem; font-size: 0.9rem;">+ Add More Images</button>
+                        </div>
+                        
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">Drag images to reorder them. They will appear in the PDF in this exact sequence.</p>
+
+                        <div id="image-grid" class="image-grid"></div>
+
+                        <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                            <button class="btn btn-outline" id="reset-btn">Clear All</button>
+                            <button class="btn btn-primary" id="convert-btn">Generate PDF</button>
+                        </div>
+                    </div>
+
+                    <div id="result-state" class="hidden" style="text-align: center; padding: 3rem 0;">
+                        <div style="font-size: 4rem; color: #10B981; margin-bottom: 1rem;">✅</div>
+                        <h3 style="margin-bottom: 1rem; font-size: 1.5rem;">PDF Generated Successfully!</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 2rem;">Your images have been securely bound into a single document.</p>
+                        <div style="display: flex; gap: 1rem; justify-content: center;">
+                            <button class="btn btn-outline" id="start-over-btn">Create Another</button>
+                            <a id="download-link" class="btn btn-primary" href="#" download="Toolenix_Images.pdf">Download PDF</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Complete Guide to Converting JPG Images to PDF Documents</h2>
+                <p>Digital photography, scanned documents, and graphic designs are overwhelmingly saved in raster image formats like JPG (Joint Photographic Experts Group) and PNG (Portable Network Graphics). While these formats are perfect for displaying single visual assets on a screen, they become incredibly cumbersome when you need to share a multi-page report, submit a portfolio, or present a series of scanned receipts to an accounting department. Sending someone twenty loose `.jpg` files is unprofessional and disorganized. You need a way to bind them together. You need to convert <strong>JPG to PDF</strong>.</p>
+                
+                <p>Welcome to the Toolenix <strong>JPG to PDF Converter</strong>. We built this utility to solve the chaos of scattered image files. By allowing you to compile, reorder, and bind your images into a universally accepted Portable Document Format, you instantly elevate the professionalism of your digital communication. Most importantly, thanks to our local processing architecture, we do this without ever looking at your files. Read on to understand the mechanics of image-to-PDF conversion, the critical privacy advantages we offer, and how to optimize your digital assets.</p>
+
+                <h2>Why Consolidate Images into a PDF?</h2>
+                <p>The PDF is the undisputed king of digital document sharing, and for good reason. When you convert loose images into a PDF, you gain several massive structural advantages:</p>
+                <ul>
+                    <li><strong>Sequential Order:</strong> An image folder sorts files alphabetically or chronologically, which can ruin the intended flow of a presentation. A PDF locks your images into a fixed, deliberate pagination sequence.</li>
+                    <li><strong>Universal Portability:</strong> Not everyone has the right software to easily view a folder full of RAW or uncompressed images. However, every modern web browser and operating system has a built-in PDF reader.</li>
+                    <li><strong>Professional Presentation:</strong> Submitting a single `.pdf` file named "Q3_Expense_Receipts.pdf" is significantly cleaner and more professional than attaching 15 separate `.jpg` files to an email.</li>
+                    <li><strong>Print Readiness:</strong> A PDF acts as a reliable digital printing plate. It ensures that the margins, scale, and page dimensions remain perfectly intact when sent to a physical printer.</li>
+                </ul>
+
+                <h2>The Privacy Advantage: Client-Side Processing vs. Cloud Converters</h2>
+                <p>The vast majority of online JPG to PDF converters operate using a cloud-based model. When you upload your personal photos, scanned passports, or confidential financial receipts, they are sent across the internet to a remote server. The server stitches them together and sends a PDF back to you.</p>
+                <p>This is a massive security flaw. You have no way of knowing how long that server retains your images, who has access to them, or if the connection is truly secure against interception.</p>
+                <p><strong>Toolenix eliminates server uploads entirely.</strong> We utilize cutting-edge WebAssembly (Wasm) and JavaScript libraries designed to run complex file manipulation directly inside your computer's RAM. When you drag and drop your images into our tool, your browser does all the processing locally. Your files never leave your machine. You get native app speeds and absolute, uncompromising data privacy.</p>
+
+                <h2>Features of the Toolenix JPG to PDF Converter</h2>
+                <p>Our tool is designed to be the only image document compiler you will ever need, featuring:</p>
+                <ul>
+                    <li><strong>Visual Drag-and-Drop Reordering:</strong> Don't worry about renaming your files perfectly before uploading. Our intuitive grid interface lets you click and drag your thumbnails into the exact order you want them to appear in the final PDF.</li>
+                    <li><strong>Full Image Support:</strong> While optimized for JPGs, our script natively handles PNGs as well, allowing you to mix and match image formats into a single document seamlessly.</li>
+                    <li><strong>Perfect Bleed Dimensions:</strong> Unlike poor converters that stretch your images to fit standard A4 paper (causing distortion), our script calculates the exact pixel dimensions of your image and custom-generates a PDF page to fit it flawlessly.</li>
+                    <li><strong>Zero Limits and Zero Cost:</strong> Process 5 images or 50. We don't restrict your usage, and we don't watermark your final document.</li>
+                </ul>
+
+                <h2>Step-by-Step Guide: How to Convert Images to PDF</h2>
+                <p>Creating your professional document takes less than a minute. Follow these simple steps:</p>
+                <ol>
+                    <li><strong>Upload Your Images:</strong> Click the "Select Images" button or drag and drop a batch of JPG or PNG files directly into the upload area.</li>
+                    <li><strong>Arrange the Sequence:</strong> The tool will generate small preview thumbnails of your uploaded images. Click and drag these cards to reorder them. The first image on the top left will be page 1 of your PDF.</li>
+                    <li><strong>Add or Remove:</strong> Forgot an image? Click the "+ Add More Images" button. Added a file by mistake? Click the red "X" button on the corner of the thumbnail to remove it.</li>
+                    <li><strong>Generate Document:</strong> Click the solid blue "Generate PDF" button. The local script will instantly embed the images into a binary PDF structure.</li>
+                    <li><strong>Download:</strong> Click "Download PDF" to save the master file directly to your local storage.</li>
+                </ol>
+
+                <h2>Best Practices for Image to PDF Conversion</h2>
+                <p>To ensure your final document looks stunning and remains easy to share, keep these tips in mind:</p>
+                <p><strong>Pre-Compress Large Photos:</strong> If you are compiling 20 high-resolution photographs taken on a modern smartphone, your resulting PDF might be 100MB or larger—making it impossible to email. Consider running your images through an <a href="image-compressor.html">Image Compressor</a> before converting them to a PDF.</p>
+                <p><strong>Check Your Orientations:</strong> Our tool renders the image exactly as the file dictates. If you took a photo of a document sideways, it will appear sideways in the PDF. Make sure your images are rotated correctly before generating the file, or use our <a href="rotate-pdf.html">Rotate PDF</a> tool afterward.</p>
+                <p><strong>Maintain Consistent Lighting for Scans:</strong> If you are using your phone to "scan" physical documents to compile into a PDF, try to crop out the background table and ensure consistent overhead lighting to make the final document look like a true flatbed scan.</p>
+
+                <h2>Common Mistakes to Avoid</h2>
+                <ul>
+                    <li><strong>Uploading the Wrong Formats:</strong> This tool specifically parses raster images (JPG, JPEG, PNG). It cannot read SVG vectors, raw camera files (.CR2, .NEF), or proprietary formats like Photoshop (.PSD) documents.</li>
+                    <li><strong>Ignoring the Sequence:</strong> A common mistake is compiling the PDF without reviewing the thumbnail grid. Take an extra 10 seconds to ensure the visual flow makes sense before generating the file.</li>
+                </ul>
+
+                <h2>Frequently Asked Questions (FAQs)</h2>
+                
+                <h3>Does converting JPG to PDF reduce image quality?</h3>
+                <p>No. Our conversion algorithm performs a direct embedding of the image data into the PDF container. We do not apply any additional lossy compression during the conversion, meaning your images remain just as sharp as the originals.</p>
+
+                <h3>Is there a limit to how many images I can upload?</h3>
+                <p>Because Toolenix relies on your device's local memory (RAM) rather than our servers, there is no hard limit imposed by us. However, standard web browsers may struggle if you attempt to upload hundreds of massive 4K images simultaneously. We recommend batches of 50 images or fewer for smooth performance.</p>
+
+                <h3>Can I add text to the PDF pages?</h3>
+                <p>This specific utility is designed purely for image binding. It converts your images exactly as they are. If you need to overlay text, you must edit the image files in a photo editor prior to compiling them into the PDF.</p>
+
+                <h3>Are my confidential images safe?</h3>
+                <p>Absolutely. Your privacy is guaranteed by our architecture. The HTML5 Canvas and JavaScript execution happen inside your local browser. We physically cannot see, store, or access the images you drag into the tool.</p>
+
+                <h2>Related Tools for Document Mastery</h2>
+                <p>If you regularly manage digital assets, these free tools can further streamline your workflow:</p>
+                <ul>
+                    <li><a href="pdf-to-jpg.html"><strong>PDF to JPG:</strong></a> Need to go backward? Easily extract every page of a PDF document back into separate, high-resolution JPG images.</li>
+                    <li><a href="compress-pdf.html"><strong>Compress PDF:</strong></a> If your newly generated image-heavy PDF is too large to email, use this tool to shrink the file size dramatically.</li>
+                    <li><a href="merge-pdf.html"><strong>Merge PDF:</strong></a> Have multiple PDFs that you've generated? Stitch them together into a master document.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Disorganized image files hinder productivity and damage professional presentation. By utilizing the Toolenix JPG to PDF utility, you can effortlessly transform chaotic folders into streamlined, universally readable documents. Backed by absolute privacy, instantaneous local processing speeds, and a beautiful user interface, mastering your digital paperwork has never been easier. Bookmark this page and experience the power of client-side web tools today.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const uploadArea = document.getElementById('upload-state');
+            const fileInput = document.getElementById('image-input');
+            const processingState = document.getElementById('processing-state');
+            const resultState = document.getElementById('result-state');
+            
+            const imageGrid = document.getElementById('image-grid');
+            const fileCountSpan = document.getElementById('file-count');
+            
+            const convertBtn = document.getElementById('convert-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const startOverBtn = document.getElementById('start-over-btn');
+            
+            let filesArray = [];
+            let draggedItemIndex = null;
+
+            // Drag and Drop Zone Listeners
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.add('dragover'), false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.remove('dragover'), false);
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                handleFiles(e.dataTransfer.files);
+            });
+
+            fileInput.addEventListener('change', function() {
+                handleFiles(this.files);
+            });
+
+            function handleFiles(files) {
+                // Filter only allowed image types (jpg, png)
+                const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+                const newFiles = Array.from(files).filter(file => validTypes.includes(file.type.toLowerCase()));
+                
+                if (newFiles.length === 0) {
+                    if (window.showToast) window.showToast('Please upload valid JPG or PNG images only.', 'error');
+                    return;
+                }
+                
+                // Add unique ID and object URL for preview rendering
+                const processedFiles = newFiles.map(file => ({
+                    file: file,
+                    id: Math.random().toString(36).substring(7),
+                    previewUrl: URL.createObjectURL(file)
+                }));
+                
+                filesArray = [...filesArray, ...processedFiles];
+                updateImageGrid();
+                
+                uploadArea.classList.add('hidden');
+                processingState.classList.remove('hidden');
+            }
+
+            function updateImageGrid() {
+                imageGrid.innerHTML = '';
+                fileCountSpan.textContent = filesArray.length;
+                
+                filesArray.forEach((item, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'image-card';
+                    card.setAttribute('draggable', true);
+                    card.dataset.index = index;
+                    
+                    card.innerHTML = `
+                        <button class="remove-btn" onclick="removeImage(${index})" aria-label="Remove Image">✕</button>
+                        <img src="${item.previewUrl}" alt="Preview">
+                        <span>${item.file.name}</span>
+                    `;
+                    
+                    // Drag to reorder events
+                    card.addEventListener('dragstart', handleDragStart);
+                    card.addEventListener('dragover', handleDragOver);
+                    card.addEventListener('drop', handleDrop);
+                    card.addEventListener('dragend', handleDragEnd);
+                    
+                    imageGrid.appendChild(card);
+                });
+            }
+
+            // Expose remove globally for inline handler
+            window.removeImage = (index) => {
+                // Revoke object URL to free memory
+                URL.revokeObjectURL(filesArray[index].previewUrl);
+                filesArray.splice(index, 1);
+                
+                if (filesArray.length === 0) {
+                    resetWorkspace();
+                } else {
+                    updateImageGrid();
+                }
+            };
+
+            // Reordering Logic
+            function handleDragStart(e) {
+                draggedItemIndex = parseInt(this.dataset.index);
+                e.dataTransfer.effectAllowed = 'move';
+                this.style.opacity = '0.4';
+            }
+
+            function handleDragOver(e) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+                return false;
+            }
+
+            function handleDrop(e) {
+                e.stopPropagation();
+                const targetIndex = parseInt(this.dataset.index);
+                
+                if (draggedItemIndex !== null && draggedItemIndex !== targetIndex) {
+                    const itemToMove = filesArray.splice(draggedItemIndex, 1)[0];
+                    filesArray.splice(targetIndex, 0, itemToMove);
+                    updateImageGrid();
+                }
+                return false;
+            }
+
+            function handleDragEnd() {
+                this.style.opacity = '1';
+                draggedItemIndex = null;
+            }
+
+            // Reset handling
+            function resetWorkspace() {
+                // Free all memory from object URLs
+                filesArray.forEach(item => URL.revokeObjectURL(item.previewUrl));
+                filesArray = [];
+                fileInput.value = '';
+                
+                processingState.classList.add('hidden');
+                resultState.classList.add('hidden');
+                uploadArea.classList.remove('hidden');
+            }
+
+            resetBtn.addEventListener('click', resetWorkspace);
+            startOverBtn.addEventListener('click', resetWorkspace);
+
+            // Core PDF Generation Logic
+            convertBtn.addEventListener('click', async () => {
+                if (filesArray.length === 0) return;
+                
+                convertBtn.textContent = 'Generating PDF...';
+                convertBtn.disabled = true;
+
+                try {
+                    const { PDFDocument } = PDFLib;
+                    const pdfDoc = await PDFDocument.create();
+
+                    for (const item of filesArray) {
+                        const fileBuffer = await item.file.arrayBuffer();
+                        let pdfImage;
+                        
+                        // Parse image based on mime type
+                        if (item.file.type === 'image/png') {
+                            pdfImage = await pdfDoc.embedPng(fileBuffer);
+                        } else {
+                            pdfImage = await pdfDoc.embedJpg(fileBuffer);
+                        }
+
+                        // Get original dimensions to create a perfectly sized page
+                        const { width, height } = pdfImage.scale(1);
+                        const page = pdfDoc.addPage([width, height]);
+                        
+                        page.drawImage(pdfImage, {
+                            x: 0,
+                            y: 0,
+                            width: width,
+                            height: height,
+                        });
+                    }
+
+                    // Serialize and prepare download
+                    const pdfBytes = await pdfDoc.save();
+                    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                    const url = URL.createObjectURL(blob);
+
+                    const downloadLink = document.getElementById('download-link');
+                    downloadLink.href = url;
+                    
+                    processingState.classList.add('hidden');
+                    resultState.classList.remove('hidden');
+                    if (window.showToast) window.showToast('PDF generated successfully!', 'success');
+
+                } catch (error) {
+                    console.error('PDF generation error:', error);
+                    if (window.showToast) window.showToast('An error occurred during conversion. Ensure images are not corrupted.', 'error');
+                } finally {
+                    convertBtn.textContent = 'Generate PDF';
+                    convertBtn.disabled = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

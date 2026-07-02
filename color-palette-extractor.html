@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Color Palette Extractor - Get Colors from Image Free | Toolenix</title>
+    <meta name="title" content="Color Palette Extractor - Get Colors from Image Free | Toolenix">
+    <meta name="description" content="Upload any image to instantly extract its dominant color palette. Get HEX and RGB codes securely offline. Perfect for web design and branding.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/color-palette-extractor.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/color-palette-extractor.html">
+    <meta property="og:title" content="Color Palette Extractor - Secure Image Analysis">
+    <meta property="og:description" content="Extract beautiful color schemes from photos instantly in your browser. 100% private with no server uploads.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/color-palette-extractor.html">
+    <meta property="twitter:title" content="Color Palette Extractor - Secure Image Analysis">
+    <meta property="twitter:description" content="Extract beautiful color schemes from photos instantly in your browser. 100% private with no server uploads.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix Color Palette Extractor",
+      "operatingSystem": "All",
+      "applicationCategory": "DesignApplication",
+      "browserRequirements": "Requires a modern web browser with HTML5 Canvas support.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A secure client-side application that analyzes image pixels to extract dominant color palettes and generate corresponding HEX and RGB values locally."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Image Tools",
+        "item": "https://www.toolenix.com/#image-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Color Palette Extractor"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .upload-area {
+            border: 2px dashed var(--primary);
+            border-radius: 16px;
+            padding: 4rem 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: rgba(37, 99, 235, 0.05);
+            cursor: pointer;
+            margin-bottom: 2rem;
+        }
+        .upload-area:hover, .upload-area.dragover {
+            background: rgba(37, 99, 235, 0.1);
+            transform: translateY(-2px);
+            border-color: var(--secondary);
+        }
+        .hidden { display: none !important; }
+
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+        
+        @media (max-width: 900px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Image Preview Area */
+        .preview-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-soft);
+        }
+        
+        .preview-image-wrapper {
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+            border: 1px solid var(--border-glass);
+            margin-bottom: 1rem;
+        }
+
+        .preview-image-wrapper img {
+            max-width: 100%;
+            max-height: 450px;
+            object-fit: contain;
+            display: block;
+        }
+
+        /* Palette Panel */
+        .palette-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Dominant Color */
+        .dominant-card {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background: var(--bg-main);
+            border: 1px solid var(--border-glass);
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .dominant-swatch {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 2px solid rgba(0,0,0,0.05);
+            flex-shrink: 0;
+        }
+
+        .color-details {
+            flex-grow: 1;
+        }
+
+        .color-code-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.03);
+            padding: 0.5rem 0.8rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            border: 1px solid var(--border-glass);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .color-code-box:hover {
+            border-color: var(--primary);
+            background: rgba(37, 99, 235, 0.05);
+        }
+
+        .copy-icon {
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        /* Palette Grid */
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1rem;
+        }
+
+        .palette-card {
+            background: var(--bg-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .palette-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .palette-swatch {
+            width: 100%;
+            height: 100px;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        .palette-info {
+            padding: 0.8rem;
+            text-align: center;
+        }
+
+        .palette-hex {
+            font-weight: 700;
+            color: var(--text-main);
+            font-family: 'Courier New', Courier, monospace;
+            cursor: pointer;
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .palette-hex:hover {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+        }
+
+        .palette-rgb {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.3rem;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#image-tools">Image Tools</a> &gt; Color Palette Extractor
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 1200px;">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">Color Palette Extractor</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Generate beautiful color schemes directly from any photo. 100% private, client-side image analysis.</p>
+                </div>
+
+                <div class="glass" style="padding: 2rem;">
+                    
+                    <div id="upload-state" class="upload-area">
+                        <input type="file" id="image-input" accept="image/jpeg, image/png, image/webp" class="hidden">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🎨</div>
+                        <h3 style="margin-bottom: 0.5rem;">Upload an image to extract colors</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Supports JPG, PNG, and WebP files</p>
+                        <button class="btn btn-primary" onclick="document.getElementById('image-input').click()">Select Photo</button>
+                    </div>
+
+                    <div id="processing-state" class="hidden">
+                        <div class="workspace-grid">
+                            
+                            <div class="preview-container">
+                                <div class="preview-image-wrapper">
+                                    <img id="image-preview" src="" alt="Uploaded Image" crossorigin="anonymous">
+                                </div>
+                                <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;" id="filename-display">image.jpg</h3>
+                                <button class="btn btn-outline" id="reset-btn" style="width: 100%; margin-top: 1rem;">Analyze Another Photo</button>
+                            </div>
+
+                            <div class="palette-panel">
+                                
+                                <h3 class="section-title">👑 Dominant Color</h3>
+                                <div class="dominant-card">
+                                    <div class="dominant-swatch" id="dom-swatch"></div>
+                                    <div class="color-details">
+                                        <div class="color-code-box" onclick="copyToClipboard(this, 'dom-hex')">
+                                            <span id="dom-hex">#000000</span>
+                                            <span class="copy-icon">📋</span>
+                                        </div>
+                                        <div class="color-code-box" onclick="copyToClipboard(this, 'dom-rgb')">
+                                            <span id="dom-hex">RGB: <span id="dom-rgb">0, 0, 0</span></span>
+                                            <span class="copy-icon">📋</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                    <h3 class="section-title" style="margin: 0;">🎯 Color Palette</h3>
+                                    <button class="btn btn-primary" id="copy-all-btn" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">Copy All HEX</button>
+                                </div>
+                                
+                                <div class="palette-grid" id="palette-grid">
+                                    </div>
+
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Art of Extracting Color Palettes from Images</h2>
+                <p>Visual branding is heavily reliant on cohesive color theory. Whether you are generating ultra-realistic, cinematic portrait assets with AI video tools like Veo, or designing the cover for a self-help e-book with a moody "Dark Academia" aesthetic, matching your typography and background gradients perfectly to your primary image is crucial. A disconnected color scheme instantly breaks the psychological immersion of your audience.</p>
+                
+                <p>Instead of manually using an eyedropper tool in complex graphics software to guess the best matching colors, professionals use a <strong>Color Palette Extractor</strong>. Welcome to the Toolenix extraction utility. We built this tool to algorithmically analyze every pixel in your photograph and mathematically determine the most prominent, balanced color scheme. Best of all, it performs this complex analysis completely offline.</p>
+
+                <h2>How the Pixel Analysis Algorithm Works</h2>
+                <p>When you drop a photograph into our workspace, the tool does not simply pick random colors. It utilizes an advanced client-side Javascript library (ColorThief) that employs <strong>Color Quantization</strong>.</p>
+                <p>The algorithm maps all the millions of pixels in your high-definition image into a 3D color space. It then clusters these pixels based on their proximity to one another. The largest cluster becomes your <strong>Dominant Color</strong>. The algorithm then isolates the next most prominent, distinct clusters to generate a balanced 6-to-8 color palette that accurately represents the entire mood of the image.</p>
+                <p>This ensures that if you upload a dramatic thriller-themed YouTube thumbnail, the extracted palette will perfectly reflect the noir atmosphere, deep shadows, and cinematic villain energy you intended, providing you with exact HEX codes to use for your text overlays.</p>
+
+                <h2>The Security Reality of Cloud-Based Extractors</h2>
+                <p>If you search for an "image color picker" online, almost every website will prompt you to upload your image to their server. If you are extracting colors from an unreleased corporate branding package, a private portrait, or proprietary digital art, uploading that image is a massive privacy risk.</p>
+                <p><strong>Toolenix guarantees your visual assets remain yours.</strong> Our extractor utilizes the HTML5 Canvas API. When you upload an image, it is loaded directly into your browser's local memory. Your computer's CPU processes the pixel clustering. The image is never transmitted across the internet, logged in a database, or saved to a server. You get the power of a professional design studio with absolute offline privacy.</p>
+
+                <h2>Step-by-Step Guide: Generating Your Brand Palette</h2>
+                <p>Matching your design elements to your photography is an effortless process:</p>
+                <ol>
+                    <li><strong>Upload the Asset:</strong> Drag and drop any JPG, PNG, or WebP image into the upload area. The tool will instantly render the image and begin processing the pixels.</li>
+                    <li><strong>Identify the Dominant Color:</strong> The top card will display the absolute dominant color of the image. This is usually best used as your primary background color or main brand accent.</li>
+                    <li><strong>Review the Palette:</strong> The grid below displays the supporting colors. These are excellent for typography, buttons, borders, and secondary visual elements.</li>
+                    <li><strong>Click to Copy:</strong> Every HEX and RGB code is interactive. Simply click on a color code to instantly copy it to your clipboard for use in your CSS files or design software. You can also click "Copy All HEX" to grab the entire palette array at once.</li>
+                </ol>
+
+                <h2>Complementary Web Design Utilities</h2>
+                <p>Enhance your visual content creation workflow with our other free local tools:</p>
+                <ul>
+                    <li><a href="color-converter.html"><strong>Color Converter:</strong></a> Need to translate your new HEX codes into HSL to create beautiful CSS hover states? Use our instant converter.</li>
+                    <li><a href="profile-picture-cropper.html"><strong>Profile Picture Cropper:</strong></a> Once you've extracted colors for your brand, perfectly frame your avatar for social media integration.</li>
+                    <li><a href="image-resizer.html"><strong>Image Resizer:</strong></a> Ensure your branded background images perfectly match the strict pixel dimensions required by YouTube, X, and Pinterest.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Cohesive color grading is the hallmark of professional digital content. By utilizing the Toolenix Color Palette Extractor, you gain access to an instantaneous, mathematically precise design engine that operates entirely within your browser. Protect your proprietary assets from cloud servers, streamline your design workflow, and bookmark this tool to ensure your digital branding always looks perfectly unified.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        // Global copy function for the inline onclick handlers
+        function copyToClipboard(element, targetId) {
+            let textToCopy = '';
+            if (targetId) {
+                // Specific span text
+                textToCopy = document.getElementById(targetId).textContent;
+            } else {
+                // The element itself (for the dynamically generated palette hexes)
+                textToCopy = element.textContent;
+            }
+            
+            // Clean up text if it contains prefixes
+            textToCopy = textToCopy.replace('RGB: ', '').trim();
+            
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                if(window.showToast) window.showToast('Color copied!', 'success');
+                
+                // Visual feedback
+                const originalBg = element.style.backgroundColor;
+                element.style.backgroundColor = 'rgba(16, 185, 129, 0.2)'; // Green tint
+                setTimeout(() => {
+                    element.style.backgroundColor = originalBg;
+                }, 500);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const uploadArea = document.getElementById('upload-state');
+            const fileInput = document.getElementById('image-input');
+            const processingState = document.getElementById('processing-state');
+            
+            const filenameDisplay = document.getElementById('filename-display');
+            const imagePreview = document.getElementById('image-preview');
+            const resetBtn = document.getElementById('reset-btn');
+            
+            // Dominant Elements
+            const domSwatch = document.getElementById('dom-swatch');
+            const domHex = document.getElementById('dom-hex');
+            const domRgb = document.getElementById('dom-rgb');
+            
+            // Palette Elements
+            const paletteGrid = document.getElementById('palette-grid');
+            const copyAllBtn = document.getElementById('copy-all-btn');
+            
+            let currentHexArray = [];
+
+            // Initialize ColorThief
+            const colorThief = new ColorThief();
+
+            // Helper to convert rgb array to hex string
+            function rgbToHex(r, g, b) {
+                return '#' + [r, g, b].map(x => {
+                    const hex = x.toString(16);
+                    return hex.length === 1 ? '0' + hex : hex;
+                }).join('').toUpperCase();
+            }
+
+            // Drag and Drop Logic
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaultBehavior, false);
+            });
+
+            function preventDefaultBehavior(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.add('dragover'), false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.remove('dragover'), false);
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                handleFileSelection(e.dataTransfer.files[0]);
+            });
+
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) handleFileSelection(this.files[0]);
+            });
+
+            function handleFileSelection(file) {
+                const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+                if (!file || !validTypes.includes(file.type.toLowerCase())) {
+                    if (window.showToast) window.showToast('Please provide a valid image file.', 'error');
+                    return;
+                }
+                
+                filenameDisplay.textContent = file.name;
+                
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imagePreview.onload = () => {
+                        // Switch UI
+                        uploadArea.classList.add('hidden');
+                        processingState.classList.remove('hidden');
+                        
+                        // Extract Colors once image is fully loaded
+                        extractColors();
+                    };
+                    imagePreview.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+
+            function extractColors() {
+                try {
+                    // 1. Get Dominant Color
+                    const dominantColor = colorThief.getColor(imagePreview);
+                    const dHex = rgbToHex(dominantColor[0], dominantColor[1], dominantColor[2]);
+                    
+                    domSwatch.style.backgroundColor = dHex;
+                    domHex.textContent = dHex;
+                    domRgb.textContent = `${dominantColor[0]}, ${dominantColor[1]}, ${dominantColor[2]}`;
+
+                    // 2. Get Palette (requesting 6 distinct colors)
+                    const palette = colorThief.getPalette(imagePreview, 6);
+                    
+                    paletteGrid.innerHTML = ''; // Clear previous
+                    currentHexArray = [];
+
+                    palette.forEach(color => {
+                        const r = color[0];
+                        const g = color[1];
+                        const b = color[2];
+                        const hex = rgbToHex(r, g, b);
+                        
+                        currentHexArray.push(hex);
+
+                        // Build Card HTML
+                        const card = document.createElement('div');
+                        card.className = 'palette-card';
+                        
+                        card.innerHTML = `
+                            <div class="palette-swatch" style="background-color: ${hex};"></div>
+                            <div class="palette-info">
+                                <div class="palette-hex" onclick="copyToClipboard(this)">${hex}</div>
+                                <div class="palette-rgb">rgb(${r}, ${g}, ${b})</div>
+                            </div>
+                        `;
+                        
+                        paletteGrid.appendChild(card);
+                    });
+                    
+                } catch (error) {
+                    console.error("Color Extraction Error:", error);
+                    if(window.showToast) window.showToast('Failed to extract colors. Ensure the image is valid.', 'error');
+                }
+            }
+
+            // Copy All Button
+            copyAllBtn.addEventListener('click', () => {
+                if (currentHexArray.length === 0) return;
+                
+                const textToCopy = currentHexArray.join(', ');
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    if(window.showToast) window.showToast('Entire palette copied!', 'success');
+                    
+                    const originalText = copyAllBtn.textContent;
+                    copyAllBtn.textContent = '✅ Copied!';
+                    setTimeout(() => {
+                        copyAllBtn.textContent = originalText;
+                    }, 2000);
+                });
+            });
+
+            // Reset Workspace
+            resetBtn.addEventListener('click', () => {
+                fileInput.value = '';
+                imagePreview.src = '';
+                currentHexArray = [];
+                
+                processingState.classList.add('hidden');
+                uploadArea.classList.remove('hidden');
+            });
+        });
+    </script>
+</body>
+</html>

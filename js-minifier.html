@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>JavaScript Minifier - Compress JS Code Online Free | Toolenix</title>
+    <meta name="title" content="JavaScript Minifier - Compress JS Code Online Free | Toolenix">
+    <meta name="description" content="Minify, compress, and obfuscate your JavaScript code instantly. Reduce JS file sizes for faster page loads with our secure, offline client-side minifier.">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.toolenix.com/js-minifier.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/js-minifier.html">
+    <meta property="og:title" content="JavaScript Minifier - Production Ready JS Compression">
+    <meta property="og:description" content="Compress your JavaScript files securely in your browser. Remove comments, whitespace, and optimize variables instantly.">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/js-minifier.html">
+    <meta property="twitter:title" content="JavaScript Minifier - Production Ready JS Compression">
+    <meta property="twitter:description" content="Compress your JavaScript files securely in your browser. Remove comments, whitespace, and optimize variables instantly.">
+    
+    <!-- Assets -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <!-- Schema.org for SoftwareApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix JS Minifier",
+      "operatingSystem": "All",
+      "applicationCategory": "DeveloperApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A secure client-side application for web developers to minify, compress, and obfuscate JavaScript (JS) code locally."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Developer Tools",
+        "item": "https://www.toolenix.com/#dev-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "JavaScript Minifier"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 900px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .editor-pane {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1.2rem;
+            background: rgba(37, 99, 235, 0.05);
+            border-bottom: 1px solid var(--border-glass);
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .code-textarea {
+            width: 100%;
+            height: 400px;
+            padding: 1.5rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: none;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            resize: vertical;
+            outline: none;
+            white-space: pre;
+            overflow-wrap: normal;
+            overflow-x: auto;
+        }
+
+        .code-textarea:focus {
+            box-shadow: inset 0 0 0 2px var(--primary);
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            box-shadow: var(--shadow-soft);
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Stats Box */
+        .stats-box {
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .stat-savings {
+            color: #10B981;
+        }
+
+        /* Error Banner */
+        .error-banner {
+            display: none;
+            background: rgba(239, 68, 68, 0.1);
+            color: #EF4444;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            margin-top: 1rem;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+
+        [data-theme="dark"] .stats-box { background: rgba(16, 185, 129, 0.1); }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+        .seo-article code { background: rgba(100, 116, 139, 0.1); padding: 0.2rem 0.4rem; border-radius: 4px; font-family: monospace; }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <!-- Breadcrumbs -->
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#dev-tools">Developer Tools</a> &gt; JavaScript Minifier
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <!-- Tool Interface -->
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 1200px;">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">JavaScript Minifier</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Compress your JS files instantly. Reduce payload sizes for faster page loads using secure, offline Terser processing.</p>
+                </div>
+
+                <div class="glass" style="padding: 1.5rem;">
+                    
+                    <!-- Toolbar Controls -->
+                    <div class="toolbar">
+                        <button class="btn btn-primary" id="minify-btn" style="padding: 0.8rem 2rem; font-size: 1.1rem;">⚡ Minify JavaScript</button>
+                        <div style="width: 1px; height: 30px; background: var(--border-glass); margin: 0 0.5rem;"></div>
+                        <button class="btn btn-outline" id="clear-btn" style="color: #EF4444; border-color: rgba(239, 68, 68, 0.3);">🗑️ Clear</button>
+                    </div>
+
+                    <div id="error-banner" class="error-banner"></div>
+
+                    <!-- Workspaces -->
+                    <div class="workspace-grid">
+                        
+                        <!-- Input Pane -->
+                        <div class="editor-pane">
+                            <div class="editor-header">
+                                <span>Input (Raw JS)</span>
+                                <button class="btn btn-outline" id="paste-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem;">📋 Paste</button>
+                            </div>
+                            <textarea id="js-input" class="code-textarea" placeholder="Paste your uncompressed JavaScript code here...
+
+// Example Function
+function calculateTotal(price, taxRate) {
+    /* 
+       Multiply price by tax rate 
+       and return the total amount.
+    */
+    let total = price + (price * taxRate);
+    return total;
+}"></textarea>
+                        </div>
+
+                        <!-- Output Pane -->
+                        <div class="editor-pane">
+                            <div class="editor-header">
+                                <span>Output (Minified)</span>
+                                <button class="btn btn-outline" id="copy-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem;">📄 Copy</button>
+                            </div>
+                            <textarea id="js-output" class="code-textarea" readonly style="background: rgba(0,0,0,0.01);" placeholder="Your minified JS will appear here..."></textarea>
+                        </div>
+
+                    </div>
+
+                    <!-- Live Stats -->
+                    <div class="stats-box" id="stats-container" style="display: none;">
+                        <div class="stat-item">
+                            <span class="stat-label">Original Size</span>
+                            <span class="stat-value" id="original-size">0 KB</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Minified Size</span>
+                            <span class="stat-value" id="minified-size">0 KB</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Data Saved</span>
+                            <span class="stat-value stat-savings" id="savings-percent">0%</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Deep SEO Editorial Section -->
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Complete Guide to JavaScript Minification</h2>
+                <p>JavaScript is the engine that drives modern web interactivity. From complex React frontends to simple form validations, JS is ubiquitous. During the development phase, software engineers write JavaScript prioritizing human readability. We use descriptive variable names like <code>customerTotalBalance</code>, leave extensive multiline comments to explain complex logic, and use generous spacing and line breaks to structure our functions cleanly.</p>
+                
+                <p>However, when deploying a web application to production, all of this formatting becomes a liability. The web browser's V8 Javascript Engine (used in Chrome) doesn't care about your clean formatting. To the browser, every single space, tab, and comment is just a wasted byte of data that must be downloaded over the user's internet connection. To solve this, developers use a <strong>JavaScript Minifier</strong>. Welcome to the Toolenix JS compression utility, powered by secure, offline client-side parsing.</p>
+
+                <h2>Why Minifying JavaScript is Critical for SEO</h2>
+                <p>Unlike images or CSS, JavaScript is incredibly expensive for a web browser to process. When a browser downloads a JS file, it doesn't just display it—it must parse, compile, and execute the code. If your JavaScript file is massive, this execution time will completely freeze the main thread of the browser.</p>
+                <p>Google heavily penalizes websites with slow main-thread execution times through a Core Web Vitals metric known as <strong>Interaction to Next Paint (INP)</strong>. If you serve uncompressed JavaScript, mobile users will tap a button and experience a noticeable, frustrating delay before the website responds. Minification reduces the physical file size, which decreases both the network download time and the browser's parsing time, instantly boosting your SEO score.</p>
+
+                <h2>Minification vs. Obfuscation</h2>
+                <p>When you run your code through the Toolenix JS Minifier, it performs two distinct operations simultaneously:</p>
+                
+                <h3>1. Pure Minification</h3>
+                <p>This is the removal of unnecessary characters without changing the logic. The algorithm strips out all line breaks (<code>\n</code>), removes all tab indentations, permanently deletes <code>// single line</code> and <code>/* multi-line */</code> comments, and deletes spaces around mathematical operators (e.g., turning <code>a + b</code> into <code>a+b</code>).</p>
+
+                <h3>2. Variable Mangling (Obfuscation)</h3>
+                <p>This is where massive file size savings occur. The minifier's AST (Abstract Syntax Tree) engine safely analyzes your functions. If it sees a locally scoped variable named <code>customerTotalBalance</code>, it will rename it to a single letter, like <code>a</code>. 
+                <br>For example, <code>function(customerTotalBalance) { return customerTotalBalance * 2; }</code>
+                <br>Becomes: <code>function(a){return a*2}</code>.</p>
+                <p>This drastically reduces the character count of your file while making the code significantly harder for competitors to reverse-engineer and steal.</p>
+
+                <h2>The Privacy Advantage of Local Offline Parsing</h2>
+                <p>Many web developers rely on cloud-based web tools (like legacy PHP minifiers) to compress their code before deploying. This poses a massive security risk. Your JavaScript files often contain proprietary algorithms, backend API endpoints, and sensitive application logic.</p>
+                <p>Pasting this source code into a random internet server means you are handing over your intellectual property. <strong>Toolenix eliminates this data vulnerability.</strong> We utilize a robust client-side implementation of the industry-standard <strong>Terser</strong> library. When you click "Minify", your personal device's CPU parses the syntax tree. Your proprietary code is <em>never</em> sent across the network. You get enterprise-grade, instant file compression with absolute privacy.</p>
+
+                <h2>Step-by-Step Guide: How to Compress Your Code</h2>
+                <ol>
+                    <li><strong>Input Your Source Code:</strong> Copy your raw, heavily formatted JavaScript from your IDE (like VS Code) and paste it into the left Input pane.</li>
+                    <li><strong>Minify:</strong> Click the solid blue "⚡ Minify JavaScript" button. Our local Terser engine will instantaneously parse, mangle, and compress the code.</li>
+                    <li><strong>Analyze Savings:</strong> Check the green stats box to see exactly how many kilobytes you saved. (Reductions of 40% to 60% are standard for heavily commented code).</li>
+                    <li><strong>Deploy:</strong> Click "Copy" and save the output in your project as <code>script.min.js</code>. Link your HTML file to this optimized version for production.</li>
+                </ol>
+
+                <h2>Complementary Web Optimization Utilities</h2>
+                <p>Ensure every asset on your website is optimized for lightning-fast delivery with our other free local tools:</p>
+                <ul>
+                    <li><a href="html-minifier.html"><strong>HTML Minifier:</strong></a> Compress your DOM structure to pair perfectly with your newly optimized JS file.</li>
+                    <li><a href="css-minifier.html"><strong>CSS Minifier:</strong></a> Shrink your cascading style sheets to eliminate render-blocking resources.</li>
+                    <li><a href="json-formatter.html"><strong>JSON Formatter:</strong></a> If your JS interacts with APIs, minify your static JSON payload structures to further reduce network transfer times.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Serving unoptimized JavaScript is the fastest way to ruin a website's performance and SEO rankings. By utilizing the Toolenix JS Minifier, you gain access to an industry-standard compression engine that operates entirely offline. Protect your proprietary algorithms, maximize your Core Web Vitals, and bookmark this tool to ensure your web applications are always optimized for peak performance.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Terser Library for Client-Side JS Minification -->
+    <script src="https://cdn.jsdelivr.net/npm/terser/dist/bundle.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    
+    <!-- Tool Execution Code -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const jsInput = document.getElementById('js-input');
+            const jsOutput = document.getElementById('js-output');
+            
+            const minifyBtn = document.getElementById('minify-btn');
+            const clearBtn = document.getElementById('clear-btn');
+            const copyBtn = document.getElementById('copy-btn');
+            const pasteBtn = document.getElementById('paste-btn');
+            
+            const errorBanner = document.getElementById('error-banner');
+            const statsContainer = document.getElementById('stats-container');
+            const originalSizeDisplay = document.getElementById('original-size');
+            const minifiedSizeDisplay = document.getElementById('minified-size');
+            const savingsPercentDisplay = document.getElementById('savings-percent');
+
+            // Format Bytes utility
+            function formatBytes(bytes, decimals = 2) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const dm = decimals < 0 ? 0 : decimals;
+                const sizes = ['Bytes', 'KB', 'MB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+            }
+
+            // Execution: Minify using Terser
+            minifyBtn.addEventListener('click', async () => {
+                const raw = jsInput.value;
+                
+                if (!raw.trim()) {
+                    if (window.showToast) window.showToast('Please enter JavaScript code to minify.', 'error');
+                    return;
+                }
+
+                errorBanner.style.display = 'none';
+                jsOutput.value = 'Processing...';
+                
+                try {
+                    // Check if Terser is loaded via CDN
+                    if (typeof Terser === 'undefined') {
+                        throw new Error("Terser library failed to load. Please check your internet connection.");
+                    }
+
+                    const originalBytes = new Blob([raw]).size;
+                    
+                    // Run Terser Minification
+                    const result = await Terser.minify(raw, {
+                        mangle: true, // Obfuscate variable names
+                        compress: true, // Apply compression optimizations
+                        output: {
+                            comments: false // Remove all comments
+                        }
+                    });
+
+                    if (result.error) {
+                        throw result.error;
+                    }
+
+                    const minified = result.code;
+                    jsOutput.value = minified;
+                    
+                    const newBytes = new Blob([minified]).size;
+                    
+                    // Update Stats
+                    originalSizeDisplay.textContent = formatBytes(originalBytes);
+                    minifiedSizeDisplay.textContent = formatBytes(newBytes);
+                    
+                    if (newBytes < originalBytes) {
+                        const savings = ((originalBytes - newBytes) / originalBytes) * 100;
+                        savingsPercentDisplay.textContent = `${savings.toFixed(2)}%`;
+                        savingsPercentDisplay.style.color = '#10B981';
+                    } else {
+                        savingsPercentDisplay.textContent = '0%';
+                        savingsPercentDisplay.style.color = 'var(--text-muted)';
+                    }
+                    
+                    statsContainer.style.display = 'flex';
+                    if (window.showToast) window.showToast('JavaScript Successfully Minified!', 'success');
+                    
+                } catch (error) {
+                    console.error('Minification Error:', error);
+                    jsOutput.value = '';
+                    statsContainer.style.display = 'none';
+                    errorBanner.style.display = 'block';
+                    errorBanner.textContent = `Syntax Error: \n${error.message}\n(Line: ${error.line}, Col: ${error.col})`;
+                    
+                    if (window.showToast) window.showToast('Syntax Error found in JavaScript.', 'error');
+                }
+            });
+
+            // Action: Clear
+            clearBtn.addEventListener('click', () => {
+                jsInput.value = '';
+                jsOutput.value = '';
+                statsContainer.style.display = 'none';
+                errorBanner.style.display = 'none';
+                jsInput.focus();
+            });
+
+            // Action: Copy
+            copyBtn.addEventListener('click', () => {
+                if (!jsOutput.value || jsOutput.value === 'Processing...') {
+                    if (window.showToast) window.showToast('Nothing to copy!', 'error');
+                    return;
+                }
+                
+                navigator.clipboard.writeText(jsOutput.value).then(() => {
+                    if (window.showToast) window.showToast('Minified JS copied!', 'success');
+                    
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✅ Copied!';
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Copy failed: ', err);
+                });
+            });
+
+            // Action: Paste
+            pasteBtn.addEventListener('click', async () => {
+                try {
+                    const text = await navigator.clipboard.readText();
+                    jsInput.value = text;
+                    if (window.showToast) window.showToast('Pasted from clipboard!', 'success');
+                } catch (err) {
+                    console.error('Failed to read clipboard: ', err);
+                    if (window.showToast) window.showToast('Please press Ctrl+V / Cmd+V to paste manually.', 'error');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

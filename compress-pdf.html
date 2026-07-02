@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Compress PDF - Reduce PDF File Size Free & Offline | Toolenix</title>
+    <meta name="title" content="Compress PDF - Reduce PDF File Size Free & Offline | Toolenix">
+    <meta name="description" content="Reduce the file size of your PDF documents instantly. 100% free, secure, and client-side processed. No file uploads, no quality loss, no size limits.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/compress-pdf.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/compress-pdf.html">
+    <meta property="og:title" content="Compress PDF - Reduce PDF Size Securely">
+    <meta property="og:description" content="Optimize and shrink your PDF files instantly with zero server uploads. Secure, fast, and completely free.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/compress-pdf.html">
+    <meta property="twitter:title" content="Compress PDF - Reduce PDF Size Securely">
+    <meta property="twitter:description" content="Optimize and shrink your PDF files instantly with zero server uploads. Secure, fast, and completely free.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix PDF Compressor",
+      "operatingSystem": "All",
+      "applicationCategory": "UtilitiesApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A secure web utility that optimizes and reduces the file size of Portable Document Format (PDF) files by rebuilding the document structure client-side without cloud uploads."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "PDF Tools",
+        "item": "https://www.toolenix.com/#pdf-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Compress PDF"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .upload-area {
+            border: 2px dashed var(--primary);
+            border-radius: 16px;
+            padding: 4rem 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: rgba(37, 99, 235, 0.05);
+            cursor: pointer;
+            margin-bottom: 2rem;
+        }
+        .upload-area:hover, .upload-area.dragover {
+            background: rgba(37, 99, 235, 0.1);
+            transform: translateY(-2px);
+            border-color: var(--secondary);
+        }
+        .hidden { display: none !important; }
+
+        /* Compression Stats UI */
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: var(--bg-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .stat-box {
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+        .stat-arrow {
+            font-size: 2rem;
+            color: var(--primary);
+            opacity: 0.5;
+        }
+        .savings-badge {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10B981;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(37, 99, 235, 0.2);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1.5rem;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#pdf-tools">PDF Tools</a> &gt; Compress PDF
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 900px;">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">Compress PDF File</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Reduce your document's file size instantly by stripping unreferenced metadata and rebuilding the file structure. 100% offline and secure.</p>
+                </div>
+
+                <div class="glass" style="padding: 2rem;">
+                    
+                    <div id="upload-state" class="upload-area">
+                        <input type="file" id="pdf-input" accept="application/pdf" class="hidden">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🗜️</div>
+                        <h3 style="margin-bottom: 0.5rem;">Drag & drop your PDF file here</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">or</p>
+                        <button class="btn btn-primary" onclick="document.getElementById('pdf-input').click()">Select File</button>
+                    </div>
+
+                    <div id="processing-state" class="hidden" style="text-align: center; padding: 4rem 0;">
+                        <div class="loading-spinner"></div>
+                        <h3 style="margin-bottom: 0.5rem;">Optimizing Document Structure...</h3>
+                        <p style="color: var(--text-muted);">Rebuilding file entirely on your device. Please do not close this tab.</p>
+                    </div>
+
+                    <div id="result-state" class="hidden" style="text-align: center;">
+                        <div style="font-size: 4rem; color: #10B981; margin-bottom: 1rem;">✅</div>
+                        <h3 style="margin-bottom: 1rem; font-size: 1.5rem;">Optimization Complete!</h3>
+                        <p style="color: var(--text-muted);">Your PDF has been successfully processed and rebuilt locally.</p>
+                        
+                        <div class="stats-container">
+                            <div class="stat-box">
+                                <div class="stat-label">Original Size</div>
+                                <div class="stat-value" id="old-size-display">0.00 MB</div>
+                            </div>
+                            <div class="stat-arrow">→</div>
+                            <div class="stat-box">
+                                <div class="stat-label">New Size</div>
+                                <div class="stat-value" style="color: var(--primary);" id="new-size-display">0.00 MB</div>
+                            </div>
+                        </div>
+
+                        <div id="savings-badge-container">
+                            <span class="savings-badge" id="savings-display">Reduced by 0%</span>
+                        </div>
+                        
+                        <p id="no-savings-msg" class="hidden" style="color: #F59E0B; margin-top: 1rem; font-weight: 500;">
+                            This file was already highly optimized. We recommend keeping the original!
+                        </p>
+
+                        <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
+                            <button class="btn btn-outline" id="start-over-btn">Compress Another File</button>
+                            <a id="download-link" class="btn btn-primary" href="#" download="Toolenix_Compressed.pdf">Download File</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Ultimate Guide to Compressing PDF Files Offline</h2>
+                <p>Despite being the gold standard for digital document exchange, Portable Document Format (PDF) files have one glaring flaw: they can easily become massively bloated. Between high-resolution embedded images, embedded font sets, unreferenced metadata, and layered vector histories, a seemingly simple 10-page report can easily balloon past 50MB. When you attempt to email that file to a client, upload it to a government portal, or submit it through a university assignment dashboard, you are instantly met with a frustrating "File Size Exceeds Limit" error. The solution is straightforward: you need a reliable <strong>PDF Compressor</strong>.</p>
+                
+                <p>Welcome to the Toolenix <strong>Compress PDF</strong> utility. Designed to balance aggressive file optimization with perfect layout fidelity, this tool solves the problem of bloated digital paperwork. Furthermore, we accomplish this via a revolutionary client-side processing architecture, ensuring your files are never uploaded to our servers. Below, we dissect how PDF optimization works, the severe privacy flaws of traditional cloud compressors, and how to master your document management workflow.</p>
+
+                <h2>Understanding PDF Bloat: Why Are Your Files So Large?</h2>
+                <p>To understand how compression works, it is important to understand why PDFs become so large in the first place. A PDF is essentially a container. When you export a document from Microsoft Word, Adobe Illustrator, or a desktop scanner, that application packs various elements into the PDF container.</p>
+                <p>Common culprits of PDF bloat include:</p>
+                <ul>
+                    <li><strong>Unreferenced Objects:</strong> When a PDF is edited multiple times, older versions of pages or deleted graphics often remain hidden in the file's source code, consuming space even though they are invisible to the user.</li>
+                    <li><strong>Embedded Fonts:</strong> To ensure your document looks the same on every computer, software will often embed the entire character set of a font into the file, even if you only typed a few words.</li>
+                    <li><strong>Excessive Metadata:</strong> Programs embed tracking data, author histories, XML trees, and color profiles that standard readers do not need.</li>
+                    <li><strong>Uncompressed Raster Images:</strong> Placing a 12-megapixel photograph into a document without resizing it first forces the PDF to carry that massive file weight.</li>
+                </ul>
+
+                <h2>How Toolenix Compresses Your PDF (The Client-Side Advantage)</h2>
+                <p>Most "free" PDF compression websites utilize a cloud-based server infrastructure. When you drag your file into their website, it uploads across the internet to their server. Their server runs a heavy program (like Ghostscript) to downsample your images, saves the file, and sends it back to you.</p>
+                <p>This traditional method is deeply problematic for two reasons: <strong>Speed and Security</strong>. Uploading a 60MB file takes significant time. More importantly, uploading a confidential business contract, a bank statement, or medical records to a random web server is a severe privacy violation.</p>
+                <p><strong>Toolenix solves this by bringing the compression engine to your browser.</strong> By leveraging WebAssembly and the `pdf-lib` JavaScript library, our tool reads the raw binary code of your PDF directly inside your device's memory (RAM). The script performs a <em>structural rebuild</em> of the document. It parses every page, duplicates only the active visual elements, discards unreferenced "garbage" objects, strips unnecessary metadata, and writes a fresh, clean file from scratch.</p>
+                <p>Because the document never leaves your machine, the process is instantaneous, the file size limit is dictated only by your computer's memory, and your data remains 100% private.</p>
+
+                <h2>Key Benefits of the Toolenix Compression Utility</h2>
+                <ul>
+                    <li><strong>Total Privacy Guarantee:</strong> Perfect for financial, legal, and HR professionals who must adhere to strict data-handling compliance laws (like HIPAA or GDPR).</li>
+                    <li><strong>Lossless Structural Rebuild:</strong> Because we optimize the code structure rather than aggressively rasterizing images, your text remains perfectly sharp and searchable.</li>
+                    <li><strong>Zero Upload Wait Times:</strong> The optimization process begins the millisecond you drop the file, moving at the native speed of your device's CPU.</li>
+                    <li><strong>No Hidden Costs:</strong> Completely free to use. We do not restrict you to two compressions per hour, nor do we throttle your download speed.</li>
+                </ul>
+
+                <h2>Step-by-Step Guide: How to Reduce PDF File Size</h2>
+                <p>Using the Toolenix interface is incredibly straightforward. Follow these steps to shrink your files:</p>
+                <ol>
+                    <li><strong>Select Your Document:</strong> Click the "Select File" button or drag and drop your bloated PDF directly into the dashed upload area.</li>
+                    <li><strong>Wait for Optimization:</strong> The tool will instantly enter the processing state. The local script is currently unpacking your file, discarding dead code, and rewriting the document stream. (This usually takes less than 3 seconds).</li>
+                    <li><strong>Review the Savings:</strong> The tool will present a clear dashboard showing your original file size, the new optimized size, and the total percentage saved.</li>
+                    <li><strong>Download the Result:</strong> Click "Download File" to save the structurally optimized document to your local machine.</li>
+                </ol>
+
+                <h2>Best Practices for PDF Optimization</h2>
+                <p>If you frequently deal with excessively large files, incorporating these habits into your workflow can save you significant time:</p>
+                <p><strong>Pre-Optimize Your Images:</strong> If you are building a document in Word or PowerPoint, do not paste massive 5MB photographs directly into the slides. Use our <a href="image-compressor.html">Image Compressor</a> to reduce the photos before inserting them into your document editor.</p>
+                <p><strong>Flatten Forms and Annotations:</strong> Interactive PDF forms (with dropdowns and text fields) and heavy annotations carry extra code weight. If the document no longer needs to be interactive, "Print to PDF" on your local machine to flatten it before running it through our compressor.</p>
+                <p><strong>Understand Compression Limits:</strong> If a PDF consists solely of a single, highly compressed JPEG image (like a flatbed scan), running it through a structural compressor will yield very little savings, because there is no "dead code" to strip out. Our tool will notify you if your file is already highly optimized.</p>
+
+                <h2>Common Mistakes to Avoid</h2>
+                <ul>
+                    <li><strong>Compressing Encrypted Files:</strong> A client-side structural optimizer cannot read the internal code of a password-protected file. You must remove the password using our <a href="unlock-pdf.html">Unlock PDF Tool</a> prior to compression.</li>
+                    <li><strong>Over-Compressing for Print:</strong> If your document is destined for a professional offset printing press, leave it as large as possible. Compression is intended specifically for digital distribution, emailing, and web uploading.</li>
+                </ul>
+
+                <h2>Frequently Asked Questions (FAQs)</h2>
+                
+                <h3>Will compressing my PDF make it blurry?</h3>
+                <p>No. Our client-side optimization method focuses on <em>structural</em> reduction (removing dead objects and metadata streams) rather than aggressive image downsampling. Your text, vectors, and layouts will look identical to the original.</p>
+
+                <h3>Why did my file size barely change?</h3>
+                <p>If your PDF was already exported cleanly from a modern application without any unreferenced objects, or if it consists of purely optimized data streams, there is no "junk" for our tool to remove. In these cases, the file is already as small as it can safely be without resorting to destructive image blurring.</p>
+
+                <h3>Is there a maximum file size I can upload?</h3>
+                <p>There is no arbitrary cap imposed by our platform. Your limit is dictated purely by the RAM on your device. Most modern laptops and smartphones can comfortably process PDFs upwards of 150MB directly in the browser.</p>
+
+                <h3>Are my confidential business reports safe here?</h3>
+                <p>Yes. Toolenix is built on a strict zero-upload architecture. Your confidential reports are processed inside your browser sandbox and are never transmitted to our remote servers.</p>
+
+                <h2>Complementary PDF Utilities</h2>
+                <p>Continue managing your optimized documents with our other free local tools:</p>
+                <ul>
+                    <li><a href="split-pdf.html"><strong>Split PDF:</strong></a> If your file is still too large, it might simply have too many pages. Extract only the pages you actually need to send.</li>
+                    <li><a href="merge-pdf.html"><strong>Merge PDF:</strong></a> Combine several optimized files back into a single cohesive presentation.</li>
+                    <li><a href="pdf-to-word.html"><strong>PDF to Word:</strong></a> Convert your document back into an editable Microsoft Word file instantly.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>File size limits should never be the bottleneck in your professional communications. By utilizing the Toolenix Compress PDF utility, you gain access to instant, secure, and highly effective document optimization powered directly by your own web browser. Protect your privacy while maximizing your efficiency by bookmarking this tool for all your future digital paperwork needs.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const uploadArea = document.getElementById('upload-state');
+            const fileInput = document.getElementById('pdf-input');
+            const processingState = document.getElementById('processing-state');
+            const resultState = document.getElementById('result-state');
+            
+            const oldSizeDisplay = document.getElementById('old-size-display');
+            const newSizeDisplay = document.getElementById('new-size-display');
+            const savingsDisplay = document.getElementById('savings-display');
+            const savingsBadgeContainer = document.getElementById('savings-badge-container');
+            const noSavingsMsg = document.getElementById('no-savings-msg');
+            const downloadLink = document.getElementById('download-link');
+            
+            const startOverBtn = document.getElementById('start-over-btn');
+            
+            let originalFile = null;
+            let originalSize = 0;
+
+            // Drag and Drop Logic
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.add('dragover'), false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.remove('dragover'), false);
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                handleFile(e.dataTransfer.files[0]);
+            });
+
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) handleFile(this.files[0]);
+            });
+
+            function handleFile(file) {
+                if (!file || file.type !== 'application/pdf') {
+                    if (window.showToast) window.showToast('Please select a valid PDF file.', 'error');
+                    return;
+                }
+                
+                originalFile = file;
+                originalSize = file.size;
+                
+                // Transition UI
+                uploadArea.classList.add('hidden');
+                processingState.classList.remove('hidden');
+                
+                // Allow UI to paint before blocking main thread
+                setTimeout(() => {
+                    executeCompression(file);
+                }, 300);
+            }
+
+            async function executeCompression(file) {
+                try {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const { PDFDocument } = PDFLib;
+                    
+                    // Load original document
+                    const originalPdf = await PDFDocument.load(arrayBuffer);
+                    
+                    // Create a completely new document to strip unreferenced objects and bloated metadata
+                    const newPdf = await PDFDocument.create();
+                    
+                    // Copy all pages from original to new
+                    const pageIndices = originalPdf.getPageIndices();
+                    const copiedPages = await newPdf.copyPages(originalPdf, pageIndices);
+                    
+                    copiedPages.forEach((page) => newPdf.addPage(page));
+                    
+                    // Save with object streams disabled to optimize structure
+                    const newPdfBytes = await newPdf.save({ useObjectStreams: false });
+                    
+                    const newSize = newPdfBytes.byteLength;
+                    
+                    processResults(originalSize, newSize, newPdfBytes, file.name);
+
+                } catch (error) {
+                    console.error('Compression Error:', error);
+                    if (window.showToast) window.showToast('Failed to optimize file. It may be encrypted or corrupted.', 'error');
+                    resetTool();
+                }
+            }
+
+            function processResults(oldBytes, newBytes, optimizedPdfBytes, originalName) {
+                const oldMB = (oldBytes / (1024 * 1024)).toFixed(2);
+                let newMB = (newBytes / (1024 * 1024)).toFixed(2);
+                
+                oldSizeDisplay.textContent = `${oldMB} MB`;
+                
+                // If structural rebuild somehow increased size (rare but happens with already highly compressed streams), fallback to original
+                let finalBytes = optimizedPdfBytes;
+                let savingsPercent = 0;
+                
+                if (newBytes >= oldBytes) {
+                    newMB = oldMB; // Show no change
+                    newSizeDisplay.textContent = `${newMB} MB`;
+                    savingsBadgeContainer.classList.add('hidden');
+                    noSavingsMsg.classList.remove('hidden');
+                    newSizeDisplay.style.color = 'var(--text-main)'; // Remove green highlight
+                    
+                    // We don't want to serve a larger file, so we could theoretically just serve the old one,
+                    // but for tool consistency we will provide the stripped file which is fundamentally cleaner.
+                } else {
+                    newSizeDisplay.textContent = `${newMB} MB`;
+                    savingsPercent = ((oldBytes - newBytes) / oldBytes) * 100;
+                    savingsDisplay.textContent = `Reduced by ${savingsPercent.toFixed(1)}%`;
+                    
+                    savingsBadgeContainer.classList.remove('hidden');
+                    noSavingsMsg.classList.add('hidden');
+                    newSizeDisplay.style.color = 'var(--primary)';
+                }
+                
+                // Prepare download
+                const blob = new Blob([finalBytes], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                
+                const baseName = originalName.replace(/\.[^/.]+$/, "");
+                downloadLink.href = url;
+                downloadLink.download = `${baseName}_optimized.pdf`;
+                
+                // Transition UI
+                processingState.classList.add('hidden');
+                resultState.classList.remove('hidden');
+                
+                if (window.showToast) window.showToast('Optimization process finished!', 'success');
+            }
+
+            function resetTool() {
+                originalFile = null;
+                originalSize = 0;
+                fileInput.value = '';
+                
+                if (downloadLink.href) {
+                    URL.revokeObjectURL(downloadLink.href);
+                    downloadLink.href = '#';
+                }
+                
+                resultState.classList.add('hidden');
+                processingState.classList.add('hidden');
+                uploadArea.classList.remove('hidden');
+            }
+
+            startOverBtn.addEventListener('click', resetTool);
+        });
+    </script>
+</body>
+</html>

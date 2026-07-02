@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>JSON Formatter & Validator - Beautify JSON Free Offline | Toolenix</title>
+    <meta name="title" content="JSON Formatter & Validator - Beautify JSON Free Offline | Toolenix">
+    <meta name="description" content="Format, beautify, minify, and validate your JSON code instantly. 100% free, perfectly secure, and client-side processed for developers.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/json-formatter.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/json-formatter.html">
+    <meta property="og:title" content="JSON Formatter & Validator - Secure Developer Tools">
+    <meta property="og:description" content="Beautify, validate, and minify your raw JSON code instantly in your browser without any server uploads.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/json-formatter.html">
+    <meta property="twitter:title" content="JSON Formatter & Validator - Secure Developer Tools">
+    <meta property="twitter:description" content="Beautify, validate, and minify your raw JSON code instantly in your browser without any server uploads.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix JSON Formatter",
+      "operatingSystem": "All",
+      "applicationCategory": "DeveloperApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A secure client-side application for developers to format, validate, beautify, and minify JSON (JavaScript Object Notation) data strings locally."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Developer Tools",
+        "item": "https://www.toolenix.com/#dev-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "JSON Formatter"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 900px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .editor-pane {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: rgba(37, 99, 235, 0.05);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px 8px 0 0;
+            border-bottom: none;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .code-textarea {
+            width: 100%;
+            height: 500px;
+            padding: 1rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 0 0 8px 8px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .code-textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            padding: 1rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            box-shadow: var(--shadow-soft);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .status-bar {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .status-neutral {
+            background: rgba(100, 116, 139, 0.1);
+            color: var(--text-muted);
+            border: 1px solid rgba(100, 116, 139, 0.2);
+        }
+
+        .status-success {
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .status-error {
+            background: rgba(239, 68, 68, 0.1);
+            color: #DC2626;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        [data-theme="dark"] .status-success { color: #10B981; }
+        [data-theme="dark"] .status-error { color: #EF4444; }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+        .seo-article code { background: rgba(100, 116, 139, 0.1); padding: 0.2rem 0.4rem; border-radius: 4px; font-family: monospace; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#dev-tools">Developer Tools</a> &gt; JSON Formatter
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 1200px;">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">JSON Formatter & Validator</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Beautify, minify, and debug your raw JSON code instantly. 100% private client-side execution.</p>
+                </div>
+
+                <div class="glass" style="padding: 1.5rem;">
+                    
+                    <div class="toolbar">
+                        <button class="btn btn-primary" id="format-btn">✨ Format / Beautify</button>
+                        <button class="btn btn-outline" id="minify-btn">🗜️ Minify</button>
+                        <button class="btn btn-outline" id="validate-btn">🔍 Validate</button>
+                        <div style="width: 1px; height: 30px; background: var(--border-glass); margin: 0 0.5rem;"></div>
+                        <select id="indent-select" class="btn btn-outline" style="appearance: auto; padding: 0.75rem;">
+                            <option value="2">2 Spaces</option>
+                            <option value="4" selected>4 Spaces</option>
+                            <option value="tab">Tab</option>
+                        </select>
+                        <button class="btn btn-outline" id="clear-btn" style="color: #EF4444; border-color: rgba(239, 68, 68, 0.3);">🗑️ Clear</button>
+                    </div>
+
+                    <div class="workspace-grid">
+                        
+                        <div class="editor-pane">
+                            <div class="editor-header">
+                                <span>Input (Raw JSON)</span>
+                                <button class="btn btn-outline" id="paste-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem;">📋 Paste</button>
+                            </div>
+                            <textarea id="json-input" class="code-textarea" placeholder="Paste your raw, minified, or unformatted JSON here...
+{
+  &quot;example&quot;: &quot;data&quot;
+}"></textarea>
+                        </div>
+
+                        <div class="editor-pane">
+                            <div class="editor-header">
+                                <span>Output (Result)</span>
+                                <button class="btn btn-outline" id="copy-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem;">📄 Copy</button>
+                            </div>
+                            <textarea id="json-output" class="code-textarea" readonly placeholder="Your formatted or minified JSON will appear here..."></textarea>
+                        </div>
+
+                    </div>
+                    
+                    <div id="status-bar" class="status-bar status-neutral" style="margin-top: 1.5rem; margin-bottom: 0;">
+                        <span>ℹ️</span>
+                        <span id="status-message">Waiting for input...</span>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Complete Guide to JSON Formatting and Validation</h2>
+                <p>If you work in web development, software engineering, or data science, you interact with APIs daily. The undisputed language of modern API communication is <strong>JSON (JavaScript Object Notation)</strong>. While computers and servers can read dense, unformatted blocks of JSON data effortlessly, humans cannot. When an API returns a 5,000-line minified JSON string, debugging a missing key or a malformed array becomes an impossible task. To restore readability and sanity to your coding workflow, you need a powerful <strong>JSON Formatter and Validator</strong>.</p>
+                
+                <p>Welcome to the Toolenix Developer Suite. Our JSON Formatter is engineered specifically for speed, privacy, and accuracy. By utilizing native browser JavaScript engines to parse and rebuild your code, we bypass the need for external servers. Read on to discover the fundamental rules of JSON syntax, the critical privacy advantages of client-side debugging, and how to optimize your development environment.</p>
+
+                <h2>What is JSON?</h2>
+                <p>JSON is a lightweight, text-based data interchange format. It was derived from JavaScript object literal syntax, but it is completely language-independent. Today, almost every programming language (Python, Java, PHP, C++, Ruby) features built-in libraries to parse and generate JSON strings.</p>
+                <p>The strength of JSON lies in its simplicity. It relies on two primary data structures:</p>
+                <ul>
+                    <li><strong>Objects:</strong> A collection of key/value pairs wrapped in curly braces <code>{}</code>.</li>
+                    <li><strong>Arrays:</strong> An ordered list of values wrapped in square brackets <code>[]</code>.</li>
+                </ul>
+                <p>Because it strips away the verbose tagging structure of older formats like XML, JSON transmits data faster and consumes significantly less bandwidth across web applications.</p>
+
+                <h2>Why Developers Need a JSON Formatter</h2>
+                <p>When an API endpoint transmits data, it almost always "minifies" the JSON. Minification removes all whitespace, line breaks, and indentation to make the file size as small as possible. While this is excellent for network performance, it results in a massive, impenetrable wall of text.</p>
+                <p>A <strong>JSON Formatter (or Beautifier)</strong> takes that wall of text, parses the object hierarchy, and re-injects human-readable whitespace. It applies standardized indentation (usually 2 or 4 spaces) to nested objects and arrays, creating a visual hierarchy that allows a developer's eye to instantly comprehend the data structure.</p>
+
+                <h2>The Privacy Advantage of Client-Side Validation</h2>
+                <p>When debugging an application, developers often copy API responses and paste them into free online JSON formatters. This is a terrifying security practice. API responses frequently contain <strong>Highly Sensitive Information (PII)</strong>, including:</p>
+                <ul>
+                    <li>Customer names, emails, and physical addresses.</li>
+                    <li>Authentication tokens, API keys, and session IDs.</li>
+                    <li>Financial transaction records and billing details.</li>
+                </ul>
+                <p>If you paste this data into a cloud-based JSON formatter, your raw code is transmitted across the internet to their servers. You have no guarantee that their server isn't logging your API keys or storing your customer data in an unsecured database.</p>
+                <p><strong>Toolenix eliminates this massive security vulnerability.</strong> Our formatter is built purely on Vanilla JavaScript running locally in your browser. When you paste your code, the formatting and validation happen in your own RAM. Your data is <strong>never</strong> transmitted to our servers. You receive native IDE-level privacy directly in a free web tab.</p>
+
+                <h2>Common JSON Syntax Errors and Validation</h2>
+                <p>Writing JSON manually often leads to syntax errors that can crash your application. Our tool includes an active Validator that catches these errors instantly. The most common mistakes include:</p>
+                <p><strong>1. Missing or Extraneous Commas:</strong> Unlike standard JavaScript, JSON strictly forbids trailing commas. If the last item in your array or object ends with a comma, the parser will fail.</p>
+                <p><strong>2. Unquoted Keys:</strong> In standard JavaScript objects, keys do not need quotes. In JSON, <em>every single key</em> must be enclosed in double quotes. <code>{ name: "John" }</code> is invalid. It must be <code>{ "name": "John" }</code>.</p>
+                <p><strong>3. Using Single Quotes:</strong> JSON exclusively recognizes double quotes <code>"</code> for strings. Using single quotes <code>'</code> will throw a syntax error.</p>
+                <p><strong>4. Unescaped Characters:</strong> If a string contains a double quote or a backslash, it must be properly escaped using a backslash (e.g., <code>"She said \"Hello\""</code>).</p>
+
+                <h2>Step-by-Step Guide: How to Format and Debug JSON</h2>
+                <p>Using our workspace is designed to be frictionless for developers:</p>
+                <ol>
+                    <li><strong>Input the Data:</strong> Paste your raw or minified code into the left "Input" pane.</li>
+                    <li><strong>Validate:</strong> Look at the status bar at the bottom. The tool automatically validates your code as you paste. If it turns green, your syntax is perfect. If it turns red, it will display the exact location and nature of your syntax error.</li>
+                    <li><strong>Format / Beautify:</strong> Select your preferred indentation (2 spaces, 4 spaces, or Tab) from the dropdown, then click the "✨ Format / Beautify" button. The clean, structured code will appear in the right pane.</li>
+                    <li><strong>Minify for Production:</strong> If you wrote a clean JSON file manually and need to compress it before uploading it to your server, click the "🗜️ Minify" button. This strips all whitespace, readying the code for high-speed transmission.</li>
+                    <li><strong>Export:</strong> Click the "📄 Copy" button above the output pane to instantly copy the formatted or minified code to your clipboard.</li>
+                </ol>
+
+                <h2>Frequently Asked Questions (FAQs)</h2>
+                
+                <h3>Is there a file size limit for the formatter?</h3>
+                <p>Because Toolenix relies on your local device's memory (RAM), there is no hard server limit. However, attempting to paste a massive 50MB JSON payload directly into a browser textarea may cause the browser window to lag or freeze. For ultra-massive datasets, a dedicated local IDE is recommended.</p>
+
+                <h3>Can this tool convert XML or CSV to JSON?</h3>
+                <p>This specific utility is a dedicated formatter and validator for existing JSON strings. We are currently developing separate tools for XML-to-JSON and CSV-to-JSON data transformations.</p>
+
+                <h3>Is my API data safe on this website?</h3>
+                <p>Absolutely. Your privacy is guaranteed by our architecture. The parsing and formatting execution happens entirely inside your local browser. We physically cannot see, log, or intercept the code you paste into the tool.</p>
+
+                <h2>Complementary Developer Utilities</h2>
+                <p>Enhance your development workflow with our other free local tools:</p>
+                <ul>
+                    <li><a href="password-generator.html"><strong>Password Generator:</strong></a> Create highly secure, randomized cryptographic strings for use as API keys or database passwords.</li>
+                    <li><a href="base64-encoder.html"><strong>Base64 Encoder/Decoder:</strong></a> Quickly encode or decode data strings and images for safe API transmission.</li>
+                    <li><a href="html-minifier.html"><strong>HTML/CSS Minifier:</strong></a> Optimize your frontend code for production deployment to improve your Core Web Vitals.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Debugging unformatted data shouldn't be a tedious chore, nor should it require risking your application's security on unverified cloud servers. By harnessing the power of local browser execution, the Toolenix JSON Formatter provides a professional, instant, and flawlessly secure method for managing your data structures. Bookmark this tool to ensure you always have a pristine debugging environment ready at your fingertips.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const jsonInput = document.getElementById('json-input');
+            const jsonOutput = document.getElementById('json-output');
+            const indentSelect = document.getElementById('indent-select');
+            
+            const formatBtn = document.getElementById('format-btn');
+            const minifyBtn = document.getElementById('minify-btn');
+            const validateBtn = document.getElementById('validate-btn');
+            const clearBtn = document.getElementById('clear-btn');
+            const copyBtn = document.getElementById('copy-btn');
+            const pasteBtn = document.getElementById('paste-btn');
+            
+            const statusBar = document.getElementById('status-bar');
+            const statusMessage = document.getElementById('status-message');
+
+            function updateStatus(type, message) {
+                statusBar.className = 'status-bar'; // Reset
+                
+                if (type === 'success') {
+                    statusBar.classList.add('status-success');
+                    statusBar.querySelector('span').textContent = '✅';
+                } else if (type === 'error') {
+                    statusBar.classList.add('status-error');
+                    statusBar.querySelector('span').textContent = '❌';
+                } else {
+                    statusBar.classList.add('status-neutral');
+                    statusBar.querySelector('span').textContent = 'ℹ️';
+                }
+                
+                statusMessage.textContent = message;
+            }
+
+            function getIndentStr() {
+                const val = indentSelect.value;
+                if (val === 'tab') return '\t';
+                return parseInt(val);
+            }
+
+            function validateAndParseJSON() {
+                const rawData = jsonInput.value.trim();
+                
+                if (!rawData) {
+                    updateStatus('neutral', 'Waiting for input...');
+                    return null;
+                }
+
+                try {
+                    const parsed = JSON.parse(rawData);
+                    updateStatus('success', 'Valid JSON Structure');
+                    return parsed;
+                } catch (error) {
+                    // Make error message more readable
+                    let errorMsg = error.message;
+                    updateStatus('error', `Invalid JSON: ${errorMsg}`);
+                    return null;
+                }
+            }
+
+            // Real-time validation on typing (debounced)
+            let typingTimer;
+            jsonInput.addEventListener('input', () => {
+                clearTimeout(typingTimer);
+                if(jsonInput.value.trim() === "") {
+                    updateStatus('neutral', 'Waiting for input...');
+                    jsonOutput.value = "";
+                } else {
+                    typingTimer = setTimeout(validateAndParseJSON, 500);
+                }
+            });
+
+            // Action: Format
+            formatBtn.addEventListener('click', () => {
+                const parsed = validateAndParseJSON();
+                if (parsed !== null) {
+                    const indent = getIndentStr();
+                    jsonOutput.value = JSON.stringify(parsed, null, indent);
+                    if(window.showToast) window.showToast('JSON Formatted Successfully!', 'success');
+                } else {
+                    if(window.showToast) window.showToast('Cannot format invalid JSON.', 'error');
+                }
+            });
+
+            // Action: Minify
+            minifyBtn.addEventListener('click', () => {
+                const parsed = validateAndParseJSON();
+                if (parsed !== null) {
+                    jsonOutput.value = JSON.stringify(parsed);
+                    if(window.showToast) window.showToast('JSON Minified Successfully!', 'success');
+                } else {
+                    if(window.showToast) window.showToast('Cannot minify invalid JSON.', 'error');
+                }
+            });
+
+            // Action: Explicit Validate
+            validateBtn.addEventListener('click', () => {
+                const parsed = validateAndParseJSON();
+                if(parsed !== null && window.showToast) {
+                    window.showToast('JSON is Valid!', 'success');
+                }
+            });
+
+            // Action: Clear
+            clearBtn.addEventListener('click', () => {
+                jsonInput.value = '';
+                jsonOutput.value = '';
+                updateStatus('neutral', 'Waiting for input...');
+            });
+
+            // Action: Copy
+            copyBtn.addEventListener('click', () => {
+                if (!jsonOutput.value) {
+                    if(window.showToast) window.showToast('Nothing to copy!', 'error');
+                    return;
+                }
+                
+                navigator.clipboard.writeText(jsonOutput.value).then(() => {
+                    if(window.showToast) window.showToast('Copied to clipboard!', 'success');
+                    
+                    // Visual feedback on button
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✅ Copied!';
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                });
+            });
+
+            // Action: Paste (Requires browser permission, fallback to manual if denied)
+            pasteBtn.addEventListener('click', async () => {
+                try {
+                    const text = await navigator.clipboard.readText();
+                    jsonInput.value = text;
+                    validateAndParseJSON(); // Auto-validate after paste
+                    if(window.showToast) window.showToast('Pasted from clipboard!', 'success');
+                } catch (err) {
+                    console.error('Failed to read clipboard contents: ', err);
+                    if(window.showToast) window.showToast('Please press Ctrl+V / Cmd+V to paste manually.', 'error');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

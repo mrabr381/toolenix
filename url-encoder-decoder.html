@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>URL Encoder & Decoder - Percent-Encoding Free Offline | Toolenix</title>
+    <meta name="title" content="URL Encoder & Decoder - Percent-Encoding Free Offline | Toolenix">
+    <meta name="description" content="Encode or decode URLs instantly. Format tracking links, API endpoints, and special characters securely in your browser. 100% free and offline.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/url-encoder-decoder.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/url-encoder-decoder.html">
+    <meta property="og:title" content="URL Encoder & Decoder - Secure Developer Tool">
+    <meta property="og:description" content="Safely encode and decode URLs and URI components using fast, secure, client-side processing.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/url-encoder-decoder.html">
+    <meta property="twitter:title" content="URL Encoder & Decoder - Secure Developer Tool">
+    <meta property="twitter:description" content="Safely encode and decode URLs and URI components using fast, secure, client-side processing.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix URL Encoder Decoder",
+      "operatingSystem": "All",
+      "applicationCategory": "DeveloperApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A secure client-side application for developers to encode and decode Uniform Resource Identifiers (URI) and URL parameters using UTF-8 percent-encoding."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Developer Tools",
+        "item": "https://www.toolenix.com/#dev-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "URL Encoder Decoder"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 900px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .editor-pane {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1.2rem;
+            background: rgba(37, 99, 235, 0.05);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px 12px 0 0;
+            border-bottom: none;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .code-textarea {
+            width: 100%;
+            height: 350px;
+            padding: 1.5rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 0 0 12px 12px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1rem;
+            line-height: 1.6;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            word-break: break-all;
+        }
+
+        .code-textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            box-shadow: var(--shadow-soft);
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+        .seo-article code { background: rgba(100, 116, 139, 0.1); padding: 0.2rem 0.4rem; border-radius: 4px; font-family: monospace; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#dev-tools">Developer Tools</a> &gt; URL Encoder Decoder
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 1200px;">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">URL Encoder & Decoder</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Instantly convert special characters into web-safe URL formats (percent-encoding). Processed entirely offline for maximum privacy.</p>
+                </div>
+
+                <div class="glass" style="padding: 1.5rem;">
+                    
+                    <div class="toolbar">
+                        <button class="btn btn-primary" id="encode-btn" style="padding: 0.8rem 2rem; font-size: 1.1rem;">🔒 Encode URL</button>
+                        <button class="btn btn-primary" id="decode-btn" style="padding: 0.8rem 2rem; font-size: 1.1rem;">🔓 Decode URL</button>
+                        <div style="width: 1px; height: 30px; background: var(--border-glass); margin: 0 0.5rem;"></div>
+                        <button class="btn btn-outline" id="swap-btn" title="Swap Input and Output">🔄 Swap</button>
+                        <button class="btn btn-outline" id="clear-btn" style="color: #EF4444; border-color: rgba(239, 68, 68, 0.3);">🗑️ Clear All</button>
+                    </div>
+
+                    <div class="workspace-grid">
+                        
+                        <div class="editor-pane">
+                            <div class="editor-header">
+                                <span>Input Text / URL</span>
+                                <button class="btn btn-outline" id="paste-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem;">📋 Paste</button>
+                            </div>
+                            <textarea id="text-input" class="code-textarea" placeholder="Paste your raw URL, API endpoint, or text string here...
+
+Example: https://toolenix.com/search?query=hello world&user=123"></textarea>
+                        </div>
+
+                        <div class="editor-pane">
+                            <div class="editor-header">
+                                <span>Encoded / Decoded Output</span>
+                                <button class="btn btn-outline" id="copy-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem;">📄 Copy</button>
+                            </div>
+                            <textarea id="text-output" class="code-textarea" readonly placeholder="Your processed URL will appear here..."></textarea>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Comprehensive Guide to URL Encoding and Decoding</h2>
+                <p>The internet is built on links. Every time you submit a web form, click an affiliate link, or query an API database, a Uniform Resource Locator (URL) is transmitting that data to a server. However, the fundamental architecture of the internet strictly prohibits certain characters from being transmitted inside a URL. Spaces, ampersands, equals signs, and foreign characters will break a web link instantly. To transmit this data safely, developers must utilize <strong>URL Encoding</strong>.</p>
+                
+                <p>Welcome to the Toolenix URL Encoder and Decoder. We engineered this utility to provide a seamless, instantaneous way to translate special characters into internet-safe formats. More importantly, this tool operates strictly on the client-side. Whether you are encoding proprietary affiliate tracking structures or debugging secure API query parameters, your data never touches an external server. Let's delve into the mechanics of percent-encoding, why it is critical for digital marketers, and how to utilize this tool effectively.</p>
+
+                <h2>What is URL Encoding (Percent-Encoding)?</h2>
+                <p>URL Encoding, technically known as "percent-encoding," is a mechanism for encoding information into a Uniform Resource Identifier (URI). According to the foundational rules of the web (RFC 3986), URLs can only be sent over the internet using the ASCII character set.</p>
+                <p>If your URL contains characters outside of this safe, "unreserved" ASCII set, they must be converted. The conversion process takes the unsafe character, looks up its UTF-8 byte value, and replaces it with a percentage sign <code>%</code> followed by two hexadecimal digits. </p>
+                <ul>
+                    <li>A space becomes <code>%20</code>.</li>
+                    <li>An exclamation mark <code>!</code> becomes <code>%21</code>.</li>
+                    <li>An ampersand <code>&</code> becomes <code>%26</code>.</li>
+                </ul>
+                <p><strong>Decoding</strong> is simply the reverse process. It takes a messy string like <code>hello%20world%21</code> and translates it back to human-readable text: <code>hello world!</code>.</p>
+
+                <h2>Reserved vs. Unreserved Characters</h2>
+                <p>To understand when to use this tool, you must understand the difference between reserved and unreserved characters:</p>
+                <p><strong>Unreserved Characters:</strong> These characters never need to be encoded. They are safe to use anywhere in a URL. They include uppercase and lowercase English letters (A-Z, a-z), numbers (0-9), and four specific symbols: hyphens <code>-</code>, periods <code>.</code>, underscores <code>_</code>, and tildes <code>~</code>.</p>
+                <p><strong>Reserved Characters:</strong> These characters have special meaning to the web browser. For example, a question mark <code>?</code> tells the browser that a query string is starting. An equals sign <code>=</code> assigns a value to a parameter. If you actually want to transmit a question mark as a piece of text (rather than a structural command), you <em>must</em> encode it as <code>%3F</code>. If you don't, the server will misinterpret the URL and return a 400 Bad Request error or a 404 Not Found.</p>
+
+                <h2>Common Use Cases for Digital Professionals</h2>
+                <p>URL Encoding isn't just for software engineers. It is a daily necessity for various digital roles:</p>
+                <p><strong>1. Digital Marketing and UTM Tracking:</strong> When running Facebook Ads or Google Ads, marketers attach UTM parameters to the end of a URL to track campaign performance. If your campaign name is "Summer Sale 2026", putting spaces directly into the tracking link will break it. You must encode it to <code>Summer%20Sale%202026</code>.</p>
+                <p><strong>2. Affiliate Links:</strong> Affiliate networks often require partners to pass a destination URL as a parameter <em>inside</em> another URL (e.g., <code>https://affiliate.com?redirect=https://mysite.com</code>). Passing a raw URL inside a query string confuses the browser. The internal URL must be encoded to function properly.</p>
+                <p><strong>3. API Development:</strong> When developers build GET requests to fetch data from a server (like searching a database for a user named "O'Connor"), the apostrophe must be encoded (<code>O%27Connor</code>) to prevent SQL injection errors and parsing failures on the backend.</p>
+
+                <h2>The Security Reality of Client-Side Decoding</h2>
+                <p>If you search for a URL Decoder, you will find hundreds of free websites. However, pasting your links into a cloud-based server tool is highly problematic. URLs frequently contain highly sensitive authentication data. A URL might contain an active session token, a password reset hash, or customer email addresses passed via query strings.</p>
+                <p>Pasting that URL into a random server exposes your security tokens to their backend logs. <strong>Toolenix removes this vulnerability entirely.</strong> By leveraging your browser's native JavaScript functions (<code>encodeURIComponent</code>), our tool processes the strings locally in your RAM. Your proprietary URLs and API parameters are completely safe, never transmitted across the internet.</p>
+
+                <h2>Step-by-Step Guide: How to Use the Encoder</h2>
+                <p>Formatting your web strings is a frictionless process:</p>
+                <ol>
+                    <li><strong>Input the Data:</strong> Paste your raw text, broken URL, or messy API query into the left Input pane.</li>
+                    <li><strong>Encode:</strong> If you want to make text safe for the internet (e.g., turning spaces into `%20`), click the "🔒 Encode URL" button.</li>
+                    <li><strong>Decode:</strong> If you have an ugly, unreadable URL filled with percentage signs and want to read it normally, click the "🔓 Decode URL" button.</li>
+                    <li><strong>Swap:</strong> If you encoded a string but realize you need to make an edit, click the "🔄 Swap" button. This moves the output back to the input pane so you can modify it.</li>
+                    <li><strong>Copy to Clipboard:</strong> Click the "📄 Copy" button to securely save the processed string to your clipboard for deployment.</li>
+                </ol>
+
+                <h2>Frequently Asked Questions (FAQs)</h2>
+                
+                <h3>What is the difference between encodeURI and encodeURIComponent?</h3>
+                <p>This is a vital distinction for developers. In JavaScript, <code>encodeURI</code> is used for a full, complete URL. It ignores structural characters like <code>?</code>, <code>/</code>, and <code>&</code> so the link still works. Conversely, <code>encodeURIComponent</code> (which our tool utilizes) aggressively encodes <em>everything</em> except unreserved characters. It is intended for encoding a specific piece of data (a component) that will be placed <em>inside</em> a URL parameter.</p>
+
+                <h3>Will encoding fix a 404 Not Found error?</h3>
+                <p>If your 404 error is caused by a space or a special character breaking the URL before it reaches the server, then yes, encoding the URL correctly will fix the link. However, if the page simply doesn't exist on the server, encoding will not help.</p>
+
+                <h3>Are my API endpoints logged by this tool?</h3>
+                <p>Absolutely not. Because Toolenix utilizes strict client-side processing, the text you paste into the textarea is read and processed exclusively by your local web browser. No network requests are made to encode or decode your strings.</p>
+
+                <h2>Complementary Developer Utilities</h2>
+                <p>Continue optimizing your development workflow with our other offline tools:</p>
+                <ul>
+                    <li><a href="json-formatter.html"><strong>JSON Formatter:</strong></a> If your API returns a messy JSON payload rather than a URL string, use this to format and debug it securely.</li>
+                    <li><a href="base64-encoder.html"><strong>Base64 Encoder:</strong></a> Need to encode an image or a complex string of binary data for web transmission? Use our local Base64 tool.</li>
+                    <li><a href="hash-generator.html"><strong>Hash Generator:</strong></a> Generate MD5, SHA-1, and SHA-256 cryptographic hashes instantly offline.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Transmitting data safely across the web requires strict adherence to ASCII standards. By utilizing the Toolenix URL Encoder and Decoder, you gain access to an instantaneous, mathematically perfect translation engine. Protect your sensitive tracking tokens and API endpoints by avoiding cloud-based tools. Bookmark this page to ensure your web strings are always internet-ready and structurally sound.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputArea = document.getElementById('text-input');
+            const outputArea = document.getElementById('text-output');
+            
+            const encodeBtn = document.getElementById('encode-btn');
+            const decodeBtn = document.getElementById('decode-btn');
+            const swapBtn = document.getElementById('swap-btn');
+            const clearBtn = document.getElementById('clear-btn');
+            
+            const copyBtn = document.getElementById('copy-btn');
+            const pasteBtn = document.getElementById('paste-btn');
+
+            // Execution: Encode
+            encodeBtn.addEventListener('click', () => {
+                const text = inputArea.value;
+                if (!text) {
+                    if (window.showToast) window.showToast('Please enter text to encode.', 'error');
+                    return;
+                }
+                
+                try {
+                    // We use encodeURIComponent as it's the most robust for query parameters
+                    const encoded = encodeURIComponent(text);
+                    outputArea.value = encoded;
+                    if (window.showToast) window.showToast('URL successfully encoded!', 'success');
+                } catch (e) {
+                    if (window.showToast) window.showToast('An error occurred during encoding.', 'error');
+                }
+            });
+
+            // Execution: Decode
+            decodeBtn.addEventListener('click', () => {
+                const text = inputArea.value;
+                if (!text) {
+                    if (window.showToast) window.showToast('Please enter text to decode.', 'error');
+                    return;
+                }
+                
+                try {
+                    const decoded = decodeURIComponent(text);
+                    outputArea.value = decoded;
+                    if (window.showToast) window.showToast('URL successfully decoded!', 'success');
+                } catch (e) {
+                    // Usually throws URIError if malformed (e.g. % missing following hex)
+                    outputArea.value = "Error: Malformed URI sequence. The input is not valid percent-encoded data.";
+                    if (window.showToast) window.showToast('Failed to decode. Malformed sequence.', 'error');
+                }
+            });
+
+            // Swap Input/Output
+            swapBtn.addEventListener('click', () => {
+                const temp = inputArea.value;
+                inputArea.value = outputArea.value;
+                outputArea.value = temp;
+            });
+
+            // Clear All
+            clearBtn.addEventListener('click', () => {
+                inputArea.value = '';
+                outputArea.value = '';
+                inputArea.focus();
+            });
+
+            // Copy to Clipboard
+            copyBtn.addEventListener('click', () => {
+                if (!outputArea.value || outputArea.value.startsWith("Error:")) {
+                    if (window.showToast) window.showToast('Nothing valid to copy!', 'error');
+                    return;
+                }
+                
+                navigator.clipboard.writeText(outputArea.value).then(() => {
+                    if (window.showToast) window.showToast('Copied to clipboard!', 'success');
+                    
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✅ Copied!';
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy text: ', err);
+                });
+            });
+
+            // Paste from Clipboard
+            pasteBtn.addEventListener('click', async () => {
+                try {
+                    const text = await navigator.clipboard.readText();
+                    inputArea.value = text;
+                    if (window.showToast) window.showToast('Pasted from clipboard!', 'success');
+                } catch (err) {
+                    console.error('Failed to read clipboard contents: ', err);
+                    if (window.showToast) window.showToast('Please press Ctrl+V / Cmd+V to paste manually.', 'error');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

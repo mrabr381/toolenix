@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>SVG to PNG Converter - Convert Vector to Raster Free | Toolenix</title>
+    <meta name="title" content="SVG to PNG Converter - Convert Vector to Raster Free | Toolenix">
+    <meta name="description" content="Convert your SVG vector graphics into high-resolution PNG images instantly. Scale to any size without losing quality. 100% free and offline.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/svg-to-png.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/svg-to-png.html">
+    <meta property="og:title" content="SVG to PNG Converter - High-Res Export Offline">
+    <meta property="og:description" content="Export scalable vector graphics (SVG) into transparent PNGs at any custom resolution entirely in your browser.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/svg-to-png.html">
+    <meta property="twitter:title" content="SVG to PNG Converter - High-Res Export Offline">
+    <meta property="twitter:description" content="Export scalable vector graphics (SVG) into transparent PNGs at any custom resolution entirely in your browser.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix SVG to PNG Converter",
+      "operatingSystem": "All",
+      "applicationCategory": "DesignApplication",
+      "browserRequirements": "Requires a modern web browser with HTML5 Canvas support.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A secure client-side tool for developers and designers to rasterize Scalable Vector Graphics (SVG) into Portable Network Graphics (PNG) at custom dimensions."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Image Tools",
+        "item": "https://www.toolenix.com/#image-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "SVG to PNG Converter"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .upload-area {
+            border: 2px dashed var(--primary);
+            border-radius: 16px;
+            padding: 4rem 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: rgba(37, 99, 235, 0.05);
+            cursor: pointer;
+            margin-bottom: 2rem;
+        }
+        .upload-area:hover, .upload-area.dragover {
+            background: rgba(37, 99, 235, 0.1);
+            transform: translateY(-2px);
+            border-color: var(--secondary);
+        }
+        .hidden { display: none !important; }
+
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+            align-items: start;
+        }
+        
+        @media (max-width: 900px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Image Preview Area */
+        .preview-container {
+            background: rgba(0, 0, 0, 0.02);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .preview-image-wrapper {
+            background-image: 
+                linear-gradient(45deg, #e5e7eb 25%, transparent 25%), 
+                linear-gradient(-45deg, #e5e7eb 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #e5e7eb 75%), 
+                linear-gradient(-45deg, transparent 75%, #e5e7eb 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+            border: 1px solid var(--border-glass);
+            padding: 1rem;
+        }
+
+        .preview-image-wrapper img {
+            max-width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+        }
+
+        /* Controls Panel */
+        .controls-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .control-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 0.8rem;
+        }
+
+        .dimensions-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 0.5rem;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .dim-input-wrapper {
+            position: relative;
+        }
+
+        .dim-input-wrapper input {
+            width: 100%;
+            padding: 0.8rem;
+            padding-right: 2rem;
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            background: var(--bg-main);
+            color: var(--text-main);
+            font-size: 1rem;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .dim-input-wrapper input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .dim-label {
+            position: absolute;
+            right: 0.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            pointer-events: none;
+        }
+
+        .lock-btn {
+            background: rgba(37, 99, 235, 0.1);
+            border: none;
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+        }
+
+        .lock-btn:hover {
+            background: var(--primary);
+            color: #ffffff;
+        }
+        
+        .lock-btn.unlocked {
+            background: rgba(100, 116, 139, 0.1);
+            color: var(--text-muted);
+        }
+
+        .presets-flex {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .preset-btn {
+            background: var(--bg-main);
+            border: 1px solid var(--border-glass);
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .preset-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#image-tools">Image Tools</a> &gt; SVG to PNG Converter
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 1100px;">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">SVG to PNG Converter</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Rasterize vector graphics into transparent PNGs at any resolution. 100% offline and secure.</p>
+                </div>
+
+                <div class="glass" style="padding: 2rem;">
+                    
+                    <div id="upload-state" class="upload-area">
+                        <input type="file" id="image-input" accept="image/svg+xml" class="hidden">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">💠</div>
+                        <h3 style="margin-bottom: 0.5rem;">Drag & drop your SVG file here</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Or click to browse your files</p>
+                        <button class="btn btn-primary" onclick="document.getElementById('image-input').click()">Select SVG File</button>
+                    </div>
+
+                    <div id="processing-state" class="hidden">
+                        <div class="workspace-grid">
+                            
+                            <div class="preview-container">
+                                <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;" id="filename-display">image.svg</h3>
+                                <div class="preview-image-wrapper">
+                                    <img id="image-preview" src="" alt="SVG Preview">
+                                </div>
+                                <p style="font-size: 0.85rem; color: var(--text-muted);">Preview is scaled. The exported PNG will be generated at your chosen dimensions.</p>
+                            </div>
+
+                            <div class="controls-panel">
+                                
+                                <div class="control-group">
+                                    <label>Export Dimensions (Resolution)</label>
+                                    <div class="dimensions-grid">
+                                        <div class="dim-input-wrapper">
+                                            <input type="number" id="input-width" min="1" placeholder="Width">
+                                            <span class="dim-label">px</span>
+                                        </div>
+                                        
+                                        <button class="lock-btn" id="lock-ratio-btn" title="Toggle Aspect Ratio Lock">🔒</button>
+                                        
+                                        <div class="dim-input-wrapper">
+                                            <input type="number" id="input-height" min="1" placeholder="Height">
+                                            <span class="dim-label">px</span>
+                                        </div>
+                                    </div>
+                                    <small style="display: block; margin-bottom: 1rem; color: var(--text-muted); font-size: 0.8rem;">
+                                        Because SVG is vector-based, you can scale it up massively (e.g., 4000px) without losing any visual quality.
+                                    </small>
+
+                                    <div class="presets-flex">
+                                        <button class="preset-btn" data-scale="1">1x (Original)</button>
+                                        <button class="preset-btn" data-scale="2">2x (High Res)</button>
+                                        <button class="preset-btn" data-scale="4">4x (Ultra Res)</button>
+                                        <button class="preset-btn" data-width="1920">1080p Web</button>
+                                        <button class="preset-btn" data-width="512">512px Icon</button>
+                                    </div>
+                                </div>
+
+                                <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem;">
+                                    <button class="btn btn-primary" id="download-btn">⬇️ Download Transparent PNG</button>
+                                    <button class="btn btn-outline" id="reset-btn">Convert Another SVG</button>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Ultimate Guide to Converting SVG Vectors to PNG Images</h2>
+                <p>Digital images generally fall into two distinct categories: Raster and Vector. Formats like JPG and PNG are raster graphics; they are made of a fixed grid of colored squares called pixels. If you take a 100-pixel JPG icon and stretch it to fit a 4K television screen, the image will become a blurry, pixelated mess. <strong>SVG (Scalable Vector Graphics)</strong> solves this problem completely. Instead of pixels, SVGs use mathematical equations to draw lines and shapes. You can scale an SVG infinitely without ever losing a drop of visual quality.</p>
+                
+                <p>However, despite the brilliance of SVG technology, it is not universally supported. Many social media platforms, email marketing clients, and legacy software systems strictly require standard raster images like PNG. To use your crisp vector logos and illustrations across the entire digital ecosystem, you must use an <strong>SVG to PNG Converter</strong>. Toolenix offers a highly specialized, client-side utility that rasterizes your vectors flawlessly, giving you total control over the output resolution.</p>
+
+                <h2>Why Convert SVG to PNG Specifically?</h2>
+                <p>If you need to rasterize an SVG, why choose PNG over JPG? The answer lies in <strong>Transparency</strong>.</p>
+                <p>Most vector graphics—such as corporate logos, UI icons, and illustrations—do not have a solid background. They are designed to "float" above whatever background color your website or presentation uses. The JPG format mathematically does not support transparency (alpha channels). If you convert an SVG logo into a JPG, the transparent areas will automatically fill with solid white or black.</p>
+                <p>The <strong>PNG format is lossless and supports full alpha transparency</strong>. By converting your SVG specifically to PNG, you maintain the crisp, razor-sharp edges of your vector artwork while preserving the transparent background perfectly. This allows you to paste the resulting image over colored backgrounds in software like Photoshop or PowerPoint without any ugly white boxes.</p>
+
+                <h2>The Power of Custom Resolution Scaling</h2>
+                <p>When you download an SVG from a stock graphic website, the internal code might define its "base size" as 150x150 pixels. If you simply convert that file at 1x scale, you will receive a tiny 150-pixel PNG.</p>
+                <p>The Toolenix utility leverages the mathematical nature of SVGs. Because vectors have no fixed resolution, you can type "4000" into our Width input box. Our HTML5 Canvas engine will redraw the mathematical equations at 4000 pixels wide and output a massive, ultra-high-definition PNG file. There will be absolutely no blurriness or pixelation. You can scale tiny web icons into massive billboard-ready graphics instantly.</p>
+
+                <h2>The Privacy Guarantee: Why Offline Rendering Matters</h2>
+                <p>Many graphic designers and frontend developers rely on cloud-based web tools for image conversion. If you are converting a proprietary corporate logo, an unreleased UI design, or confidential architectural vectors, uploading that SVG to an unknown server is a severe breach of data privacy. Cloud servers can cache, analyze, or even steal your intellectual property.</p>
+                <p><strong>Toolenix completely eliminates this risk through Local Browser Rendering.</strong> We utilize your browser's native capabilities to draw the SVG onto an invisible HTML5 Canvas in your local RAM. The conversion and pixel rasterization happen on your own CPU. Your vectors never touch the internet. You receive the power of professional desktop design software wrapped in a free, instant web interface.</p>
+
+                <h2>Step-by-Step Guide: How to Rasterize an SVG</h2>
+                <p>Generating the perfect PNG takes only a few clicks:</p>
+                <ol>
+                    <li><strong>Upload the SVG:</strong> Drag and drop your `.svg` file into the dashed workspace. The tool will instantly parse the XML code and display a visual preview.</li>
+                    <li><strong>Set the Dimensions:</strong> By default, the input boxes will display the SVG's native base size. If you need a high-resolution export, type a larger number into the Width box. The Aspect Ratio Lock ensures the height adjusts automatically so your image doesn't stretch.</li>
+                    <li><strong>Use Presets (Optional):</strong> Click the "2x" or "4x" preset buttons to instantly double or quadruple the native resolution of your graphic.</li>
+                    <li><strong>Download:</strong> Click the blue "Download Transparent PNG" button. The local script will render the canvas and save the crisp, new image directly to your device.</li>
+                </ol>
+
+                <h2>Frequently Asked Questions (FAQs)</h2>
+                
+                <h3>Why did my SVG preview fail to load?</h3>
+                <p>An SVG is essentially an XML code document. If the file was poorly generated or contains external linked assets (like an embedded image URL that is currently broken), the browser's security policies may block it from rendering on the canvas. Ensure your SVG relies strictly on embedded paths and shapes.</p>
+
+                <h3>Will the resulting PNG have a smaller file size than the SVG?</h3>
+                <p>Usually, no. Because SVGs are just lines of math code, their file sizes are incredibly small (often under 10KB). A high-resolution PNG is a grid containing millions of individual pixels, meaning the file size will almost always be significantly larger than the source SVG.</p>
+
+                <h3>Can I convert an SVG into a JPG using this tool?</h3>
+                <p>This specific utility is hardcoded to export PNGs to guarantee that your vector's transparency is preserved. If you absolutely need a JPG (and don't mind losing transparency), you can take the PNG generated by this tool and run it through our <a href="webp-converter.html">Image Converter</a>.</p>
+
+                <h2>Complementary Image Utilities</h2>
+                <p>Complete your graphic design workflow with our other free local tools:</p>
+                <ul>
+                    <li><a href="image-compressor.html"><strong>Image Compressor:</strong></a> If your newly generated high-resolution PNG is too heavy for your website, run it through our compressor to shrink the file weight.</li>
+                    <li><a href="color-converter.html"><strong>Color Converter:</strong></a> Extract the exact HEX or RGB colors from your graphic to use in your CSS stylesheets.</li>
+                    <li><a href="png-to-pdf.html"><strong>PNG to PDF:</strong></a> Compile your new transparent graphics into a multi-page PDF presentation for a client.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Vector graphics are the future of digital design, but raster formats are still required for practical distribution. By utilizing the Toolenix SVG to PNG Converter, you gain the ability to generate perfectly sharp, high-definition raster images at any scale you desire. Protect your proprietary designs by keeping your workflow entirely offline. Bookmark this page and ensure your graphics are always universally compatible.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const uploadArea = document.getElementById('upload-state');
+            const fileInput = document.getElementById('image-input');
+            const processingState = document.getElementById('processing-state');
+            
+            const filenameDisplay = document.getElementById('filename-display');
+            const imagePreview = document.getElementById('image-preview');
+            
+            const widthInput = document.getElementById('input-width');
+            const heightInput = document.getElementById('input-height');
+            const lockBtn = document.getElementById('lock-ratio-btn');
+            const presetBtns = document.querySelectorAll('.preset-btn');
+            
+            const downloadBtn = document.getElementById('download-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            
+            let originalImage = new Image();
+            let currentFileName = "";
+            let originalRatio = 1;
+            let baseWidth = 300; // Fallback
+            let baseHeight = 300; // Fallback
+            let isRatioLocked = true;
+
+            // Drag and Drop
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaultBehavior, false);
+            });
+
+            function preventDefaultBehavior(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.add('dragover'), false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.remove('dragover'), false);
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                handleFileSelection(e.dataTransfer.files[0]);
+            });
+
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) handleFileSelection(this.files[0]);
+            });
+
+            function handleFileSelection(file) {
+                if (!file || file.type !== 'image/svg+xml') {
+                    if (window.showToast) window.showToast('Please provide a valid SVG file.', 'error');
+                    return;
+                }
+                
+                currentFileName = file.name.replace(/\.[^/.]+$/, "");
+                filenameDisplay.textContent = file.name;
+                
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const svgData = e.target.result;
+                    
+                    // Attempt to parse width/height from SVG XML to get true base size
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(svgData, "image/svg+xml");
+                    const svgElement = doc.documentElement;
+                    
+                    let w = svgElement.getAttribute('width');
+                    let h = svgElement.getAttribute('height');
+                    const viewBox = svgElement.getAttribute('viewBox');
+                    
+                    if (w && h && !w.includes('%') && !h.includes('%')) {
+                        baseWidth = parseFloat(w);
+                        baseHeight = parseFloat(h);
+                    } else if (viewBox) {
+                        const vbParts = viewBox.split(/\s+|,/);
+                        if (vbParts.length >= 4) {
+                            baseWidth = parseFloat(vbParts[2]);
+                            baseHeight = parseFloat(vbParts[3]);
+                        }
+                    }
+
+                    // Fallbacks if SVG is completely responsive/fluid
+                    if (!baseWidth || isNaN(baseWidth)) baseWidth = 500;
+                    if (!baseHeight || isNaN(baseHeight)) baseHeight = 500;
+
+                    originalRatio = baseWidth / baseHeight;
+                    
+                    // Load image for rendering
+                    // Using Blob URL is safer for canvas tainting rules than pure data URL for SVGs
+                    const blob = new Blob([svgData], {type: 'image/svg+xml;charset=utf-8'});
+                    const blobUrl = URL.createObjectURL(blob);
+                    
+                    originalImage.onload = () => {
+                        widthInput.value = Math.round(baseWidth);
+                        heightInput.value = Math.round(baseHeight);
+                        
+                        imagePreview.src = blobUrl;
+                        
+                        uploadArea.classList.add('hidden');
+                        processingState.classList.remove('hidden');
+                    };
+                    
+                    originalImage.onerror = () => {
+                        if (window.showToast) window.showToast('Failed to render SVG. The file may be corrupted.', 'error');
+                        resetWorkspace();
+                    };
+                    
+                    originalImage.src = blobUrl;
+                };
+                reader.readAsText(file);
+            }
+
+            // Aspect Ratio Lock
+            lockBtn.addEventListener('click', () => {
+                isRatioLocked = !isRatioLocked;
+                if (isRatioLocked) {
+                    lockBtn.innerHTML = '🔒';
+                    lockBtn.classList.remove('unlocked');
+                    if (widthInput.value) {
+                        heightInput.value = Math.max(1, Math.round(widthInput.value / originalRatio));
+                    }
+                } else {
+                    lockBtn.innerHTML = '🔓';
+                    lockBtn.classList.add('unlocked');
+                }
+            });
+
+            widthInput.addEventListener('input', () => {
+                if (isRatioLocked && widthInput.value) {
+                    heightInput.value = Math.max(1, Math.round(widthInput.value / originalRatio));
+                }
+            });
+
+            heightInput.addEventListener('input', () => {
+                if (isRatioLocked && heightInput.value) {
+                    widthInput.value = Math.max(1, Math.round(heightInput.value * originalRatio));
+                }
+            });
+
+            // Presets
+            presetBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (btn.dataset.scale) {
+                        const multiplier = parseFloat(btn.dataset.scale);
+                        widthInput.value = Math.round(baseWidth * multiplier);
+                        heightInput.value = Math.round(baseHeight * multiplier);
+                        if(window.showToast) window.showToast(`Scaled to ${multiplier}x resolution.`, 'success');
+                    } else if (btn.dataset.width) {
+                        const targetWidth = parseFloat(btn.dataset.width);
+                        widthInput.value = targetWidth;
+                        if (isRatioLocked) {
+                            heightInput.value = Math.max(1, Math.round(targetWidth / originalRatio));
+                        }
+                        if(window.showToast) window.showToast(`Width set to ${targetWidth}px.`, 'success');
+                    }
+                });
+            });
+
+            // Render and Download
+            downloadBtn.addEventListener('click', () => {
+                const finalWidth = parseInt(widthInput.value);
+                const finalHeight = parseInt(heightInput.value);
+                
+                if (!finalWidth || !finalHeight || finalWidth < 1 || finalHeight < 1) {
+                    if (window.showToast) window.showToast('Please enter valid dimensions.', 'error');
+                    return;
+                }
+
+                downloadBtn.textContent = "Rendering...";
+                downloadBtn.disabled = true;
+
+                setTimeout(() => {
+                    try {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        
+                        canvas.width = finalWidth;
+                        canvas.height = finalHeight;
+                        
+                        // Draw SVG to canvas at new scale
+                        ctx.drawImage(originalImage, 0, 0, finalWidth, finalHeight);
+                        
+                        const pngDataUrl = canvas.toDataURL('image/png');
+                        
+                        const link = document.createElement('a');
+                        link.download = `${currentFileName}_${finalWidth}x${finalHeight}.png`;
+                        link.href = pngDataUrl;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        
+                        if (window.showToast) window.showToast('High-Res PNG downloaded!', 'success');
+                    } catch (err) {
+                        console.error("Canvas export error: ", err);
+                        if (window.showToast) window.showToast('Failed to export. The SVG might contain restricted external assets.', 'error');
+                    } finally {
+                        downloadBtn.textContent = "⬇️ Download Transparent PNG";
+                        downloadBtn.disabled = false;
+                    }
+                }, 100);
+            });
+
+            function resetWorkspace() {
+                originalImage = new Image();
+                currentFileName = "";
+                
+                fileInput.value = '';
+                if(imagePreview.src) URL.revokeObjectURL(imagePreview.src);
+                imagePreview.src = '';
+                widthInput.value = '';
+                heightInput.value = '';
+                
+                isRatioLocked = true;
+                lockBtn.innerHTML = '🔒';
+                lockBtn.classList.remove('unlocked');
+                
+                processingState.classList.add('hidden');
+                uploadArea.classList.remove('hidden');
+            }
+
+            resetBtn.addEventListener('click', resetWorkspace);
+        });
+    </script>
+</body>
+</html>

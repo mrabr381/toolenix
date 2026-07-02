@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>Age Calculator - Calculate Exact Age Online Free | Toolenix</title>
+    <meta name="title" content="Age Calculator - Calculate Exact Age Online Free | Toolenix">
+    <meta name="description" content="Calculate your exact age in years, months, and days instantly. 100% free, private, and offline age calculator for forms and applications.">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.toolenix.com/age-calculator.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/age-calculator.html">
+    <meta property="og:title" content="Age Calculator - Find Your Exact Age">
+    <meta property="og:description" content="Calculate your exact age down to the days and find out exactly how long until your next birthday.">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/age-calculator.html">
+    <meta property="twitter:title" content="Age Calculator - Find Your Exact Age">
+    <meta property="twitter:description" content="Calculate your exact age down to the days and find out exactly how long until your next birthday.">
+    
+    <!-- Assets -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <!-- Schema.org for SoftwareApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix Age Calculator",
+      "operatingSystem": "All",
+      "applicationCategory": "UtilitiesApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A client-side utility for instantly calculating exact chronological age in years, months, and days, along with a countdown to the next birthday."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Calculators",
+        "item": "https://www.toolenix.com/#calculators"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Age Calculator"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .calc-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 600px) {
+            .input-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .input-group label {
+            font-weight: 600;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        .date-input {
+            width: 100%;
+            padding: 1rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            font-size: 1.1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .date-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Results Box */
+        .results-box {
+            background: rgba(37, 99, 235, 0.03);
+            border: 1px solid rgba(37, 99, 235, 0.1);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .primary-result {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .secondary-result {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            border-top: 1px solid var(--border-glass);
+            padding-top: 1.5rem;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <!-- Breadcrumbs -->
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#calculators">Everyday Calculators</a> &gt; Age Calculator
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <!-- Tool Interface -->
+        <section style="padding: 3rem 0;">
+            <div class="container">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">Age Calculator</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Calculate your exact age in years, months, and days perfectly instantly and 100% offline.</p>
+                </div>
+
+                <div class="calc-wrapper">
+                    
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label for="dob">Date of Birth</label>
+                            <input type="date" id="dob" class="date-input">
+                        </div>
+                        <div class="input-group">
+                            <label for="target-date">Calculate age at the date of</label>
+                            <input type="date" id="target-date" class="date-input">
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" id="calc-btn" style="width: 100%; margin-bottom: 2rem; padding: 1rem; font-size: 1.1rem;">⏱️ Calculate Exact Age</button>
+
+                    <div class="results-box">
+                        <div class="primary-result" id="res-years">- Years</div>
+                        <div class="secondary-result" id="res-exact">- Months, - Days</div>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-label">Total Months</span>
+                                <span class="stat-value" id="stat-months">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Total Days</span>
+                                <span class="stat-value" id="stat-days">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Next Birthday</span>
+                                <span class="stat-value" id="stat-next" style="color: #10B981;">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Deep SEO Editorial Section -->
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>Why Do You Need an Exact Age Calculator?</h2>
+                <p>Calculating your age seems simple enough—you just subtract your birth year from the current year. However, chronological time tracking is surprisingly complex. Because months have varying lengths (28, 30, or 31 days) and leap years add an extra day to February every four years, calculating your precise age down to the days requires complex calendar mathematics.</p>
+                
+                <p>Welcome to the Toolenix Age Calculator. We engineered this offline utility to provide flawless chronological calculations. Whether you are filling out official government forms, applying for a life insurance policy, or checking your eligibility for a competitive exam, providing your exact age in "Years, Months, and Days" is a strict requirement. This tool solves the math for you instantly.</p>
+
+                <h2>Common Uses for the Age Calculator</h2>
+                
+                <h3>1. Official Forms and Applications</h3>
+                <p>Many government applications, passport renewals, and university admissions require you to state your age exactly as of a specific cutoff date (e.g., "Age as of January 1st"). Our tool allows you to change the "Calculate age at the date of" input, ensuring you provide legally accurate information without stressing over calendar math.</p>
+
+                <h3>2. Pediatric and Medical Tracking</h3>
+                <p>For the first few years of a child's life, age is tracked heavily in months and days to monitor developmental milestones. A pediatrician will often ask for an infant's age in exact weeks or days. The Toolenix calculator instantly breaks down the total lifespan into months and days to help parents accurately track growth.</p>
+
+                <h3>3. Event Planning and Countdowns</h3>
+                <p>Are you planning a milestone 18th, 30th, or 50th birthday party? Our calculator doesn't just look backwards; it also looks forwards. It calculates exactly how many months and days are left until the next birthday, helping you plan celebrations with precision.</p>
+
+                <h2>How the Calculation Algorithm Works</h2>
+                <p>Our utility uses the JavaScript <code>Date</code> object to process time in milliseconds, ensuring perfect accuracy. When calculating the difference between two dates:</p>
+                <ul>
+                    <li>The algorithm first subtracts the years.</li>
+                    <li>If the current month is earlier than the birth month (or if it's the same month but an earlier day), it correctly deducts one full year.</li>
+                    <li>It then calculates the remaining months by wrapping around the 12-month calendar.</li>
+                    <li>Finally, it calculates the exact remaining days by determining exactly how many days were in the previous calendar month, accounting flawlessly for Leap Years.</li>
+                </ul>
+
+                <h2>The Importance of Client-Side Privacy</h2>
+                <p>Your Date of Birth (DOB) is considered Personally Identifiable Information (PII). It is frequently used as a security question for banking applications and password resets. Typing your DOB into a random, cloud-based calculator exposes you to data harvesting and potential identity theft.</p>
+                <p><strong>Toolenix guarantees your data remains on your device.</strong> This calculator operates entirely within your browser's local sandbox. The JavaScript executes on your personal CPU, and the date you enter is never transmitted across the internet. You receive mathematically perfect calculations with absolute privacy.</p>
+
+                <h2>Complementary Everyday Utilities</h2>
+                <p>Enhance your daily productivity with our other secure, offline tools:</p>
+                <ul>
+                    <li><a href="percentage-calculator.html"><strong>Percentage Calculator:</strong></a> Instantly figure out discounts, taxes, and profit margins.</li>
+                    <li><a href="unit-converter.html"><strong>Unit Converter:</strong></a> Seamlessly translate measurements between Metric and Imperial systems.</li>
+                    <li><a href="password-generator.html"><strong>Password Generator:</strong></a> Secure your online accounts with cryptographically strong, random passwords.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Don't risk making mathematical errors on important legal documents or insurance forms. By utilizing the Toolenix Age Calculator, you gain access to an instantaneous, precise calendar engine that operates entirely offline. Protect your Personally Identifiable Information, get accurate chronological breakdowns, and bookmark this tool for quick access whenever you need it.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <!-- Tool Execution Code -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dobInput = document.getElementById('dob');
+            const targetInput = document.getElementById('target-date');
+            const calcBtn = document.getElementById('calc-btn');
+            
+            const resYears = document.getElementById('res-years');
+            const resExact = document.getElementById('res-exact');
+            const statMonths = document.getElementById('stat-months');
+            const statDays = document.getElementById('stat-days');
+            const statNext = document.getElementById('stat-next');
+
+            // Set default target date to today
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            targetInput.value = `${yyyy}-${mm}-${dd}`;
+
+            function calculateAge() {
+                if (!dobInput.value || !targetInput.value) {
+                    if (window.showToast) window.showToast('Please select both dates.', 'error');
+                    return;
+                }
+
+                const d1 = new Date(dobInput.value);
+                const d2 = new Date(targetInput.value);
+
+                if (d1 > d2) {
+                    if (window.showToast) window.showToast('Date of Birth cannot be after the Target Date!', 'error');
+                    return;
+                }
+
+                // 1. Calculate Exact Age (Years, Months, Days)
+                let years = d2.getFullYear() - d1.getFullYear();
+                let months = d2.getMonth() - d1.getMonth();
+                let days = d2.getDate() - d1.getDate();
+
+                if (days < 0) {
+                    months--;
+                    // Get days in previous month of the target date
+                    const previousMonth = new Date(d2.getFullYear(), d2.getMonth(), 0);
+                    days += previousMonth.getDate();
+                }
+
+                if (months < 0) {
+                    years--;
+                    months += 12;
+                }
+
+                // 2. Calculate Totals
+                const diffTime = Math.abs(d2 - d1);
+                const totalDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                const totalMonths = (years * 12) + months;
+
+                // 3. Calculate Next Birthday
+                let nextBday = new Date(d1);
+                nextBday.setFullYear(d2.getFullYear());
+                
+                // If birthday has already passed this year, next one is next year
+                if (nextBday < d2) {
+                    nextBday.setFullYear(d2.getFullYear() + 1);
+                }
+
+                const timeToNext = nextBday - d2;
+                const daysToNext = Math.ceil(timeToNext / (1000 * 60 * 60 * 24));
+
+                // Update UI
+                resYears.textContent = `${years} Years`;
+                resExact.textContent = `${months} Months, ${days} Days`;
+                
+                statMonths.textContent = totalMonths.toLocaleString();
+                statDays.textContent = totalDays.toLocaleString();
+                
+                if (daysToNext === 0) {
+                    statNext.textContent = 'Today! 🎉';
+                } else if (daysToNext === 365 || daysToNext === 366) {
+                     statNext.textContent = 'Today! 🎉';
+                } else {
+                    statNext.textContent = `${daysToNext} Days`;
+                }
+
+                if (window.showToast) window.showToast('Age calculated successfully!', 'success');
+            }
+
+            // Calculate automatically on change, or by button click
+            calcBtn.addEventListener('click', calculateAge);
+            dobInput.addEventListener('change', () => {
+                if(dobInput.value && targetInput.value) calculateAge();
+            });
+            targetInput.addEventListener('change', () => {
+                if(dobInput.value && targetInput.value) calculateAge();
+            });
+        });
+    </script>
+</body>
+</html>

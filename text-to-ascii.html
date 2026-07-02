@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Text to ASCII / Hex Translator - Free String Encoder | Toolenix</title>
+    <meta name="title" content="Text to ASCII / Hex Translator - Free String Encoder | Toolenix">
+    <meta name="description" content="Instantly convert plain text into ASCII decimal values or Hexadecimal strings. A 100% free, offline utility for computer science students and developers.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/text-to-ascii.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/text-to-ascii.html">
+    <meta property="og:title" content="Text to ASCII & Hex Translator">
+    <meta property="og:description" content="Easily encode and decode text strings to ASCII or Hexadecimal formats locally in your browser.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/text-to-ascii.html">
+    <meta property="twitter:title" content="Text to ASCII & Hex Translator">
+    <meta property="twitter:description" content="Easily encode and decode text strings to ASCII or Hexadecimal formats locally in your browser.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix Text to ASCII Hex Translator",
+      "operatingSystem": "All",
+      "applicationCategory": "UtilitiesApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A client-side utility for encoding and decoding plain text into ASCII decimals and Hexadecimal (Base-16) values."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Calculators & Utilities",
+        "item": "https://www.toolenix.com/#calculators"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Text to ASCII / Hex"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .controls-bar {
+            display: flex;
+            gap: 1rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow-soft);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .radio-group {
+            display: flex;
+            background: var(--bg-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .radio-label {
+            padding: 0.8rem 1.5rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            border-right: 1px solid var(--border-glass);
+        }
+        
+        .radio-label:last-child {
+            border-right: none;
+        }
+
+        .radio-input {
+            display: none;
+        }
+
+        .radio-input:checked + .radio-label {
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        .editor-pane {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            background: var(--card-bg);
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: rgba(37, 99, 235, 0.05);
+            border-bottom: 1px solid var(--border-glass);
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .text-area {
+            width: 100%;
+            height: 200px;
+            padding: 1.5rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: none;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            resize: vertical;
+            outline: none;
+        }
+
+        .text-area:focus {
+            box-shadow: inset 0 0 0 2px rgba(37, 99, 235, 0.1);
+        }
+
+        .output-area {
+            background: rgba(0, 0, 0, 0.01);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Status Bar */
+        .status-bar {
+            text-align: center;
+            color: #EF4444;
+            font-weight: 600;
+            padding: 1rem;
+            background: rgba(239, 68, 68, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            display: none;
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#calculators">Everyday Utilities</a> &gt; Text to ASCII / Hex
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">Text to ASCII / Hex Translator</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Instantly encode and decode strings between Plain Text, ASCII Decimal, and Hexadecimal.</p>
+                </div>
+
+                <div class="workspace-grid">
+                    
+                    <div class="controls-bar">
+                        <div class="radio-group">
+                            <input type="radio" id="m-text-ascii" name="trans-mode" class="radio-input" value="textToAscii" checked>
+                            <label for="m-text-ascii" class="radio-label">Text to ASCII</label>
+                            
+                            <input type="radio" id="m-text-hex" name="trans-mode" class="radio-input" value="textToHex">
+                            <label for="m-text-hex" class="radio-label">Text to Hex</label>
+                            
+                            <input type="radio" id="m-ascii-text" name="trans-mode" class="radio-input" value="asciiToText">
+                            <label for="m-ascii-text" class="radio-label">ASCII to Text</label>
+                            
+                            <input type="radio" id="m-hex-text" name="trans-mode" class="radio-input" value="hexToText">
+                            <label for="m-hex-text" class="radio-label">Hex to Text</label>
+                        </div>
+                    </div>
+
+                    <div id="status-bar" class="status-bar">Invalid input format.</div>
+
+                    <div class="editor-pane">
+                        <div class="editor-header">
+                            <span id="input-title">Input (Plain Text)</span>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="btn btn-outline" id="paste-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem;">📋 Paste</button>
+                                <button class="btn btn-outline" id="clear-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem; color: #EF4444; border-color: rgba(239, 68, 68, 0.3);">🗑️ Clear</button>
+                            </div>
+                        </div>
+                        <textarea id="main-input" class="text-area" placeholder="Type your text here..."></textarea>
+                    </div>
+
+                    <div class="editor-pane">
+                        <div class="editor-header">
+                            <span id="output-title" style="color: var(--primary);">Output (ASCII Decimal)</span>
+                            <button class="btn btn-primary" id="copy-btn" style="padding: 0.2rem 0.8rem; font-size: 0.85rem;">📄 Copy Result</button>
+                        </div>
+                        <textarea id="main-output" class="text-area output-area" readonly placeholder="Translated code will appear here..."></textarea>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>Understanding ASCII and Hexadecimal Encoding</h2>
+                <p>Computers do not natively understand English letters, punctuation marks, or emojis. At their core, microprocessors only process numbers. To bridge the gap between human language and computer memory, scientists created standardized character encoding systems. The most fundamental and widely used encoding system in computing history is <strong>ASCII</strong>.</p>
+                
+                <p>Welcome to the Toolenix Text Translator. We built this utility for computer science students, database administrators, and software developers who need to quickly manually encode or decode strings of data into their underlying mathematical representations without writing custom scripts.</p>
+
+                <h2>What is ASCII?</h2>
+                <p>ASCII stands for the <em>American Standard Code for Information Interchange</em>. It is a character-encoding standard that assigns a specific, unique decimal number to 128 different characters (including the English alphabet, numbers 0-9, and punctuation marks).</p>
+                <ul>
+                    <li>The capital letter <strong>'A'</strong> is represented by the decimal number <strong>65</strong>.</li>
+                    <li>The lowercase letter <strong>'a'</strong> is represented by the decimal number <strong>97</strong>.</li>
+                    <li>A standard <strong>Space</strong> is represented by <strong>32</strong>.</li>
+                </ul>
+                <p>When you type "Hello" into our translator under the "Text to ASCII" mode, the JavaScript engine iterates through each letter, references the ASCII table via the <code>charCodeAt()</code> function, and outputs the space-separated decimals: <code>72 101 108 108 111</code>.</p>
+
+                <h2>What is Hexadecimal (Base-16)?</h2>
+                <p>While decimals (Base-10) are easy for humans to read, they are highly inefficient for computers to process when dealing with massive amounts of binary data. To compress data representation, programmers use <strong>Hexadecimal (Hex)</strong>.</p>
+                <p>Hex is a Base-16 numbering system. It uses sixteen distinct symbols: the numbers <strong>0-9</strong> to represent values zero to nine, and the letters <strong>A-F</strong> to represent values ten to fifteen. Because one Hex digit can represent exactly four binary bits (a nibble), it is the standard language used in memory addresses, MAC addresses, and web color codes.</p>
+                <p>Using our tool to translate "Hello" into Hex yields: <code>48 65 6c 6c 6f</code>. This format is widely used by network engineers when inspecting data packets via tools like Wireshark.</p>
+
+                <h2>The Importance of Client-Side Decoding</h2>
+                <p>If you are analyzing a corrupted database entry, inspecting a suspicious network payload, or trying to decode a proprietary software key, pasting that Hex string into a cloud-based converter is a massive security risk. Third-party servers can easily log and reconstruct your confidential payloads.</p>
+                <p><strong>Toolenix ensures your data remains strictly private.</strong> Our encoding and decoding algorithms are written in Vanilla JavaScript and execute entirely within the sandbox of your web browser. The conversions happen directly on your local CPU. You can confidently decode sensitive Hex payloads without worrying about data leakage or internet transmission.</p>
+
+                <h2>Complementary Computer Science Tools</h2>
+                <p>Expand your programming and debugging capabilities with our other offline utilities:</p>
+                <ul>
+                    <li><a href="binary-to-text.html"><strong>Binary Translator:</strong></a> Take your ASCII translation one step deeper by converting text entirely into raw 0s and 1s.</li>
+                    <li><a href="base64-encoder-decoder.html"><strong>Base64 Encoder:</strong></a> Convert text strings into a safe ASCII string format used for transmitting data through XML or JSON REST APIs.</li>
+                    <li><a href="password-strength-checker.html"><strong>Password Checker:</strong></a> Ensure your alphanumeric strings are cryptographically secure against brute-force dictionary attacks.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Understanding underlying data structures shouldn't require complex command-line scripts. By utilizing the Toolenix ASCII and Hex Translator, you gain access to an instantaneous, offline encoding engine that perfectly interprets standard character schemas. Bookmark this page to streamline your networking, database, and debugging tasks today.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            const mainInput = document.getElementById('main-input');
+            const mainOutput = document.getElementById('main-output');
+            const radios = document.querySelectorAll('.radio-input');
+            
+            const inputTitle = document.getElementById('input-title');
+            const outputTitle = document.getElementById('output-title');
+            const statusBar = document.getElementById('status-bar');
+            
+            const copyBtn = document.getElementById('copy-btn');
+            const clearBtn = document.getElementById('clear-btn');
+            const pasteBtn = document.getElementById('paste-btn');
+
+            let currentMode = 'textToAscii';
+
+            // --- Conversion Logic ---
+
+            function textToAscii(text) {
+                return text.split('').map(char => char.charCodeAt(0)).join(' ');
+            }
+
+            function textToHex(text) {
+                return text.split('').map(char => char.charCodeAt(0).toString(16).padStart(2, '0')).join(' ');
+            }
+
+            function asciiToText(asciiStr) {
+                const arr = asciiStr.trim().split(/\s+/);
+                let result = '';
+                for (let i = 0; i < arr.length; i++) {
+                    const num = parseInt(arr[i], 10);
+                    if (isNaN(num)) throw new Error('Invalid ASCII');
+                    result += String.fromCharCode(num);
+                }
+                return result;
+            }
+
+            function hexToText(hexStr) {
+                const arr = hexStr.trim().split(/\s+/);
+                let result = '';
+                for (let i = 0; i < arr.length; i++) {
+                    const hex = arr[i];
+                    // Regex check for valid hex
+                    if (!/^[0-9A-Fa-f]+$/.test(hex)) throw new Error('Invalid Hex');
+                    result += String.fromCharCode(parseInt(hex, 16));
+                }
+                return result;
+            }
+
+            function processTranslation() {
+                const inputVal = mainInput.value;
+                statusBar.style.display = 'none';
+                
+                if (!inputVal) {
+                    mainOutput.value = '';
+                    return;
+                }
+
+                try {
+                    switch(currentMode) {
+                        case 'textToAscii':
+                            mainOutput.value = textToAscii(inputVal);
+                            break;
+                        case 'textToHex':
+                            mainOutput.value = textToHex(inputVal);
+                            break;
+                        case 'asciiToText':
+                            mainOutput.value = asciiToText(inputVal);
+                            break;
+                        case 'hexToText':
+                            mainOutput.value = hexToText(inputVal);
+                            break;
+                    }
+                } catch (error) {
+                    mainOutput.value = '';
+                    statusBar.style.display = 'block';
+                    statusBar.textContent = 'Invalid input format for the selected decoding mode.';
+                }
+            }
+
+            // --- Event Listeners ---
+
+            // Auto Translate on Input
+            mainInput.addEventListener('input', processTranslation);
+
+            // Change Mode
+            radios.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    currentMode = e.target.value;
+                    
+                    // Update UI Labels
+                    if (currentMode === 'textToAscii') {
+                        inputTitle.textContent = 'Input (Plain Text)';
+                        outputTitle.textContent = 'Output (ASCII Decimal)';
+                        mainInput.placeholder = 'Type your text here...';
+                    } else if (currentMode === 'textToHex') {
+                        inputTitle.textContent = 'Input (Plain Text)';
+                        outputTitle.textContent = 'Output (Hexadecimal)';
+                        mainInput.placeholder = 'Type your text here...';
+                    } else if (currentMode === 'asciiToText') {
+                        inputTitle.textContent = 'Input (ASCII Decimal)';
+                        outputTitle.textContent = 'Output (Plain Text)';
+                        mainInput.placeholder = 'e.g. 72 101 108 108 111';
+                    } else if (currentMode === 'hexToText') {
+                        inputTitle.textContent = 'Input (Hexadecimal)';
+                        outputTitle.textContent = 'Output (Plain Text)';
+                        mainInput.placeholder = 'e.g. 48 65 6c 6c 6f';
+                    }
+
+                    // Re-process if there is input
+                    if(mainInput.value) processTranslation();
+                });
+            });
+
+            // Action: Copy
+            copyBtn.addEventListener('click', () => {
+                if (!mainOutput.value) {
+                    if (window.showToast) window.showToast('Nothing to copy!', 'error');
+                    return;
+                }
+                
+                navigator.clipboard.writeText(mainOutput.value).then(() => {
+                    if (window.showToast) window.showToast('Result copied!', 'success');
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✅ Copied!';
+                    setTimeout(() => { copyBtn.textContent = originalText; }, 2000);
+                });
+            });
+
+            // Action: Clear
+            clearBtn.addEventListener('click', () => {
+                mainInput.value = '';
+                mainOutput.value = '';
+                statusBar.style.display = 'none';
+                mainInput.focus();
+            });
+
+            // Action: Paste
+            pasteBtn.addEventListener('click', async () => {
+                try {
+                    const text = await navigator.clipboard.readText();
+                    mainInput.value = text;
+                    processTranslation();
+                    if (window.showToast) window.showToast('Pasted from clipboard!', 'success');
+                } catch (err) {
+                    console.error('Paste failed: ', err);
+                    if (window.showToast) window.showToast('Please press Ctrl+V / Cmd+V to paste.', 'error');
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>

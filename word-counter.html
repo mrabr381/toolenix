@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Word Counter - Count Words, Characters & Sentences Free | Toolenix</title>
+    <meta name="title" content="Word Counter - Count Words, Characters & Sentences Free | Toolenix">
+    <meta name="description" content="Instantly count words, characters, sentences, and calculate reading time. A 100% free, private, and client-side text analysis tool for writers and SEOs.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/word-counter.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/word-counter.html">
+    <meta property="og:title" content="Real-Time Word & Character Counter">
+    <meta property="og:description" content="Analyze your text instantly. Count words, characters, and check reading time securely in your browser.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/word-counter.html">
+    <meta property="twitter:title" content="Real-Time Word & Character Counter">
+    <meta property="twitter:description" content="Analyze your text instantly. Count words, characters, and check reading time securely in your browser.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix Word Counter",
+      "operatingSystem": "All",
+      "applicationCategory": "UtilitiesApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A robust text analysis application that calculates word count, character limits, sentence structures, and reading times dynamically within the client browser."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Developer Tools",
+        "item": "https://www.toolenix.com/#dev-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Word Counter"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Text Editor */
+        .editor-pane {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1.2rem;
+            background: rgba(37, 99, 235, 0.05);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px 12px 0 0;
+            border-bottom: none;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .text-input-area {
+            width: 100%;
+            height: 500px;
+            padding: 1.5rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 0 0 12px 12px;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .text-input-area:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Stats Panel */
+        .stats-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .primary-stat-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-soft);
+            transition: transform 0.2s;
+        }
+
+        .primary-stat-box:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+        }
+
+        .stat-large-number {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            background: var(--gradient-brand);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-large-label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .secondary-stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .secondary-stat-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .stat-medium-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-medium-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .time-stats {
+            background: rgba(37, 99, 235, 0.05);
+            border: 1px solid rgba(37, 99, 235, 0.1);
+            border-radius: 12px;
+            padding: 1.2rem;
+        }
+
+        .time-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .time-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .time-label {
+            font-weight: 600;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .time-value {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#seo-tools">Text Tools</a> &gt; Word Counter
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 1200px;">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">Word & Character Counter</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">A real-time text analysis tool for writers, marketers, and developers. Processed entirely offline for maximum privacy.</p>
+                </div>
+
+                <div class="workspace-grid">
+                    
+                    <div class="editor-pane">
+                        <div class="editor-header">
+                            <span>Text Input</span>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="btn btn-outline" id="copy-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem;">📄 Copy</button>
+                                <button class="btn btn-outline" id="clear-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem; color: #EF4444; border-color: rgba(239, 68, 68, 0.3);">🗑️ Clear</button>
+                            </div>
+                        </div>
+                        <textarea id="text-input" class="text-input-area" placeholder="Start typing or paste your text document here to instantly view real-time statistics..."></textarea>
+                    </div>
+
+                    <div class="stats-panel">
+                        
+                        <div class="primary-stat-box">
+                            <div class="stat-large-number" id="word-count">0</div>
+                            <div class="stat-large-label">Words</div>
+                        </div>
+
+                        <div class="primary-stat-box">
+                            <div class="stat-large-number" id="char-count">0</div>
+                            <div class="stat-large-label">Characters</div>
+                        </div>
+
+                        <div class="secondary-stats-grid">
+                            <div class="secondary-stat-box">
+                                <div class="stat-medium-number" id="sentence-count">0</div>
+                                <div class="stat-medium-label">Sentences</div>
+                            </div>
+                            <div class="secondary-stat-box">
+                                <div class="stat-medium-number" id="paragraph-count">0</div>
+                                <div class="stat-medium-label">Paragraphs</div>
+                            </div>
+                            <div class="secondary-stat-box">
+                                <div class="stat-medium-number" id="char-nospace-count">0</div>
+                                <div class="stat-medium-label">Chars (No Space)</div>
+                            </div>
+                            <div class="secondary-stat-box">
+                                <div class="stat-medium-number" id="longest-word-length">0</div>
+                                <div class="stat-medium-label">Longest Word Length</div>
+                            </div>
+                        </div>
+
+                        <div class="time-stats">
+                            <div class="time-row">
+                                <span class="time-label">📖 Reading Time</span>
+                                <span class="time-value" id="read-time">0 min 0 sec</span>
+                            </div>
+                            <div class="time-row">
+                                <span class="time-label">🗣️ Speaking Time</span>
+                                <span class="time-value" id="speak-time">0 min 0 sec</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Ultimate Guide to Word Counting and Text Analysis</h2>
+                <p>In the digital age, writing is not just about expressing ideas; it is about structuring content to meet the rigid demands of algorithms, social media platforms, and publishing platforms. Whether you are an SEO specialist trying to perfectly optimize a meta description, a digital marketer crafting a viral TikTok script, or a student writing an academic essay with a strict word limit, understanding the exact metrics of your text is critical. A reliable, real-time <strong>Word Counter</strong> is an indispensable tool in any digital professional's workflow.</p>
+                
+                <p>Welcome to the Toolenix Word and Character Counter. We designed this utility to be blazingly fast and perfectly secure. Unlike web tools that send your proprietary blog posts to a remote server for analysis, our platform utilizes client-side JavaScript to parse your text the millisecond you press a key. Read on to explore why word counts matter for SEO, the strict character limits of modern social media, and how to effectively pace your reading and speaking scripts.</p>
+
+                <h2>Why Word Count Matters for SEO in 2026</h2>
+                <p>Search Engine Optimization (SEO) is heavily influenced by the depth, structure, and length of your content. While Google and other search engines do not have a hard "minimum word count" rule, extensive data studies consistently prove a strong correlation between long-form content and high rankings.</p>
+                <p><strong>Comprehensive Content Dominates:</strong> Search algorithms are designed to provide the most complete answer to a user's query. An article that spans 2,000 words is mathematically more likely to cover a topic holistically than a 300-word post. It naturally includes more semantic keywords, long-tail variations, and structured subheadings. This tells the algorithm that your page is a "Pillar" resource rather than thin content.</p>
+                <p><strong>Metadata Precision:</strong> SEO isn't just about article length; it is about absolute precision in your HTML tags. Title tags should ideally be kept under 60 characters to avoid being truncated (cut off) in the search engine results pages (SERPs). Meta descriptions should be kept strictly between 150 and 160 characters. Using a character counter ensures your carefully crafted sales pitch isn't hidden behind an ellipsis (...).</p>
+
+                <h2>Social Media Character Limits Guide</h2>
+                <p>Digital marketers must constantly adapt their messaging to fit the unique architectural limits of various social media platforms. Exceeding these limits forces readers to click "Read More," which drastically drops engagement rates. Keep these constraints in mind when using our character counter:</p>
+                <ul>
+                    <li><strong>Twitter / X:</strong> The standard limit remains 280 characters for non-premium accounts. Crafting a viral hook within this tight constraint requires aggressive editing and exact character tracking.</li>
+                    <li><strong>TikTok & Instagram Reels:</strong> The caption limit is generous (up to 2,200 characters), but only the first 100 to 150 characters are visible before the "See More" toggle. Your primary hook and primary hashtags must fit into that first block.</li>
+                    <li><strong>LinkedIn Posts:</strong> You have a limit of 3,000 characters for a standard post. However, the critical "cut-off" point is around 140 characters on mobile and 210 on desktop.</li>
+                    <li><strong>YouTube Titles & Descriptions:</strong> Video titles have a maximum of 100 characters, but only the first 60 are reliably displayed across all devices. Descriptions can be up to 5,000 characters, providing ample room for timestamps, affiliate links, and SEO-optimized summaries.</li>
+                </ul>
+
+                <h2>How Reading and Speaking Times Are Calculated</h2>
+                <p>Our tool goes beyond simple counting by providing dynamic estimations for reading and speaking times. These metrics are vital for podcasters, YouTubers, and public speakers.</p>
+                <p><strong>Reading Time:</strong> The average human adult reads at a pace of roughly 225 to 250 words per minute. Our algorithm takes your total word count and divides it by an average of 225 to give your audience a realistic expectation of how long your blog post will take to consume. Providing "Estimated Reading Time: 4 mins" at the top of an article has been proven to increase user retention and lower bounce rates.</p>
+                <p><strong>Speaking Time:</strong> Speaking is significantly slower than internal reading. A comfortable, conversational speaking pace—ideal for podcasts, YouTube video scripts, and keynote presentations—is roughly 130 words per minute. If you are drafting a script for a 5-minute video, our tool will help you target the necessary 650-word sweet spot.</p>
+
+                <h2>The Privacy Advantage of Client-Side Text Analysis</h2>
+                <p>Many writers draft sensitive material: unreleased corporate press releases, proprietary software documentation, intimate journal entries, or confidential legal arguments. Pasting this text into a random online word counter is a massive security risk. Traditional websites transmit your pasted text to their backend servers for processing.</p>
+                <p><strong>Toolenix eliminates this risk completely.</strong> Our text analysis engine is built on pure Vanilla JavaScript that executes entirely within your browser's local sandbox. When you type or paste your text, the counting algorithms run on your own CPU. Your private writing is never transmitted across the internet, logged, or saved to an external database. Once you close the tab, your text is gone forever.</p>
+
+                <h2>Step-by-Step Guide: How to Use the Word Counter</h2>
+                <p>Using our workspace is entirely frictionless:</p>
+                <ol>
+                    <li><strong>Input Your Text:</strong> Click into the large text area and start typing, or paste an entire document from your clipboard.</li>
+                    <li><strong>Watch Real-Time Analytics:</strong> As you type, the algorithms instantly parse your string. The word count tracks groups of characters separated by spaces. The sentence counter tracks punctuation markers (periods, exclamation points, question marks), and the paragraph counter tracks line breaks.</li>
+                    <li><strong>Edit and Refine:</strong> Use the metrics to trim down a bloated tweet or expand an underperforming SEO article.</li>
+                    <li><strong>Copy or Clear:</strong> Once your text is perfectly optimized, use the "Copy" button to save it to your clipboard, or hit "Clear" to wipe the board and start a new project.</li>
+                </ol>
+
+                <h2>Frequently Asked Questions (FAQs)</h2>
+                
+                <h3>How does the tool distinguish between words and characters?</h3>
+                <p>A "character" is any single keystroke, including letters, numbers, punctuation marks, and spaces. A "word" is defined mathematically as a continuous sequence of characters bounded by white space (spaces, tabs, or line breaks).</p>
+
+                <h3>Why is there a "Characters (No Spaces)" metric?</h3>
+                <p>Many academic institutions, translation services, and legal billing software charge or restrict limits based specifically on visible characters, ignoring the spaces between words. This secondary metric ensures you have exactly the data you need for formal submissions.</p>
+
+                <h3>Does this tool support multiple languages?</h3>
+                <p>Yes. The underlying JavaScript string parsing handles standard UTF-8 characters seamlessly, making it highly effective for English, Spanish, French, and romanized script languages. (Note: languages without traditional spacing structures, like Mandarin or Japanese, will rely primarily on the character count).</p>
+
+                <h3>Is there a limit to how much text I can paste?</h3>
+                <p>There are no hard server limits because the tool runs on your local machine. You can paste an entire 100,000-word novel into the text area. The only limitation is the amount of RAM available on your personal device.</p>
+
+                <h2>Complementary Text and Developer Utilities</h2>
+                <p>If you are optimizing text for the web, explore our other free local utilities:</p>
+                <ul>
+                    <li><a href="case-converter.html"><strong>Case Converter:</strong></a> Instantly switch your text between UPPERCASE, lowercase, Title Case, and Sentence case.</li>
+                    <li><a href="json-formatter.html"><strong>JSON Formatter:</strong></a> If you are dealing with text payloads in a development environment, beautify and validate your JSON strings securely.</li>
+                    <li><a href="password-generator.html"><strong>Password Generator:</strong></a> Secure your newly written confidential documents with a cryptographically strong key.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Drafting the perfect article, script, or social media post requires precision. By utilizing the Toolenix Word Counter, you gain access to an instantaneous, real-time analytics dashboard that respects your data privacy. Stop guessing your text lengths and risking your confidential drafts on cloud servers. Bookmark this page and make client-side text optimization a permanent part of your writing workflow.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const textInput = document.getElementById('text-input');
+            
+            // Primary Stats
+            const wordCountDisplay = document.getElementById('word-count');
+            const charCountDisplay = document.getElementById('char-count');
+            
+            // Secondary Stats
+            const sentenceCountDisplay = document.getElementById('sentence-count');
+            const paragraphCountDisplay = document.getElementById('paragraph-count');
+            const charNoSpaceDisplay = document.getElementById('char-nospace-count');
+            const longestWordDisplay = document.getElementById('longest-word-length');
+            
+            // Time Stats
+            const readTimeDisplay = document.getElementById('read-time');
+            const speakTimeDisplay = document.getElementById('speak-time');
+            
+            // Action Buttons
+            const copyBtn = document.getElementById('copy-btn');
+            const clearBtn = document.getElementById('clear-btn');
+
+            // Formatting helper for time
+            function formatTime(totalSeconds) {
+                if (totalSeconds === 0) return '0 min 0 sec';
+                const minutes = Math.floor(totalSeconds / 60);
+                const seconds = Math.round(totalSeconds % 60);
+                return `${minutes} min ${seconds} sec`;
+            }
+
+            // Core parsing logic
+            function analyzeText() {
+                const text = textInput.value;
+                
+                // Characters
+                const charCount = text.length;
+                const charNoSpaceCount = text.replace(/\s/g, '').length;
+                
+                // Words
+                const wordsArray = text.trim().split(/\s+/).filter(word => word.length > 0);
+                const wordCount = wordsArray.length;
+                
+                // Sentences (splitting by . ! ? followed by space or end of string)
+                const sentencesArray = text.split(/[.!?]+(?:\s+|$)/).filter(sentence => sentence.trim().length > 0);
+                const sentenceCount = text.trim() === '' ? 0 : sentencesArray.length;
+                
+                // Paragraphs (splitting by new lines)
+                const paragraphsArray = text.split(/\n+/).filter(paragraph => paragraph.trim().length > 0);
+                const paragraphCount = text.trim() === '' ? 0 : paragraphsArray.length;
+                
+                // Longest word
+                let longestLength = 0;
+                wordsArray.forEach(word => {
+                    // Remove punctuation from word ends for accurate count
+                    const cleanWord = word.replace(/[^a-zA-Z0-9]/g, '');
+                    if (cleanWord.length > longestLength) {
+                        longestLength = cleanWord.length;
+                    }
+                });
+
+                // Times (Based on words per minute)
+                // Average read speed: 225 wpm
+                const readTimeSeconds = (wordCount / 225) * 60;
+                // Average speaking speed: 130 wpm
+                const speakTimeSeconds = (wordCount / 130) * 60;
+
+                // Update UI
+                wordCountDisplay.textContent = wordCount;
+                charCountDisplay.textContent = charCount;
+                
+                sentenceCountDisplay.textContent = sentenceCount;
+                paragraphCountDisplay.textContent = paragraphCount;
+                charNoSpaceDisplay.textContent = charNoSpaceCount;
+                longestWordDisplay.textContent = longestLength;
+                
+                readTimeDisplay.textContent = formatTime(readTimeSeconds);
+                speakTimeDisplay.textContent = formatTime(speakTimeSeconds);
+            }
+
+            // Real-time Event Listener
+            textInput.addEventListener('input', analyzeText);
+
+            // Copy Action
+            copyBtn.addEventListener('click', () => {
+                const text = textInput.value;
+                if (!text) {
+                    if(window.showToast) window.showToast('Nothing to copy!', 'error');
+                    return;
+                }
+                
+                navigator.clipboard.writeText(text).then(() => {
+                    if(window.showToast) window.showToast('Text copied to clipboard!', 'success');
+                    
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✅ Copied!';
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Copy failed: ', err);
+                });
+            });
+
+            // Clear Action
+            clearBtn.addEventListener('click', () => {
+                textInput.value = '';
+                analyzeText(); // Reset counters
+                textInput.focus();
+            });
+
+            // Initialize counters to 0 on load
+            analyzeText();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>UUID/GUID Generator - Create Secure v4 Identifiers Free | Toolenix</title>
+    <meta name="title" content="UUID/GUID Generator - Create Secure v4 Identifiers Free | Toolenix">
+    <meta name="description" content="Generate Version 4 UUIDs and GUIDs instantly. Bulk generation supported. 100% free, private, and offline cryptographic client-side processing.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/uuid-generator.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/uuid-generator.html">
+    <meta property="og:title" content="UUID/GUID Generator - 100% Private Offline Tool">
+    <meta property="og:description" content="Create cryptographically secure, globally unique identifiers (v4) offline. Zero server tracking for maximum database security.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/uuid-generator.html">
+    <meta property="twitter:title" content="UUID/GUID Generator - 100% Private Offline Tool">
+    <meta property="twitter:description" content="Create cryptographically secure, globally unique identifiers (v4) offline. Zero server tracking for maximum database security.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix UUID Generator",
+      "operatingSystem": "All",
+      "applicationCategory": "DeveloperApplication",
+      "browserRequirements": "Requires a modern web browser with Web Crypto API support.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A secure client-side utility for developers to generate cryptographically secure Version 4 Universally Unique Identifiers (UUIDs) locally."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Developer Tools",
+        "item": "https://www.toolenix.com/#dev-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "UUID Generator"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .generator-workspace {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .generator-workspace {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Output Pane */
+        .output-pane {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .single-output-wrapper {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .single-output {
+            width: 100%;
+            background: var(--bg-main);
+            border: 2px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 1.5rem;
+            padding-right: 4rem;
+            font-size: 1.4rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: 700;
+            color: var(--primary);
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .bulk-output {
+            width: 100%;
+            height: 350px;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1rem;
+            line-height: 1.5;
+            resize: vertical;
+            outline: none;
+        }
+
+        .copy-btn-large {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+        }
+        
+        .copy-btn-large:hover {
+            background: var(--primary);
+            color: #ffffff;
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        /* Settings Pane */
+        .settings-pane {
+            background: rgba(0, 0, 0, 0.02);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .settings-group h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Custom Checkboxes */
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-main);
+            user-select: none;
+            margin-bottom: 0.8rem;
+        }
+        
+        .checkbox-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+        
+        .checkmark {
+            height: 20px;
+            width: 20px;
+            background-color: var(--bg-main);
+            border: 2px solid var(--border-glass);
+            border-radius: 4px;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .checkbox-container:hover input ~ .checkmark {
+            border-color: var(--primary);
+        }
+        
+        .checkbox-container input:checked ~ .checkmark {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .checkmark:after {
+            content: "";
+            display: none;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            margin-bottom: 2px;
+        }
+        
+        .checkbox-container input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        /* Quantity Slider */
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        .slider-value {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            margin-top: -8px;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.4);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 6px;
+            cursor: pointer;
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        [data-theme="dark"] input[type=range]::-webkit-slider-runnable-track {
+            background: #334155;
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+        .seo-article code { background: rgba(100, 116, 139, 0.1); padding: 0.2rem 0.4rem; border-radius: 4px; font-family: monospace; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#dev-tools">Developer Tools</a> &gt; UUID Generator
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 1100px;">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">UUID / GUID Generator</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Generate cryptographically secure Version 4 UUIDs instantly. 100% offline generation ensures your database keys are never logged.</p>
+                </div>
+
+                <div class="generator-workspace">
+                    
+                    <div class="output-pane">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <h2 style="font-size: 1.2rem;">Single UUID</h2>
+                            <button class="btn btn-primary" id="generate-single-btn" style="padding: 0.4rem 1rem;">🔄 Regenerate</button>
+                        </div>
+                        
+                        <div class="single-output-wrapper">
+                            <input type="text" id="single-uuid" class="single-output" readonly value="Loading...">
+                            <button class="copy-btn-large" id="copy-single-btn" aria-label="Copy UUID" title="Copy to Clipboard">📋</button>
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; margin-top: 3rem;">
+                            <h2 style="font-size: 1.2rem;">Bulk Generation</h2>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="btn btn-outline" id="copy-bulk-btn" style="padding: 0.4rem 1rem;">📄 Copy All</button>
+                                <button class="btn btn-primary" id="generate-bulk-btn" style="padding: 0.4rem 1rem;">🔄 Generate List</button>
+                            </div>
+                        </div>
+
+                        <textarea id="bulk-uuid" class="bulk-output" readonly placeholder="Bulk UUIDs will appear here..."></textarea>
+                    </div>
+
+                    <div class="settings-pane">
+                        
+                        <div class="settings-group">
+                            <h3>⚙️ Formatting Options</h3>
+                            
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="opt-hyphens" checked>
+                                <span class="checkmark"></span>
+                                Include Hyphens (-)
+                            </label>
+                            
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="opt-uppercase">
+                                <span class="checkmark"></span>
+                                Uppercase (A-Z)
+                            </label>
+                            
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="opt-braces">
+                                <span class="checkmark"></span>
+                                Wrap in Braces { }
+                            </label>
+                            
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="opt-quotes">
+                                <span class="checkmark"></span>
+                                Wrap in Quotes " "
+                            </label>
+                        </div>
+
+                        <div style="border-top: 1px solid var(--border-glass); margin: 0.5rem 0;"></div>
+
+                        <div class="settings-group">
+                            <h3>🔢 Bulk Quantity</h3>
+                            <div class="slider-header">
+                                <span>Number of UUIDs</span>
+                                <span class="slider-value" id="qty-value">10</span>
+                            </div>
+                            <input type="range" id="qty-slider" min="1" max="500" value="10">
+                            <small style="color: var(--text-muted); display: block; margin-top: 0.5rem;">Maximum 500 per batch to prevent browser lag.</small>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Developer's Guide to UUIDs and GUIDs</h2>
+                <p>In modern software engineering, distributed systems, and massive databases, relying on standard auto-incrementing integers (like ID: 1, ID: 2, ID: 3) for primary keys is a severely outdated practice. It exposes your database volume to competitors, creates bottlenecks in distributed microservices, and makes merging external databases a nightmare of ID collisions. The industry-standard solution is the <strong>Universally Unique Identifier (UUID)</strong>, also frequently referred to in the Microsoft ecosystem as a Globally Unique Identifier (GUID).</p>
+                
+                <p>Welcome to the Toolenix UUID/GUID Generator. We built this utility to provide developers with instant, cryptographically secure identifiers exactly formatted to their codebase requirements. Because we utilize the browser's native cryptography APIs, your generated keys are created entirely offline, ensuring absolute database security. Below, we explore the mathematics of UUIDs, the difference between versions, and why server-side generators are a security risk.</p>
+
+                <h2>What is a UUID (Version 4)?</h2>
+                <p>A UUID is a 128-bit label used for information in computer systems. Visually, it is represented as 32 hexadecimal characters, displayed in five groups separated by hyphens. It looks like this: <code>123e4567-e89b-12d3-a456-426614174000</code>.</p>
+                <p>There are several versions of UUIDs (Version 1 utilizes MAC addresses and timestamps), but the undisputed gold standard for modern application development is <strong>Version 4</strong>. A v4 UUID is generated using completely random or pseudo-random numbers. Toolenix exclusively generates Version 4 UUIDs.</p>
+
+                <h2>The Mathematics of Collisions: Will I Generate a Duplicate?</h2>
+                <p>A common concern among junior developers is "collision risk." If these strings are entirely random, what happens if the generator creates the exact same UUID twice and breaks my database's primary key constraint?</p>
+                <p>This is where the sheer scale of 128-bit mathematics comes into play. A v4 UUID has 122 purely random bits (with the remaining 6 bits reserved for formatting). This equates to 2<sup>122</sup> possible combinations, or approximately <strong>5.3 x 10<sup>36</sup></strong> unique identifiers.</p>
+                <p>To put that astronomical number into perspective: To reach a mere 50% chance of a single collision occurring, you would need to generate <strong>1 billion UUIDs every second for about 85 years</strong>. For all practical software engineering and database applications across the globe, the risk of a v4 UUID collision is considered mathematically zero.</p>
+
+                <h2>The Security Flaw in "Cloud" UUID Generators</h2>
+                <p>If you search for a "Free UUID Generator" on the web, you will find hundreds of websites. However, many of these websites use backend languages (like PHP or Node.js) to generate the UUIDs on their server, which are then passed to your browser screen.</p>
+                <p>This is a major security flaw. UUIDs are frequently used for highly sensitive application logic, such as:</p>
+                <ul>
+                    <li>Secret API keys or authentication tokens.</li>
+                    <li>Password reset URLs sent via email.</li>
+                    <li>Session identifiers for logged-in users.</li>
+                </ul>
+                <p>If you copy a token from a random cloud server, you have no guarantee that the server hasn't saved that exact token in a hidden log. <strong>Toolenix eliminates this risk completely.</strong> We utilize your browser's native <code>crypto.randomUUID()</code> and <code>window.crypto.getRandomValues()</code>. Your CPU performs the mathematical generation locally. The keys are never transmitted across the internet, ensuring that you are the only entity in the world that knows they were generated.</p>
+
+                <h2>Features of the Toolenix UUID Utility</h2>
+                <p>Database architectures require strict data formatting. We built our tool to adapt to your specific IDE:</p>
+                <ul>
+                    <li><strong>Instant Formatting:</strong> Toggle uppercase letters, remove standard hyphens for a clean 32-character string, or wrap the string in braces <code>{}</code> (standard for Windows registry and C#) or quotes <code>""</code> (for JSON payloads). The output updates instantly.</li>
+                    <li><strong>Bulk Generation:</strong> Need to mock up a database table with 500 user IDs? Use the slider to generate massive batches of formatted UUIDs instantly, ready to copy and paste.</li>
+                    <li><strong>Cryptographic Security:</strong> We do not rely on standard <code>Math.random()</code> (which is predictable). Our scripts utilize hardware-level entropy for absolute randomization.</li>
+                </ul>
+
+                <h2>Frequently Asked Questions (FAQs)</h2>
+                
+                <h3>What is the difference between a UUID and a GUID?</h3>
+                <p>Practically, there is no difference. UUID (Universally Unique Identifier) is the standard terminology used by the Internet Engineering Task Force (IETF). GUID (Globally Unique Identifier) is simply the term Microsoft coined for the exact same standard. A v4 UUID and a v4 GUID are structurally identical.</p>
+
+                <h3>Are these UUIDs safe to use as Primary Keys in SQL?</h3>
+                <p>Yes. UUIDs are widely used as primary keys in PostgreSQL, MySQL, and MongoDB. However, because they are random, they can cause index fragmentation in highly trafficked SQL databases compared to sequential integers. Many modern frameworks counteract this by storing the UUID as a binary object rather than a raw text string to optimize indexing speed.</p>
+
+                <h3>Can a UUID be reversed to find out when it was made?</h3>
+                <p>Version 1 UUIDs contain a timestamp and the MAC address of the computer that generated them, meaning they can be reversed to identify the creator. However, Toolenix exclusively generates <strong>Version 4</strong> UUIDs. Because v4 is built on pure cryptographic randomness, it contains zero metadata. It is completely untraceable.</p>
+
+                <h2>Complementary Developer Utilities</h2>
+                <p>Complete your application security toolkit with our other free local utilities:</p>
+                <ul>
+                    <li><a href="password-generator.html"><strong>Password Generator:</strong></a> Generate complex alphanumeric passwords specifically tailored for user authentication.</li>
+                    <li><a href="hash-generator.html"><strong>Hash Generator:</strong></a> Instead of generating new identifiers, cryptographically hash existing data (MD5, SHA-256) locally to verify integrity.</li>
+                    <li><a href="json-formatter.html"><strong>JSON Formatter:</strong></a> If you are building payloads containing your new UUIDs, use this tool to validate your JSON syntax securely.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Relying on external servers to generate the foundational keys of your database architecture is an unnecessary risk. By utilizing the Toolenix UUID/GUID Generator, you gain access to an instantaneous, cryptographically secure utility that operates entirely offline. Protect your application logic, prevent database collisions, and bookmark this page to ensure you always have safe identifiers ready at a moment's notice.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const singleOutput = document.getElementById('single-uuid');
+            const bulkOutput = document.getElementById('bulk-uuid');
+            
+            const btnGenerateSingle = document.getElementById('generate-single-btn');
+            const btnGenerateBulk = document.getElementById('generate-bulk-btn');
+            
+            const copySingleBtn = document.getElementById('copy-single-btn');
+            const copyBulkBtn = document.getElementById('copy-bulk-btn');
+            
+            const optHyphens = document.getElementById('opt-hyphens');
+            const optUppercase = document.getElementById('opt-uppercase');
+            const optBraces = document.getElementById('opt-braces');
+            const optQuotes = document.getElementById('opt-quotes');
+            
+            const qtySlider = document.getElementById('qty-slider');
+            const qtyValue = document.getElementById('qty-value');
+
+            // Fallback v4 generator if crypto.randomUUID is not available in older browsers
+            function generateFallbackUUID() {
+                return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+                    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+                );
+            }
+
+            // Core Generation Function
+            function getRawUUID() {
+                if (typeof crypto.randomUUID === 'function') {
+                    return crypto.randomUUID();
+                }
+                return generateFallbackUUID();
+            }
+
+            // Formatting Function based on UI toggles
+            function formatUUID(uuid) {
+                let formatted = uuid;
+                
+                if (!optHyphens.checked) {
+                    formatted = formatted.replace(/-/g, '');
+                }
+                if (optUppercase.checked) {
+                    formatted = formatted.toUpperCase();
+                }
+                if (optBraces.checked) {
+                    formatted = `{${formatted}}`;
+                }
+                if (optQuotes.checked) {
+                    formatted = `"${formatted}"`;
+                }
+                
+                return formatted;
+            }
+
+            // UI Actions
+            function updateSingle() {
+                const raw = getRawUUID();
+                singleOutput.value = formatUUID(raw);
+            }
+
+            function updateBulk() {
+                const qty = parseInt(qtySlider.value);
+                let list = [];
+                for (let i = 0; i < qty; i++) {
+                    list.push(formatUUID(getRawUUID()));
+                }
+                bulkOutput.value = list.join('\n');
+            }
+
+            // Listeners for Formatting (Reformat current outputs without generating new ones if possible)
+            function reformatCurrent() {
+                // Reformat Single
+                let currentSingle = singleOutput.value;
+                // Strip existing formatting to get raw alphanumeric
+                currentSingle = currentSingle.replace(/[{}"-]/g, '').toLowerCase();
+                
+                // Reconstruct standard UUID format to pass to formatUUID
+                if (currentSingle.length === 32) {
+                    const standardRaw = `${currentSingle.substr(0,8)}-${currentSingle.substr(8,4)}-${currentSingle.substr(12,4)}-${currentSingle.substr(16,4)}-${currentSingle.substr(20,12)}`;
+                    singleOutput.value = formatUUID(standardRaw);
+                }
+
+                // Reformat Bulk
+                if (bulkOutput.value.trim() !== '') {
+                    const lines = bulkOutput.value.split('\n');
+                    const formattedLines = lines.map(line => {
+                        let cleanLine = line.replace(/[{}"-]/g, '').toLowerCase();
+                        if (cleanLine.length === 32) {
+                            const standardRaw = `${cleanLine.substr(0,8)}-${cleanLine.substr(8,4)}-${cleanLine.substr(12,4)}-${cleanLine.substr(16,4)}-${cleanLine.substr(20,12)}`;
+                            return formatUUID(standardRaw);
+                        }
+                        return line;
+                    });
+                    bulkOutput.value = formattedLines.join('\n');
+                }
+            }
+
+            // Attach listeners to toggles
+            [optHyphens, optUppercase, optBraces, optQuotes].forEach(checkbox => {
+                checkbox.addEventListener('change', reformatCurrent);
+            });
+
+            // Slider Listener
+            qtySlider.addEventListener('input', () => {
+                qtyValue.textContent = qtySlider.value;
+            });
+
+            // Generation Listeners
+            btnGenerateSingle.addEventListener('click', updateSingle);
+            btnGenerateBulk.addEventListener('click', updateBulk);
+
+            // Copy Listeners
+            copySingleBtn.addEventListener('click', () => {
+                if (!singleOutput.value) return;
+                navigator.clipboard.writeText(singleOutput.value).then(() => {
+                    if (window.showToast) window.showToast('UUID copied!', 'success');
+                    const icon = copySingleBtn.innerHTML;
+                    copySingleBtn.innerHTML = '✅';
+                    setTimeout(() => copySingleBtn.innerHTML = icon, 2000);
+                });
+            });
+
+            copyBulkBtn.addEventListener('click', () => {
+                if (!bulkOutput.value) {
+                    if (window.showToast) window.showToast('No UUIDs to copy!', 'error');
+                    return;
+                }
+                navigator.clipboard.writeText(bulkOutput.value).then(() => {
+                    if (window.showToast) window.showToast('All UUIDs copied!', 'success');
+                    const text = copyBulkBtn.textContent;
+                    copyBulkBtn.textContent = '✅ Copied!';
+                    setTimeout(() => copyBulkBtn.textContent = text, 2000);
+                });
+            });
+
+            // Initialize on load
+            updateSingle();
+            updateBulk();
+        });
+    </script>
+</body>
+</html>

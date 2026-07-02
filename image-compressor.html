@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Image Compressor - Reduce JPG & PNG Size Free Offline | Toolenix</title>
+    <meta name="title" content="Image Compressor - Reduce JPG & PNG Size Free Offline | Toolenix">
+    <meta name="description" content="Compress your JPG and PNG images instantly without losing quality. 100% free, perfectly secure, and client-side processed. No server uploads.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/image-compressor.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/image-compressor.html">
+    <meta property="og:title" content="Image Compressor - Reduce Image Sizes Securely">
+    <meta property="og:description" content="Optimize and shrink your images instantly with zero server uploads. Secure, fast, and completely free.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/image-compressor.html">
+    <meta property="twitter:title" content="Image Compressor - Reduce Image Sizes Securely">
+    <meta property="twitter:description" content="Optimize and shrink your images instantly with zero server uploads. Secure, fast, and completely free.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix Image Compressor",
+      "operatingSystem": "All",
+      "applicationCategory": "MultimediaApplication",
+      "browserRequirements": "Requires a modern web browser with HTML5 Canvas support.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A secure client-side application that compresses and optimizes raster images (JPG, PNG) locally in the browser to reduce file size without server uploads."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Image Tools",
+        "item": "https://www.toolenix.com/#image-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Image Compressor"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .upload-area {
+            border: 2px dashed var(--primary);
+            border-radius: 16px;
+            padding: 4rem 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: rgba(37, 99, 235, 0.05);
+            cursor: pointer;
+            margin-bottom: 2rem;
+        }
+        .upload-area:hover, .upload-area.dragover {
+            background: rgba(37, 99, 235, 0.1);
+            transform: translateY(-2px);
+            border-color: var(--secondary);
+        }
+        .hidden { display: none !important; }
+
+        /* Workspace Grid */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            align-items: start;
+        }
+        
+        @media (max-width: 900px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Image Preview Area */
+        .preview-container {
+            background: rgba(0, 0, 0, 0.02);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .preview-image-wrapper {
+            background-image: 
+                linear-gradient(45deg, #e5e7eb 25%, transparent 25%), 
+                linear-gradient(-45deg, #e5e7eb 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #e5e7eb 75%), 
+                linear-gradient(-45deg, transparent 75%, #e5e7eb 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+            border: 1px solid var(--border-glass);
+        }
+
+        .preview-image-wrapper img {
+            max-width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+        }
+
+        /* Controls Panel */
+        .controls-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .control-group label {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Custom Range Slider */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            margin-top: -8px;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.4);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 6px;
+            cursor: pointer;
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        [data-theme="dark"] input[type=range]::-webkit-slider-runnable-track {
+            background: #334155;
+        }
+
+        .stats-box {
+            background: rgba(37, 99, 235, 0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(37, 99, 235, 0.1);
+        }
+        
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+        
+        .stat-row:last-child { margin-bottom: 0; }
+        .stat-value { font-weight: 700; color: var(--text-main); }
+        .savings-value { color: #10B981; font-weight: 800; font-size: 1.1rem; }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#image-tools">Image Tools</a> &gt; Image Compressor
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 1100px;">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">Image Compressor</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Shrink JPG and PNG file sizes instantly for faster web loading. 100% free, private, and powered by client-side browser processing.</p>
+                </div>
+
+                <div class="glass" style="padding: 2rem;">
+                    
+                    <div id="upload-state" class="upload-area">
+                        <input type="file" id="image-input" accept="image/jpeg, image/png, image/webp" class="hidden">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">📉</div>
+                        <h3 style="margin-bottom: 0.5rem;">Drag & drop an image here</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Supports JPG, PNG, and WebP formats</p>
+                        <button class="btn btn-primary" onclick="document.getElementById('image-input').click()">Select Image</button>
+                    </div>
+
+                    <div id="processing-state" class="hidden">
+                        <div class="workspace-grid">
+                            
+                            <div class="preview-container">
+                                <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;" id="filename-display">image.jpg</h3>
+                                <div class="preview-image-wrapper">
+                                    <img id="image-preview" src="" alt="Compressed Preview">
+                                </div>
+                                <p style="font-size: 0.85rem; color: var(--text-muted);">Live preview updates automatically as you adjust quality.</p>
+                            </div>
+
+                            <div class="controls-panel">
+                                <div class="control-group">
+                                    <label for="quality-slider">
+                                        <span>Compression Quality</span>
+                                        <span id="quality-value" style="color: var(--primary);">80%</span>
+                                    </label>
+                                    <input type="range" id="quality-slider" min="10" max="100" value="80" step="1">
+                                    <small style="display: block; margin-top: 0.5rem; color: var(--text-muted); font-size: 0.8rem;">
+                                        Lower quality results in smaller file sizes but may introduce visual artifacts.
+                                    </small>
+                                </div>
+
+                                <div class="stats-box">
+                                    <div class="stat-row">
+                                        <span>Original Size:</span>
+                                        <span class="stat-value" id="original-size">0 KB</span>
+                                    </div>
+                                    <div class="stat-row">
+                                        <span>New Size:</span>
+                                        <span class="stat-value" id="compressed-size" style="color: var(--primary);">0 KB</span>
+                                    </div>
+                                    <div style="border-top: 1px solid var(--border-glass); margin: 0.8rem 0;"></div>
+                                    <div class="stat-row">
+                                        <span>Saved:</span>
+                                        <span class="savings-value" id="savings-display">0%</span>
+                                    </div>
+                                </div>
+
+                                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                    <a id="download-link" class="btn btn-primary" href="#" download="Toolenix_Compressed.jpg">Download Image</a>
+                                    <button class="btn btn-outline" id="reset-btn">Compress Another File</button>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Comprehensive Guide to Image Compression and Optimization</h2>
+                <p>In the visually driven landscape of the modern internet, high-quality images are non-negotiable. For digital content creators, managing high-definition video assets and crafting the perfect cinematic thumbnails requires balancing visual quality with strict platform limits. Whether you are optimizing a moody, Dark Academia-inspired thumbnail for YouTube or preparing SEO-optimized infographics for Pinterest audiences in the UK and USA, massive file sizes can severely hinder your reach. This is where mastering an <strong>Image Compressor</strong> becomes your ultimate competitive advantage.</p>
+                
+                <p>Welcome to the Toolenix <strong>Image Compressor</strong>. Built exclusively on high-performance, client-side web architecture, our tool allows you to drastically reduce the file size of your JPG, PNG, and WebP files without relying on unverified cloud servers. Below, we break down the mechanics of lossy versus lossless compression, why Core Web Vitals dictate your SEO rankings, and how to utilize our utility to safeguard your privacy.</p>
+
+                <h2>Why Does Image File Size Matter for SEO?</h2>
+                <p>Search engines like Google have evolved past simply reading keywords; they now actively rank websites based on User Experience (UX). A massive component of UX is page loading speed, quantified by Google’s <strong>Core Web Vitals</strong> metrics—specifically the Largest Contentful Paint (LCP).</p>
+                <p>If you upload a raw, 8-megabyte photograph directly from a DSLR camera to your blog post, the browser must download all 8MB before the user can see the image. On a standard 4G mobile connection, this can take several seconds, leading to skyrocketing bounce rates. Search algorithms penalize slow-loading pages. By using an image compressor, you can reduce that 8MB file down to 300KB. The visual difference to the human eye is often imperceptible, but the page loading speed will increase exponentially, directly boosting your SEO rankings and audience retention.</p>
+
+                <h2>Understanding Compression: Lossy vs. Lossless</h2>
+                <p>When you slide the quality scale on our compressor tool, you are engaging with mathematical algorithms that dictate how image data is stored. There are two primary schools of image optimization:</p>
+                <ul>
+                    <li><strong>Lossless Compression:</strong> This method optimizes the file structure without discarding any actual visual pixel data. It rewrites the metadata and removes unnecessary background information. While this preserves 100% of the visual fidelity, it generally only reduces the file size by 10% to 15%.</li>
+                    <li><strong>Lossy Compression (Used by Toolenix):</strong> When you output an image as a JPG with a quality setting of 80%, the browser uses a lossy algorithm. It groups adjacent pixels of similar colors and simplifies them into a single block. Because the human eye struggles to detect minute variations in complex color gradients, lossy compression can reduce file sizes by up to 80% with almost no visible degradation.</li>
+                </ul>
+
+                <h2>The Client-Side Privacy Revolution</h2>
+                <p>If you search for an "online image resizer" or compressor, the vast majority of websites operate on a cloud-based server model. They require you to upload your personal photos, proprietary business graphics, or unreleased product designs to a remote server. The server runs the compression software and spits a download link back to you.</p>
+                <p>This creates a massive privacy vulnerability. You have no guarantee that your images are deleted from their servers, nor can you be certain their databases are secure against interception. Furthermore, uploading heavy images consumes your bandwidth and takes time.</p>
+                <p><strong>Toolenix circumvents this completely by bringing the software to your browser.</strong> Utilizing HTML5 Canvas APIs, our tool loads your image directly into your local machine's memory (RAM). When you adjust the slider, your own CPU calculates the compression algorithms in real-time. Your images never leave your device. You receive the processing speed and absolute privacy of a native desktop application, all within a free web interface.</p>
+
+                <h2>Features of the Toolenix Image Compressor</h2>
+                <ul>
+                    <li><strong>Real-Time Live Previews:</strong> As you adjust the compression quality slider, the preview image updates instantly. This allows you to visually hunt for the perfect "sweet spot" where file size drops dramatically but visual artifacts remain invisible.</li>
+                    <li><strong>Instant Metric Calculations:</strong> See your exact file size savings calculated in real-time before you even click download.</li>
+                    <li><strong>Zero Upload Limitations:</strong> Compress massive panorama files or heavy digital art without hitting the 5MB upload limits common on server-based platforms.</li>
+                    <li><strong>Format Conversion:</strong> Upload a heavy PNG, and if you choose a lossy compression output, the canvas will automatically rasterize it into a web-optimized JPEG format, saving massive amounts of space.</li>
+                </ul>
+
+                <h2>Step-by-Step Guide: How to Compress an Image</h2>
+                <p>Optimizing your digital assets is a seamless process. Follow these simple steps:</p>
+                <ol>
+                    <li><strong>Upload the Image:</strong> Drag and drop your JPG, PNG, or WebP file into the dashed upload area. The local script will instantly render it on the canvas.</li>
+                    <li><strong>Adjust the Slider:</strong> By default, the tool applies a highly efficient 80% quality setting. Move the slider left to decrease file size (more compression), or right to increase visual quality (less compression).</li>
+                    <li><strong>Review the Preview:</strong> Watch the preview image to ensure text remains legible and color gradients do not become heavily pixelated (banded).</li>
+                    <li><strong>Check the Stats:</strong> Look at the green "Saved" percentage to gauge your optimization success.</li>
+                    <li><strong>Download:</strong> Click the blue "Download Image" button to save the newly optimized file directly to your local storage.</li>
+                </ol>
+
+                <h2>Best Practices for Digital Content Creators</h2>
+                <p>Whether you are managing social media or a corporate website, keep these optimization guidelines in mind:</p>
+                <p><strong>Optimize for the Platform:</strong> YouTube thumbnail dimensions are 1280x720 pixels and the platform restricts uploads over 2MB. Use our compressor to ensure your highly edited, cinematic thumbnails slide easily under that limit without losing their aesthetic punch. Pinterest favors vertical pins (1000x1500 pixels); heavily graphical pins should be compressed to ensure quick loading on mobile feeds.</p>
+                <p><strong>Don't Compress Twice:</strong> If an image has already been heavily compressed and artifacting (pixelation) is visible, running it through the compressor again will not yield significant file size savings, but it will drastically worsen the image quality. Always try to start with the highest resolution source file available.</p>
+                <p><strong>Know When to Use PNG:</strong> If your image contains a lot of flat vector-style graphics, typography, or requires a transparent background, JPG compression will introduce ugly artifacts around the letters. In these cases, stick to PNG.</p>
+
+                <h2>Frequently Asked Questions (FAQs)</h2>
+                
+                <h3>Will this tool alter the physical dimensions (width/height) of my image?</h3>
+                <p>No. This tool exclusively performs file size compression by optimizing the pixel data. If you upload an image that is 1920x1080 pixels, the compressed download will remain exactly 1920x1080 pixels. To change the physical dimensions, use our upcoming Image Resizer tool.</p>
+
+                <h3>Why is my PNG converting to a JPG?</h3>
+                <p>True lossy compression (which yields the massive 70%+ file size savings) is a characteristic of the JPEG format. When you compress a PNG heavily using the canvas engine, it outputs as a highly optimized JPEG to give you the smallest file size possible. Note: This will remove transparent backgrounds.</p>
+
+                <h3>Are my private photographs safe?</h3>
+                <p>Absolutely. Because of our strict client-side architecture, your images are processed entirely within the isolated sandbox of your web browser. We physically cannot see, log, or store the images you drop into the compressor.</p>
+
+                <h2>Complementary Image Utilities</h2>
+                <p>Continue refining your digital assets with our other free local tools:</p>
+                <ul>
+                    <li><a href="jpg-to-pdf.html"><strong>JPG to PDF:</strong></a> Compile your freshly optimized images into a professional, universally readable PDF document.</li>
+                    <li><a href="png-to-pdf.html"><strong>PNG to PDF:</strong></a> Bind your transparent PNG graphics into a lossless PDF presentation.</li>
+                    <li><a href="pdf-to-jpg.html"><strong>PDF to JPG:</strong></a> Extract high-resolution images out of heavy PDF documents so you can compress them individually.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>In a digital world where speed dictates success, serving unoptimized images is a critical error. By utilizing the Toolenix Image Compressor, you gain access to a professional-grade optimization engine that operates entirely within your browser. Maximize your SEO potential, protect your data privacy, and deliver lightning-fast content to your audience by making this tool a permanent part of your digital workflow.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const uploadArea = document.getElementById('upload-state');
+            const fileInput = document.getElementById('image-input');
+            const processingState = document.getElementById('processing-state');
+            
+            const filenameDisplay = document.getElementById('filename-display');
+            const imagePreview = document.getElementById('image-preview');
+            const qualitySlider = document.getElementById('quality-slider');
+            const qualityValueDisplay = document.getElementById('quality-value');
+            
+            const originalSizeDisplay = document.getElementById('original-size');
+            const compressedSizeDisplay = document.getElementById('compressed-size');
+            const savingsDisplay = document.getElementById('savings-display');
+            
+            const downloadLink = document.getElementById('download-link');
+            const resetBtn = document.getElementById('reset-btn');
+            
+            let originalImage = new Image();
+            let originalFile = null;
+            let currentFileName = "";
+            let originalSizeBytes = 0;
+
+            // Drag and Drop Logic
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaultBehavior, false);
+            });
+
+            function preventDefaultBehavior(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.add('dragover'), false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.remove('dragover'), false);
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                handleFileSelection(e.dataTransfer.files[0]);
+            });
+
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) handleFileSelection(this.files[0]);
+            });
+
+            function formatBytes(bytes, decimals = 2) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const dm = decimals < 0 ? 0 : decimals;
+                const sizes = ['Bytes', 'KB', 'MB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+            }
+
+            function handleFileSelection(file) {
+                const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+                if (!file || !validTypes.includes(file.type.toLowerCase())) {
+                    if (window.showToast) window.showToast('Please provide a valid JPG, PNG, or WebP image.', 'error');
+                    return;
+                }
+                
+                originalFile = file;
+                originalSizeBytes = file.size;
+                currentFileName = file.name.replace(/\.[^/.]+$/, "");
+                
+                filenameDisplay.textContent = file.name;
+                originalSizeDisplay.textContent = formatBytes(originalSizeBytes);
+                
+                // Read file to data URL for the Image object
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    originalImage.onload = () => {
+                        // Switch UI
+                        uploadArea.classList.add('hidden');
+                        processingState.classList.remove('hidden');
+                        
+                        // Initial compression at default slider value
+                        compressImage();
+                    };
+                    originalImage.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+
+            // Real-time slider update
+            qualitySlider.addEventListener('input', () => {
+                qualityValueDisplay.textContent = `${qualitySlider.value}%`;
+                // Debounce slightly to prevent lag on massive images
+                clearTimeout(window.compressTimeout);
+                window.compressTimeout = setTimeout(compressImage, 100);
+            });
+
+            function compressImage() {
+                if (!originalImage.src) return;
+
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+
+                // Preserve original dimensions
+                canvas.width = originalImage.width;
+                canvas.height = originalImage.height;
+
+                // Draw image on canvas
+                // Fill with white first in case it's a transparent PNG being converted to JPG
+                ctx.fillStyle = "#FFFFFF";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(originalImage, 0, 0);
+
+                // Get quality from slider (0.1 to 1.0)
+                const quality = parseInt(qualitySlider.value) / 100;
+
+                // Export from canvas as JPEG
+                const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+                
+                // Update Preview Image
+                imagePreview.src = compressedDataUrl;
+                
+                // Calculate new size from base64 string
+                // Base64 size formula: length * (3/4) - padding
+                const padding = (compressedDataUrl.match(/=/g) || []).length;
+                const base64String = compressedDataUrl.split(',')[1];
+                const newSizeBytes = Math.max(0, (base64String.length * 0.75) - padding);
+                
+                compressedSizeDisplay.textContent = formatBytes(newSizeBytes);
+                
+                // Calculate savings
+                if (newSizeBytes < originalSizeBytes) {
+                    const savedPercent = ((originalSizeBytes - newSizeBytes) / originalSizeBytes) * 100;
+                    savingsDisplay.textContent = `${savedPercent.toFixed(1)}%`;
+                    savingsDisplay.style.color = '#10B981'; // Green
+                } else {
+                    savingsDisplay.textContent = `0% (File is larger)`;
+                    savingsDisplay.style.color = '#EF4444'; // Red
+                }
+
+                // Setup Download Link
+                downloadLink.href = compressedDataUrl;
+                downloadLink.download = `${currentFileName}_compressed.jpg`;
+            }
+
+            function resetWorkspace() {
+                originalImage = new Image();
+                originalFile = null;
+                originalSizeBytes = 0;
+                currentFileName = "";
+                
+                fileInput.value = '';
+                imagePreview.src = '';
+                
+                // Reset slider
+                qualitySlider.value = 80;
+                qualityValueDisplay.textContent = '80%';
+                
+                if (downloadLink.href) {
+                    URL.revokeObjectURL(downloadLink.href);
+                    downloadLink.href = '#';
+                }
+                
+                processingState.classList.add('hidden');
+                uploadArea.classList.remove('hidden');
+            }
+
+            resetBtn.addEventListener('click', resetWorkspace);
+        });
+    </script>
+</body>
+</html>

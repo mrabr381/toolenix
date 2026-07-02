@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Split PDF - Extract & Separate PDF Pages Free Offline | Toolenix</title>
+    <meta name="title" content="Split PDF - Extract & Separate PDF Pages Free Offline | Toolenix">
+    <meta name="description" content="Split PDF files and extract specific pages instantly. 100% free, secure, and client-side processed. No file uploads, no size limits, no watermarks.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/split-pdf.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/split-pdf.html">
+    <meta property="og:title" content="Split PDF - Extract Pages Securely & Free">
+    <meta property="og:description" content="Separate PDF pages or extract custom ranges instantly with zero server uploads. Completely secure and free.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/split-pdf.html">
+    <meta property="twitter:title" content="Split PDF - Extract Pages Securely & Free">
+    <meta property="twitter:description" content="Separate PDF pages or extract custom ranges instantly with zero server uploads. Completely secure and free.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix PDF Splitter",
+      "operatingSystem": "All",
+      "applicationCategory": "UtilitiesApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A secure web application allowing users to extract and split specific pages from a PDF document purely via local browser processing."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "PDF Tools",
+        "item": "https://www.toolenix.com/#pdf-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Split PDF"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Styles */
+        .upload-area {
+            border: 2px dashed var(--primary);
+            border-radius: 16px;
+            padding: 4rem 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: rgba(37, 99, 235, 0.05);
+            cursor: pointer;
+            margin-bottom: 2rem;
+        }
+        .upload-area:hover, .upload-area.dragover {
+            background: rgba(37, 99, 235, 0.1);
+            transform: translateY(-2px);
+            border-color: var(--secondary);
+        }
+        .hidden { display: none !important; }
+        
+        .range-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin: 1.5rem 0;
+            text-align: left;
+        }
+        .range-input-group label {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+        .range-input-group input {
+            padding: 1rem;
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            background: var(--bg-main);
+            color: var(--text-main);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .range-input-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        .file-info-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* SEO Content Formatting */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#pdf-tools">PDF Tools</a> &gt; Split PDF
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 900px;">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">Split PDF & Extract Pages</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Separate one page or a whole range for easy conversion into an independent PDF. 100% secure client-side processing.</p>
+                </div>
+
+                <div class="glass" style="padding: 2rem;">
+                    
+                    <div id="upload-state" class="upload-area">
+                        <input type="file" id="pdf-input" accept="application/pdf" class="hidden">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">✂️</div>
+                        <h3 style="margin-bottom: 0.5rem;">Drag & drop a PDF here</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">or</p>
+                        <button class="btn btn-primary" onclick="document.getElementById('pdf-input').click()">Browse File</button>
+                    </div>
+
+                    <div id="processing-state" class="hidden" style="text-align: center;">
+                        <div id="file-details" class="file-info-badge">
+                            📄 <span id="filename-display">document.pdf</span> (<span id="page-count">0</span> pages)
+                        </div>
+                        
+                        <div class="glass" style="padding: 2rem; background: var(--bg-main); text-align: left;">
+                            <h3 style="margin-bottom: 1rem; font-size: 1.2rem;">Extraction Options</h3>
+                            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem;">
+                                Specify the page numbers or ranges you want to extract into a new document.
+                            </p>
+                            
+                            <div class="range-input-group">
+                                <label for="page-ranges">Pages to Extract (e.g., 1-5, 8, 11-13)</label>
+                                <input type="text" id="page-ranges" placeholder="Example: 1, 3-5, 10" autocomplete="off">
+                                <small style="color: var(--text-muted); margin-top: 0.5rem;">Separate numbers or ranges with commas. Leaves original file intact.</small>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem;">
+                            <button class="btn btn-outline" id="reset-btn">Choose Different File</button>
+                            <button class="btn btn-primary" id="split-btn">Split PDF</button>
+                        </div>
+                    </div>
+
+                    <div id="result-state" class="hidden" style="text-align: center; padding: 3rem 0;">
+                        <div style="font-size: 4rem; color: #10B981; margin-bottom: 1rem;">✅</div>
+                        <h3 style="margin-bottom: 1rem; font-size: 1.5rem;">PDF Split Successfully!</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 2rem;">Your extracted pages have been compiled into a new document safely on your device.</p>
+                        <div style="display: flex; gap: 1rem; justify-content: center;">
+                            <button class="btn btn-outline" id="start-over-btn">Split Another</button>
+                            <a id="download-link" class="btn btn-primary" href="#" download="Toolenix_Extracted.pdf">Download Extracted PDF</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                
+                <h2>The Comprehensive Guide to Splitting and Extracting PDF Pages</h2>
+                <p>Handling large, multi-page PDF documents can often be cumbersome and counterproductive. Whether you are dealing with a 500-page corporate manual but only need chapter three, or you have received a combined contract and only require the signature page, sending massive files wastes bandwidth, storage space, and the recipient's time. This is why a dedicated <strong>PDF Splitter</strong> is one of the most essential utilities in any digital professional's toolkit.</p>
+                
+                <p>Welcome to the Toolenix <strong>Split PDF</strong> utility. Designed with modern web standards, our tool allows you to isolate, extract, and separate pages from any PDF document with absolute precision. More importantly, we do this without compromising your data security. Let’s explore how PDF splitting works, why client-side processing is superior, and the best practices for managing your extracted documents.</p>
+
+                <h2>What Does it Mean to Split a PDF?</h2>
+                <p>Splitting a PDF refers to the technical process of taking a single Portable Document Format file and breaking it down into one or more smaller files. Because PDFs are coded to lock in formatting, fonts, and graphical elements, you cannot simply "cut and paste" a page into a new document as you would in Microsoft Word.</p>
+                <p>A true PDF splitting tool reads the complex binary structure of the document, identifies the specific page nodes you have requested, and generates a brand-new PDF container around those extracted pages. This ensures that the newly created document retains 100% of the original visual fidelity, including embedded images, searchable text layers, and hyperlinking structures.</p>
+
+                <h2>The Client-Side Difference: Why Toolenix is the Safest Option</h2>
+                <p>If you type "split PDF online" into a search engine, you will be met with countless results. However, 99% of those websites rely on a cloud-based server architecture. When you use their tools, you are forced to upload your file to their remote servers. Once uploaded, a background script separates the pages, and you download the result.</p>
+                <p>This traditional method is deeply flawed for several reasons:</p>
+                <ul>
+                    <li><strong>Severe Privacy Risks:</strong> Uploading financial records, legal contracts, or personal medical histories to an unknown server is a massive security vulnerability. You have no guarantee that your data is actually deleted.</li>
+                    <li><strong>Sluggish Performance:</strong> Uploading a 100MB PDF document takes time. Waiting in a server queue takes time. Downloading the split file takes time. The process is entirely dependent on your internet speed and their server load.</li>
+                    <li><strong>Strict Size Limitations:</strong> Because processing requires server compute power, cloud-based tools invariably place strict limits on how large your file can be, often capping out at 10MB or 20MB on free tiers.</li>
+                </ul>
+                <p><strong>Toolenix eliminates all of these issues by processing your files directly on your device.</strong> By leveraging HTML5 Canvas and advanced WebAssembly (Wasm) architecture, our tool brings the software to your file, rather than sending your file to the software. When you select pages to extract, your computer's own CPU handles the processing locally. Your document never touches a remote server, ensuring absolute privacy, instantaneous speeds, and zero artificial file size limits.</p>
+
+                <h2>Benefits of Using the Toolenix PDF Splitter</h2>
+                <p>Our commitment to local processing and premium user experience yields several distinct advantages:</p>
+                <ul>
+                    <li><strong>Absolute Data Security:</strong> Perfect for HR professionals, lawyers, and healthcare workers dealing with sensitive PII (Personally Identifiable Information) or HIPAA-compliant documents.</li>
+                    <li><strong>Syntax-Based Extraction:</strong> Our intuitive input field allows you to type exact ranges (e.g., 1-5, 8, 12-20) to pull highly specific, non-sequential pages into a single cohesive document.</li>
+                    <li><strong>Completely Free & Ad-Free:</strong> We don't hide core features behind a paywall, and we don't clutter your workspace with intrusive banner ads.</li>
+                    <li><strong>No Watermarks:</strong> The extracted document is yours. We never alter your file by stamping our brand name on your professional work.</li>
+                    <li><strong>Works Offline:</strong> Once the web page is loaded, you can actually disconnect from the internet and still split your PDFs, because all the necessary code is already running in your browser.</li>
+                </ul>
+
+                <h2>Step-by-Step Guide: How to Extract Pages from a PDF</h2>
+                <p>Using our interface is designed to be frictionless. Here is how to split your document in seconds:</p>
+                <ol>
+                    <li><strong>Upload the Source Document:</strong> Click the "Browse File" button or simply drag and drop your PDF into the dashed upload area. Our system will immediately read the file locally and display the total page count.</li>
+                    <li><strong>Determine Your Ranges:</strong> In the extraction options box, type the page numbers you wish to keep. You can use single numbers separated by commas (e.g., <code>1, 5, 9</code>) or hyphenated ranges (e.g., <code>10-15</code>). You can even combine them (e.g., <code>1-3, 7, 10-12</code>).</li>
+                    <li><strong>Execute the Split:</strong> Click the blue "Split PDF" button. The local WebAssembly script will instantly parse the document and generate your new file.</li>
+                    <li><strong>Download the Result:</strong> Click "Download Extracted PDF" to save the newly created, streamlined document directly to your hard drive. Your original file remains completely untouched.</li>
+                </ol>
+
+                <h2>Best Practices for PDF Splitting</h2>
+                <p>To maximize your efficiency when managing documents, consider the following best practices:</p>
+                <p><strong>Double-Check Page Numbers vs. Document Numbers:</strong> It is a common mistake to confuse a document's internal printed page numbers with the actual PDF page index. For example, the preface of a book might be numbered "i, ii, iii", meaning page "1" of the text is actually page 4 of the PDF. Always verify the absolute PDF page number before extracting.</p>
+                <p><strong>Optimize After Splitting:</strong> If you are extracting a heavily graphical section of a large manual, the resulting file might still be quite large. Consider running the extracted file through our <a href="compress-pdf.html">PDF Compressor</a> to optimize it for email attachments.</p>
+                <p><strong>Naming Conventions:</strong> When you download the split file, immediately rename it to reflect its new contents (e.g., `Project_Proposal_Financials_Only.pdf`). This prevents confusion later when searching through your local directories.</p>
+
+                <h2>Common Mistakes to Avoid</h2>
+                <ul>
+                    <li><strong>Attempting to Split Encrypted Files:</strong> If your source PDF requires a password to open, the internal structure is encrypted. Our client-side tool cannot read the pages until you decrypt it. Use our <a href="unlock-pdf.html">Unlock PDF Tool</a> first.</li>
+                    <li><strong>Using Invalid Syntax:</strong> Ensure you use commas to separate distinct pages and hyphens for ranges. Entering letters or special characters will cause the extraction process to fail.</li>
+                    <li><strong>Exceeding the Total Page Count:</strong> Requesting page 50 from a 10-page document will result in an error. The tool displays the total page count next to your filename to help you avoid this.</li>
+                </ul>
+
+                <h2>Frequently Asked Questions (FAQs)</h2>
+                
+                <h3>Will splitting my PDF reduce its quality?</h3>
+                <p>No. The extraction process is lossless. We do not rasterize or compress the pages during the split. The text remains sharp, the vectors remain scalable, and the images retain their original resolution.</p>
+
+                <h3>Can I extract non-consecutive pages?</h3>
+                <p>Yes, absolutely. By using comma separation in the input field, you can pull completely unrelated pages (like page 2, page 14, and page 30) and compile them into one fluid document.</p>
+
+                <h3>What happens to the original file?</h3>
+                <p>Your original file is perfectly safe. The splitting process is strictly read-only. We read the source code, duplicate the requested pages, and build a new file. The PDF sitting on your desktop remains entirely unaltered.</p>
+
+                <h3>Why did my split PDF lose its bookmarks/table of contents?</h3>
+                <p>PDF bookmarks and hyperlinked tables of contents are mapped to specific page nodes in the original document. When you extract a subset of pages, those complex navigational structures are intentionally stripped to prevent dead links and corrupted metadata in the new, smaller file.</p>
+
+                <h2>Related Tools</h2>
+                <p>Enhance your document management workflow with these complementary utilities:</p>
+                <ul>
+                    <li><a href="merge-pdf.html"><strong>Merge PDF:</strong></a> The opposite of splitting; combine multiple different PDF files into a single master document.</li>
+                    <li><a href="delete-pdf-pages.html"><strong>Delete PDF Pages:</strong></a> Instead of extracting what you want, quickly remove the specific pages you don't need.</li>
+                    <li><a href="pdf-to-jpg.html"><strong>PDF to JPG:</strong></a> Convert your extracted PDF pages into high-resolution image files for social media or presentations.</li>
+                    <li><a href="rotate-pdf.html"><strong>Rotate PDF:</strong></a> Fix the orientation of your newly extracted document if the original was scanned upside down.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Extracting crucial information from bulky documents should not require expensive desktop software or compromise your privacy. The Toolenix Split PDF utility provides a streamlined, ultra-secure, and lightning-fast solution by harnessing the power of your own web browser. Bookmark this page to ensure you always have a reliable, privacy-first document separator ready at a moment's notice.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const uploadArea = document.getElementById('upload-state');
+            const fileInput = document.getElementById('pdf-input');
+            const processingState = document.getElementById('processing-state');
+            const resultState = document.getElementById('result-state');
+            
+            const filenameDisplay = document.getElementById('filename-display');
+            const pageCountDisplay = document.getElementById('page-count');
+            const rangeInput = document.getElementById('page-ranges');
+            
+            const splitBtn = document.getElementById('split-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const startOverBtn = document.getElementById('start-over-btn');
+            
+            let currentFile = null;
+            let totalPages = 0;
+            let pdfBytesArray = null;
+
+            // Drag and Drop Events
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.add('dragover'), false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.remove('dragover'), false);
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                const droppedFiles = e.dataTransfer.files;
+                handleFile(droppedFiles[0]);
+            });
+
+            fileInput.addEventListener('change', function() {
+                if(this.files.length > 0) handleFile(this.files[0]);
+            });
+
+            async function handleFile(file) {
+                if(file.type !== 'application/pdf') {
+                    if(window.showToast) window.showToast('Please upload a valid PDF file.', 'error');
+                    else alert('Please upload a valid PDF file.');
+                    return;
+                }
+                
+                currentFile = file;
+                filenameDisplay.textContent = file.name;
+                
+                // Read PDF to get page count
+                try {
+                    const arrayBuffer = await file.arrayBuffer();
+                    pdfBytesArray = arrayBuffer;
+                    
+                    const { PDFDocument } = PDFLib;
+                    const pdfDoc = await PDFDocument.load(arrayBuffer);
+                    totalPages = pdfDoc.getPageCount();
+                    pageCountDisplay.textContent = totalPages;
+                    
+                    // Show processing UI
+                    uploadArea.classList.add('hidden');
+                    processingState.classList.remove('hidden');
+                    
+                    // Suggest a default range (e.g., page 1) to guide user
+                    rangeInput.value = "1";
+                    rangeInput.focus();
+
+                } catch (error) {
+                    console.error('Error reading PDF:', error);
+                    if(window.showToast) window.showToast('Could not read PDF. It might be encrypted or corrupted.', 'error');
+                    resetTool();
+                }
+            }
+
+            // Reset functionality
+            function resetTool() {
+                currentFile = null;
+                totalPages = 0;
+                pdfBytesArray = null;
+                fileInput.value = '';
+                rangeInput.value = '';
+                
+                processingState.classList.add('hidden');
+                resultState.classList.add('hidden');
+                uploadArea.classList.remove('hidden');
+            }
+
+            resetBtn.addEventListener('click', resetTool);
+            startOverBtn.addEventListener('click', resetTool);
+
+            // Parse range input strictly
+            function parseRange(inputStr, maxPages) {
+                const pagesToKeep = new Set();
+                const parts = inputStr.split(',').map(s => s.trim()).filter(s => s.length > 0);
+                
+                for (const part of parts) {
+                    if (part.includes('-')) {
+                        const rangeParts = part.split('-');
+                        if (rangeParts.length !== 2) return null; // Invalid syntax
+                        
+                        const start = parseInt(rangeParts[0], 10);
+                        const end = parseInt(rangeParts[1], 10);
+                        
+                        if (isNaN(start) || isNaN(end) || start > end || start < 1 || end > maxPages) {
+                            return null;
+                        }
+                        
+                        for (let i = start; i <= end; i++) {
+                            pagesToKeep.add(i);
+                        }
+                    } else {
+                        const pageNum = parseInt(part, 10);
+                        if (isNaN(pageNum) || pageNum < 1 || pageNum > maxPages) {
+                            return null;
+                        }
+                        pagesToKeep.add(pageNum);
+                    }
+                }
+                
+                // Return sorted array of 0-based indices
+                return Array.from(pagesToKeep).sort((a, b) => a - b).map(p => p - 1);
+            }
+
+            // Core Split Logic
+            splitBtn.addEventListener('click', async () => {
+                const rangeStr = rangeInput.value;
+                if (!rangeStr) {
+                    if(window.showToast) window.showToast('Please enter a page range.', 'error');
+                    return;
+                }
+
+                const pageIndices = parseRange(rangeStr, totalPages);
+                
+                if (!pageIndices || pageIndices.length === 0) {
+                    if(window.showToast) window.showToast(`Invalid range. Please enter numbers between 1 and ${totalPages}.`, 'error');
+                    return;
+                }
+
+                splitBtn.textContent = 'Extracting...';
+                splitBtn.disabled = true;
+
+                try {
+                    const { PDFDocument } = PDFLib;
+                    
+                    // Load original
+                    const originalPdf = await PDFDocument.load(pdfBytesArray);
+                    
+                    // Create new empty document
+                    const newPdf = await PDFDocument.create();
+                    
+                    // Copy selected pages
+                    const copiedPages = await newPdf.copyPages(originalPdf, pageIndices);
+                    
+                    // Add them to new document
+                    copiedPages.forEach((page) => newPdf.addPage(page));
+
+                    // Serialize and create download link
+                    const newPdfBytes = await newPdf.save();
+                    const blob = new Blob([newPdfBytes], { type: 'application/pdf' });
+                    const url = URL.createObjectURL(blob);
+
+                    const downloadLink = document.getElementById('download-link');
+                    
+                    // Format output filename
+                    const baseName = currentFile.name.replace(/\.[^/.]+$/, "");
+                    downloadLink.href = url;
+                    downloadLink.download = `${baseName}_extracted.pdf`;
+                    
+                    // Update UI
+                    processingState.classList.add('hidden');
+                    resultState.classList.remove('hidden');
+                    if(window.showToast) window.showToast('Pages extracted successfully!', 'success');
+
+                } catch (error) {
+                    console.error('Error splitting PDF:', error);
+                    if(window.showToast) window.showToast('An error occurred during extraction.', 'error');
+                } finally {
+                    splitBtn.textContent = 'Split PDF';
+                    splitBtn.disabled = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

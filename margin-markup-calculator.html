@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>Margin & Markup Calculator - E-commerce Profit Tool | Toolenix</title>
+    <meta name="title" content="Margin & Markup Calculator - E-commerce Profit Tool | Toolenix">
+    <meta name="description" content="Calculate gross profit, margin, and markup percentages instantly. 100% free, offline financial calculator for e-commerce and retail businesses.">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.toolenix.com/margin-markup-calculator.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/margin-markup-calculator.html">
+    <meta property="og:title" content="Margin & Markup Calculator for Retail & E-commerce">
+    <meta property="og:description" content="Easily find your gross profit margin and markup percentages. Essential tool for dropshippers and Amazon sellers.">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/margin-markup-calculator.html">
+    <meta property="twitter:title" content="Margin & Markup Calculator for Retail & E-commerce">
+    <meta property="twitter:description" content="Easily find your gross profit margin and markup percentages. Essential tool for dropshippers and Amazon sellers.">
+    
+    <!-- Assets -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <!-- Schema.org for SoftwareApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix Margin & Markup Calculator",
+      "operatingSystem": "All",
+      "applicationCategory": "BusinessApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A client-side financial calculator for computing Gross Profit, Profit Margin, and Markup percentages for retail and e-commerce goods."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Calculators",
+        "item": "https://www.toolenix.com/#calculators"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Margin & Markup Calculator"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .calculators-wrapper {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .calc-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .calc-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 2px solid rgba(37, 99, 235, 0.1);
+            padding-bottom: 0.8rem;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 600px) {
+            .input-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .input-group label {
+            font-weight: 600;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .prefix {
+            position: absolute;
+            left: 1rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .suffix {
+            position: absolute;
+            right: 1rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .calc-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 2.5rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .calc-input.percent-input {
+            padding: 1rem 2.5rem 1rem 1rem;
+        }
+
+        .calc-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Results Display */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            background: rgba(37, 99, 235, 0.03);
+            border: 1px solid rgba(37, 99, 235, 0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+
+        .result-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 0.4rem;
+        }
+
+        .result-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .result-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .profit-value { color: #10B981; }
+        .loss-value { color: #EF4444; }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+        .seo-article .formula-box { background: rgba(37, 99, 235, 0.05); padding: 1rem; border-left: 4px solid var(--primary); font-family: monospace; font-size: 1.1rem; margin-bottom: 1.5rem; }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <!-- Breadcrumbs -->
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#calculators">Everyday Calculators</a> &gt; Margin & Markup Calculator
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <!-- Tool Interface -->
+        <section style="padding: 3rem 0;">
+            <div class="container">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">Margin & Markup Calculator</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Accurately calculate your gross profit, sales margin, and retail markup instantly offline.</p>
+                </div>
+
+                <div class="calculators-wrapper">
+                    
+                    <!-- Main Calculator: Find Margin & Markup -->
+                    <div class="calc-card">
+                        <div class="calc-title">📊 Calculate Profit, Margin & Markup</div>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.95rem;">Enter your cost and selling price to find your profit percentages.</p>
+                        
+                        <div class="input-grid">
+                            <div class="input-group">
+                                <label for="c1-cost">Cost (Cost of Goods Sold)</label>
+                                <div class="input-wrapper">
+                                    <span class="prefix">$</span>
+                                    <input type="number" id="c1-cost" class="calc-input" placeholder="50.00" step="any" min="0">
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="c1-revenue">Selling Price (Revenue)</label>
+                                <div class="input-wrapper">
+                                    <span class="prefix">$</span>
+                                    <input type="number" id="c1-revenue" class="calc-input" placeholder="100.00" step="any" min="0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="results-grid">
+                            <div class="result-item">
+                                <span class="result-label">Gross Profit</span>
+                                <span class="result-value" id="c1-profit">$0.00</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Gross Margin</span>
+                                <span class="result-value" id="c1-margin">0%</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Markup</span>
+                                <span class="result-value" id="c1-markup">0%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calculator 2: Find Selling Price via Margin -->
+                    <div class="calc-card">
+                        <div class="calc-title">🎯 Set Price based on Target Margin</div>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.95rem;">Want to guarantee a 30% Margin? Enter your cost to find the required selling price.</p>
+                        
+                        <div class="input-grid">
+                            <div class="input-group">
+                                <label for="c2-cost">Cost (COGS)</label>
+                                <div class="input-wrapper">
+                                    <span class="prefix">$</span>
+                                    <input type="number" id="c2-cost" class="calc-input" placeholder="40.00" step="any" min="0">
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="c2-margin">Target Gross Margin</label>
+                                <div class="input-wrapper">
+                                    <input type="number" id="c2-margin" class="calc-input percent-input" placeholder="30" step="any" min="0" max="99.99">
+                                    <span class="suffix">%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="results-grid">
+                            <div class="result-item">
+                                <span class="result-label">Required Selling Price</span>
+                                <span class="result-value" id="c2-price">$0.00</span>
+                            </div>
+                            <div class="result-item">
+                                <span class="result-label">Gross Profit</span>
+                                <span class="result-value profit-value" id="c2-profit">$0.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Deep SEO Editorial Section -->
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>Margin vs. Markup: The E-commerce Dilemma</h2>
+                <p>If you run a retail store, Amazon FBA business, or a Shopify dropshipping brand, pricing your products correctly is the difference between massive success and sudden bankruptcy. However, thousands of new entrepreneurs make a fatal mathematical error: they confuse <strong>Margin</strong> with <strong>Markup</strong>.</p>
+                
+                <p>While both metrics describe your gross profit as a percentage, they are calculated using entirely different baselines. If an investor asks for your profit margin and you give them your markup percentage, you are severely misrepresenting the health of your business. The Toolenix Margin & Markup Calculator is designed to eliminate this confusion, providing instant, accurate financial metrics perfectly suited for retail mathematics.</p>
+
+                <h2>Understanding Gross Profit Margin</h2>
+                <p><strong>Gross Margin</strong> is the percentage of total sales revenue that you keep as gross profit. It shows how much of every dollar earned actually stays in your pocket after paying for the product.</p>
+                <div class="formula-box">Margin = (Gross Profit / Revenue) × 100</div>
+                <p><strong>Example:</strong> You buy a t-shirt for $50 (Cost) and sell it for $100 (Revenue). 
+                <br>Your Gross Profit is $50.
+                <br>Your Margin is ($50 / $100) = 0.50 or <strong>50%</strong>.</p>
+                <p><em>Crucial Rule:</em> Your gross margin can never mathematically exceed 100%, because your profit cannot be larger than the total selling price.</p>
+
+                <h2>Understanding Markup</h2>
+                <p><strong>Markup</strong> is the percentage by which the cost of a product is increased to arrive at the selling price. It shows how much more your selling price is compared to what you paid for the item.</p>
+                <div class="formula-box">Markup = (Gross Profit / Cost) × 100</div>
+                <p><strong>Example:</strong> Taking the same t-shirt above (Cost $50, Revenue $100, Profit $50).
+                <br>Your Markup is ($50 / $50) = 1.0 or <strong>100%</strong>.</p>
+                <p><em>Crucial Rule:</em> Markups can be infinitely high (e.g., 200%, 500%). The markup percentage will always be a higher number than the margin percentage for the same product.</p>
+
+                <h2>Why Using a Target Margin Calculator is Essential</h2>
+                <p>Most large retailers mandate a specific minimum margin across all products (e.g., a strict 40% margin). If you buy a new product for $30, how do you calculate the selling price to hit exactly 40% margin?</p>
+                <p>Many beginners wrongly multiply $30 by 1.40, setting the price at $42. But if you sell at $42, your profit is $12. ($12 / $42 = 28.5% Margin). You failed to hit your 40% goal because you calculated Markup, not Margin.</p>
+                <p>To find the true selling price based on Margin, you must use division: <code>Cost / (1 - Margin)</code>. Our <strong>Target Margin Calculator</strong> handles this complex division instantly. Entering $30 Cost and 40% Margin into our tool reveals the correct required selling price: <strong>$50.00</strong>.</p>
+
+                <h2>The Safety of Offline Financial Tools</h2>
+                <p>Your product costs (COGS) and pricing strategies are highly confidential business secrets. Using cloud-based profit calculators exposes your wholesale pricing structure to third-party databases. <strong>Toolenix operates via 100% Client-Side Processing.</strong> Your financial data is calculated within your browser's local sandbox memory and is never transmitted across the internet, ensuring your retail strategies remain strictly private.</p>
+
+                <h2>Complementary Business Utilities</h2>
+                <p>Optimize your e-commerce workflow with our other free offline tools:</p>
+                <ul>
+                    <li><a href="percentage-calculator.html"><strong>Percentage Calculator:</strong></a> Calculate standard seasonal discounts and percentage increases effortlessly.</li>
+                    <li><a href="unit-converter.html"><strong>Unit Converter:</strong></a> Calculate shipping weights (kg to lbs) accurately for international fulfillment.</li>
+                    <li><a href="utm-link-builder.html"><strong>UTM Link Builder:</strong></a> Generate secure tracking links for your Facebook and Google Ads campaigns to accurately track your ROI.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Miscalculating your margins can silently destroy a growing retail business. By utilizing the Toolenix Margin & Markup Calculator, you gain an instantaneous, mathematically perfect pricing engine. Bookmark this page to ensure you are setting profitable, accurate prices for every product in your inventory.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <!-- Tool Execution Code -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // Format currency and percentages safely
+            function formatMoney(num) {
+                if (isNaN(num) || !isFinite(num)) return '$0.00';
+                return '$' + num.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+
+            function formatPercent(num) {
+                if (isNaN(num) || !isFinite(num)) return '0%';
+                return num.toFixed(2) + '%';
+            }
+
+            // --- Calculator 1: Given Cost & Revenue ---
+            const c1Cost = document.getElementById('c1-cost');
+            const c1Revenue = document.getElementById('c1-revenue');
+            
+            const c1Profit = document.getElementById('c1-profit');
+            const c1Margin = document.getElementById('c1-margin');
+            const c1Markup = document.getElementById('c1-markup');
+
+            function calculateC1() {
+                const cost = parseFloat(c1Cost.value);
+                const revenue = parseFloat(c1Revenue.value);
+
+                if (!isNaN(cost) && !isNaN(revenue)) {
+                    const profit = revenue - cost;
+                    
+                    // Margin = (Profit / Revenue) * 100
+                    let margin = 0;
+                    if (revenue > 0) margin = (profit / revenue) * 100;
+                    
+                    // Markup = (Profit / Cost) * 100
+                    let markup = 0;
+                    if (cost > 0) markup = (profit / cost) * 100;
+
+                    // Update UI
+                    c1Profit.textContent = formatMoney(profit);
+                    c1Margin.textContent = formatPercent(margin);
+                    c1Markup.textContent = formatPercent(markup);
+
+                    // Colors based on profit/loss
+                    if (profit >= 0) {
+                        c1Profit.className = 'result-value profit-value';
+                    } else {
+                        c1Profit.className = 'result-value loss-value';
+                    }
+                } else {
+                    c1Profit.textContent = '$0.00';
+                    c1Margin.textContent = '0%';
+                    c1Markup.textContent = '0%';
+                    c1Profit.className = 'result-value';
+                }
+            }
+
+            c1Cost.addEventListener('input', calculateC1);
+            c1Revenue.addEventListener('input', calculateC1);
+
+
+            // --- Calculator 2: Given Cost & Target Margin ---
+            const c2Cost = document.getElementById('c2-cost');
+            const c2Margin = document.getElementById('c2-margin');
+            
+            const c2Price = document.getElementById('c2-price');
+            const c2Profit = document.getElementById('c2-profit');
+
+            function calculateC2() {
+                const cost = parseFloat(c2Cost.value);
+                const marginPercent = parseFloat(c2Margin.value);
+
+                if (!isNaN(cost) && !isNaN(marginPercent) && marginPercent < 100) {
+                    const marginDecimal = marginPercent / 100;
+                    
+                    // Revenue = Cost / (1 - Margin)
+                    const requiredPrice = cost / (1 - marginDecimal);
+                    const profit = requiredPrice - cost;
+
+                    c2Price.textContent = formatMoney(requiredPrice);
+                    c2Profit.textContent = formatMoney(profit);
+
+                    if (profit >= 0) {
+                        c2Profit.className = 'result-value profit-value';
+                    } else {
+                        c2Profit.className = 'result-value loss-value';
+                    }
+                } else if (marginPercent >= 100) {
+                    c2Price.textContent = 'Invalid Margin';
+                    c2Profit.textContent = 'Margin must be < 100%';
+                    c2Profit.className = 'result-value loss-value';
+                } else {
+                    c2Price.textContent = '$0.00';
+                    c2Profit.textContent = '$0.00';
+                    c2Profit.className = 'result-value';
+                }
+            }
+
+            c2Cost.addEventListener('input', calculateC2);
+            c2Margin.addEventListener('input', calculateC2);
+
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Binary to Text Translator - Convert 0s and 1s Free | Toolenix</title>
+    <meta name="title" content="Binary to Text Translator - Convert 0s and 1s Free | Toolenix">
+    <meta name="description" content="Translate binary code to plain text and vice versa instantly. A 100% free, offline, and secure binary translator for students and developers.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/binary-to-text.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/binary-to-text.html">
+    <meta property="og:title" content="Binary to Text Translator - Instant Offline Encoding">
+    <meta property="og:description" content="Convert your English text into binary numbers (0s and 1s) or decode binary back to text instantly in your browser.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/binary-to-text.html">
+    <meta property="twitter:title" content="Binary to Text Translator - Instant Offline Encoding">
+    <meta property="twitter:description" content="Convert your English text into binary numbers (0s and 1s) or decode binary back to text instantly in your browser.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix Binary to Text Translator",
+      "operatingSystem": "All",
+      "applicationCategory": "UtilitiesApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A client-side utility for encoding plain text into binary (base-2) format and decoding binary strings back into readable text based on ASCII standards."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Calculators & Utilities",
+        "item": "https://www.toolenix.com/#calculators"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Binary to Text Translator"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .translator-wrapper {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: stretch;
+        }
+
+        @media (max-width: 900px) {
+            .translator-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .editor-pane {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            background: var(--card-bg);
+            height: 450px;
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: rgba(37, 99, 235, 0.05);
+            border-bottom: 1px solid var(--border-glass);
+            font-weight: 700;
+            color: var(--text-main);
+            font-size: 1.1rem;
+        }
+
+        .text-area {
+            width: 100%;
+            height: 100%;
+            padding: 1.5rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: none;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            resize: none;
+            outline: none;
+        }
+
+        .text-area:focus {
+            box-shadow: inset 0 0 0 2px rgba(37, 99, 235, 0.1);
+        }
+
+        .text-area.binary-font {
+            font-family: monospace;
+            color: var(--primary);
+            letter-spacing: 1px;
+        }
+
+        .swap-controls {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        @media (max-width: 900px) {
+            .swap-controls {
+                flex-direction: row;
+                padding: 1rem 0;
+            }
+            .swap-icon {
+                transform: rotate(90deg);
+            }
+        }
+
+        .swap-btn {
+            background: var(--primary);
+            color: #ffffff;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+            transition: all 0.3s;
+        }
+
+        .swap-btn:hover {
+            transform: scale(1.1);
+            background: #1d4ed8;
+        }
+
+        .status-bar {
+            grid-column: 1 / -1;
+            text-align: center;
+            color: #EF4444;
+            font-weight: 600;
+            padding: 1rem;
+            background: rgba(239, 68, 68, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            display: none;
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#calculators">Everyday Utilities</a> &gt; Binary to Text Translator
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">Binary to Text Translator</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Instantly encode plain text to binary strings or decode 0s and 1s back to readable English.</p>
+                </div>
+
+                <div class="translator-wrapper">
+                    
+                    <div class="editor-pane">
+                        <div class="editor-header">
+                            <span id="input-title">Plain Text</span>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="btn btn-outline" id="paste-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem;">📋 Paste</button>
+                                <button class="btn btn-outline" id="clear-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem; color: #EF4444; border-color: rgba(239, 68, 68, 0.3);">🗑️ Clear</button>
+                            </div>
+                        </div>
+                        <textarea id="main-input" class="text-area" placeholder="Type your text here..."></textarea>
+                    </div>
+
+                    <div class="swap-controls">
+                        <button class="swap-btn swap-icon" id="swap-btn" title="Swap Translation Direction">⇄</button>
+                        <div style="text-align: center; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-top: 0.5rem;" id="mode-text">
+                            Text to Binary
+                        </div>
+                    </div>
+
+                    <div class="editor-pane">
+                        <div class="editor-header">
+                            <span id="output-title" style="color: var(--primary);">Binary Code</span>
+                            <button class="btn btn-primary" id="copy-btn" style="padding: 0.2rem 0.8rem; font-size: 0.85rem;">📄 Copy Result</button>
+                        </div>
+                        <textarea id="main-output" class="text-area binary-font" readonly placeholder="Output will appear here..."></textarea>
+                    </div>
+
+                    <div id="status-bar" class="status-bar">Invalid binary input. Please enter only 0s and 1s separated by spaces.</div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>Understanding the Language of Computers</h2>
+                <p>When you type a message on your keyboard, read an article on a website, or look at a digital photograph, you are interacting with complex visual interfaces. However, deep inside the computer's central processing unit (CPU), none of these letters, colors, or images actually exist. At its absolute core, a computer only understands two states: "On" and "Off."</p>
+                
+                <p>These two states are represented mathematically by the numbers <strong>1 (On)</strong> and <strong>0 (Off)</strong>. This is known as the Binary Numeral System (Base-2). Every single piece of data on your computer is ultimately converted into a massive string of these two digits. Welcome to the Toolenix Binary to Text Translator. This educational utility allows you to pull back the curtain on computer science and translate human language directly into machine code.</p>
+
+                <h2>How is Text Converted into Binary?</h2>
+                <p>If computers only understand numbers, how do they process the alphabet? The answer lies in standardized character encoding systems, the most famous of which is <strong>ASCII (American Standard Code for Information Interchange)</strong>.</p>
+                
+                <p>In ASCII, every letter, number, and punctuation mark is assigned a specific decimal number. For example:</p>
+                <ul>
+                    <li>The capital letter <strong>'A'</strong> is assigned the decimal number <strong>65</strong>.</li>
+                    <li>The lowercase letter <strong>'a'</strong> is assigned the decimal number <strong>97</strong>.</li>
+                    <li>A blank <strong>space</strong> is assigned the decimal number <strong>32</strong>.</li>
+                </ul>
+
+                <p>Once the letter is converted to a decimal number, that decimal number is mathematically converted into an 8-bit binary string. The number 65 (Capital 'A') in binary is <code>01000001</code>. Therefore, when you type "A" into our translator, the underlying JavaScript uses the <code>charCodeAt()</code> function to look up the ASCII value, and translates it into that exact 8-digit binary block.</p>
+
+                <h2>Why Binary Contains Blocks of 8 Digits</h2>
+                <p>You may notice that when you type a single letter into our translator, it outputs exactly 8 digits of 0s and 1s. A single 0 or 1 is called a <strong>Bit</strong> (Binary Digit). It is the smallest possible unit of data.</p>
+                <p>However, a single bit isn't very useful because it can only represent two things. To represent the entire English alphabet, numbers, and symbols, early computer scientists grouped 8 bits together. A group of 8 bits is called a <strong>Byte</strong>. With 8 bits, you have exactly 256 possible unique combinations (from <code>00000000</code> to <code>11111111</code>), which is enough space to assign a unique binary code to every character on an English keyboard.</p>
+
+                <h2>The Safety of Offline Binary Translation</h2>
+                <p>If you are using binary translation to decode a hidden message or encode proprietary developer notes, privacy is essential. Many online translators send your text strings to backend servers for processing, leaving your data vulnerable to logging.</p>
+                <p><strong>Toolenix ensures complete client-side processing.</strong> Our translation engine is built with Vanilla JavaScript and runs exclusively within your browser's local sandbox. Whether you are encoding "Hello World" or decoding a multi-page binary document, your text never leaves your personal device. You receive instant, mathematically precise translations with enterprise-grade data security.</p>
+
+                <h2>Complementary Computer Science Tools</h2>
+                <p>Explore our other free offline utilities to enhance your technical workflows:</p>
+                <ul>
+                    <li><a href="base64-encoder-decoder.html"><strong>Base64 Encoder:</strong></a> Translate binary data into a text-safe string format used universally in email attachments and API payloads.</li>
+                    <li><a href="word-counter.html"><strong>Word Counter:</strong></a> Ensure your translated text falls within strict character and byte limits before saving.</li>
+                    <li><a href="json-formatter.html"><strong>JSON Formatter:</strong></a> Structure your decoded payload configurations instantly.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Understanding binary is the first step toward mastering computer science. By utilizing the Toolenix Binary to Text Translator, you gain access to an instantaneous, offline encoding engine that perfectly mimics standard ASCII logic. Bookmark this page to decode hidden puzzles, study machine language, and translate strings securely.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            const mainInput = document.getElementById('main-input');
+            const mainOutput = document.getElementById('main-output');
+            
+            const inputTitle = document.getElementById('input-title');
+            const outputTitle = document.getElementById('output-title');
+            const modeText = document.getElementById('mode-text');
+            const statusBar = document.getElementById('status-bar');
+            
+            const swapBtn = document.getElementById('swap-btn');
+            const copyBtn = document.getElementById('copy-btn');
+            const clearBtn = document.getElementById('clear-btn');
+            const pasteBtn = document.getElementById('paste-btn');
+
+            // Application State
+            let mode = 'textToBin'; // 'textToBin' or 'binToText'
+
+            // --- Conversion Logic ---
+
+            function textToBinary(text) {
+                return text.split('').map(char => {
+                    // Get ASCII/Unicode decimal value, convert to base-2, and pad to 8 bits
+                    return char.charCodeAt(0).toString(2).padStart(8, '0');
+                }).join(' ');
+            }
+
+            function binaryToText(binaryStr) {
+                // Remove extra spaces and split by standard space
+                const binaryArray = binaryStr.trim().split(/\s+/);
+                let textResult = '';
+
+                for (let i = 0; i < binaryArray.length; i++) {
+                    const bin = binaryArray[i];
+                    
+                    // Validate if the segment contains only 0s and 1s
+                    if (!/^[01]+$/.test(bin)) {
+                        throw new Error('Invalid Binary');
+                    }
+                    
+                    // Convert base-2 to decimal, then to character
+                    textResult += String.fromCharCode(parseInt(bin, 2));
+                }
+                
+                return textResult;
+            }
+
+            function processTranslation() {
+                const inputVal = mainInput.value;
+                statusBar.style.display = 'none';
+                
+                if (!inputVal) {
+                    mainOutput.value = '';
+                    return;
+                }
+
+                try {
+                    if (mode === 'textToBin') {
+                        mainOutput.value = textToBinary(inputVal);
+                    } else {
+                        mainOutput.value = binaryToText(inputVal);
+                    }
+                } catch (error) {
+                    mainOutput.value = '';
+                    statusBar.style.display = 'block';
+                }
+            }
+
+            // --- Event Listeners ---
+
+            // Auto Translate on Input
+            mainInput.addEventListener('input', processTranslation);
+
+            // Swap Modes
+            swapBtn.addEventListener('click', () => {
+                // Toggle mode
+                if (mode === 'textToBin') {
+                    mode = 'binToText';
+                    inputTitle.textContent = 'Binary Code';
+                    outputTitle.textContent = 'Plain Text';
+                    modeText.textContent = 'Binary to Text';
+                    
+                    mainInput.classList.add('binary-font');
+                    mainOutput.classList.remove('binary-font');
+                    mainInput.placeholder = 'Type your binary code here (e.g. 01001000 01101001)...';
+                } else {
+                    mode = 'textToBin';
+                    inputTitle.textContent = 'Plain Text';
+                    outputTitle.textContent = 'Binary Code';
+                    modeText.textContent = 'Text to Binary';
+                    
+                    mainInput.classList.remove('binary-font');
+                    mainOutput.classList.add('binary-font');
+                    mainInput.placeholder = 'Type your text here...';
+                }
+
+                // Swap the text content between input and output boxes
+                const temp = mainInput.value;
+                mainInput.value = mainOutput.value;
+                mainOutput.value = temp;
+
+                // Hide errors on swap
+                statusBar.style.display = 'none';
+                
+                // Re-process if there is input
+                if(mainInput.value) processTranslation();
+            });
+
+            // Action: Copy
+            copyBtn.addEventListener('click', () => {
+                if (!mainOutput.value) {
+                    if (window.showToast) window.showToast('Nothing to copy!', 'error');
+                    return;
+                }
+                
+                navigator.clipboard.writeText(mainOutput.value).then(() => {
+                    if (window.showToast) window.showToast('Translation copied!', 'success');
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✅ Copied!';
+                    setTimeout(() => { copyBtn.textContent = originalText; }, 2000);
+                });
+            });
+
+            // Action: Clear
+            clearBtn.addEventListener('click', () => {
+                mainInput.value = '';
+                mainOutput.value = '';
+                statusBar.style.display = 'none';
+                mainInput.focus();
+            });
+
+            // Action: Paste
+            pasteBtn.addEventListener('click', async () => {
+                try {
+                    const text = await navigator.clipboard.readText();
+                    mainInput.value = text;
+                    processTranslation();
+                    if (window.showToast) window.showToast('Pasted from clipboard!', 'success');
+                } catch (err) {
+                    console.error('Paste failed: ', err);
+                    if (window.showToast) window.showToast('Please press Ctrl+V / Cmd+V to paste.', 'error');
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>

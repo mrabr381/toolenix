@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Profile Picture Cropper - Create Circle & Square Avatars | Toolenix</title>
+    <meta name="title" content="Profile Picture Cropper - Create Circle & Square Avatars | Toolenix">
+    <meta name="description" content="Crop your photos into perfect circles or squares for Instagram, LinkedIn, and TikTok. 100% free, private, and offline profile picture maker.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/profile-picture-cropper.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/profile-picture-cropper.html">
+    <meta property="og:title" content="Profile Picture Cropper - Secure & Offline">
+    <meta property="og:description" content="Perfectly frame your avatars for social media. Crop images to exact 1:1 ratios locally in your browser.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/profile-picture-cropper.html">
+    <meta property="twitter:title" content="Profile Picture Cropper - Secure & Offline">
+    <meta property="twitter:description" content="Perfectly frame your avatars for social media. Crop images to exact 1:1 ratios locally in your browser.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix Profile Picture Cropper",
+      "operatingSystem": "All",
+      "applicationCategory": "MultimediaApplication",
+      "browserRequirements": "Requires a modern web browser with HTML5 Canvas support.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A secure client-side tool to crop and frame images into precise 1:1 aspect ratios, outputting square or circular avatars for social media profiles."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Image Tools",
+        "item": "https://www.toolenix.com/#image-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Profile Picture Cropper"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .upload-area {
+            border: 2px dashed var(--primary);
+            border-radius: 16px;
+            padding: 4rem 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: rgba(37, 99, 235, 0.05);
+            cursor: pointer;
+            margin-bottom: 2rem;
+        }
+        .upload-area:hover, .upload-area.dragover {
+            background: rgba(37, 99, 235, 0.1);
+            transform: translateY(-2px);
+            border-color: var(--secondary);
+        }
+        .hidden { display: none !important; }
+
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+            align-items: start;
+        }
+        
+        @media (max-width: 900px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Image Cropper Area */
+        .cropper-container-wrapper {
+            background: rgba(0, 0, 0, 0.02);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+            max-height: 600px;
+            overflow: hidden;
+        }
+
+        .cropper-container-wrapper img {
+            max-width: 100%;
+            display: block;
+        }
+
+        /* Circular Crop Hack for Cropper.js */
+        .cropper-view-box.circle-mask,
+        .cropper-face.circle-mask {
+            border-radius: 50%;
+        }
+
+        /* Controls Panel */
+        .controls-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .control-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 0.8rem;
+        }
+
+        /* Shape Toggle Radio Buttons */
+        .shape-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+
+        .shape-option {
+            position: relative;
+        }
+
+        .shape-option input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .shape-label {
+            display: block;
+            text-align: center;
+            padding: 0.8rem;
+            background: var(--bg-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .shape-option input:checked + .shape-label {
+            background: rgba(37, 99, 235, 0.1);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Resolution Slider */
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            color: var(--text-main);
+            font-size: 0.9rem;
+        }
+        
+        .slider-value {
+            color: var(--primary);
+            font-weight: 700;
+            background: rgba(37, 99, 235, 0.1);
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            margin-top: -8px;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.4);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 6px;
+            cursor: pointer;
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        [data-theme="dark"] input[type=range]::-webkit-slider-runnable-track {
+            background: #334155;
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#image-tools">Image Tools</a> &gt; Profile Picture Cropper
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 1100px;">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">Profile Picture Cropper</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Frame your avatars perfectly for LinkedIn, Instagram, and TikTok. Export perfectly circular or square PNGs securely and offline.</p>
+                </div>
+
+                <div class="glass" style="padding: 2rem;">
+                    
+                    <div id="upload-state" class="upload-area">
+                        <input type="file" id="image-input" accept="image/jpeg, image/png, image/webp" class="hidden">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">👤</div>
+                        <h3 style="margin-bottom: 0.5rem;">Upload your photo to crop</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Supports JPG, PNG, and WebP formats</p>
+                        <button class="btn btn-primary" onclick="document.getElementById('image-input').click()">Select Photo</button>
+                    </div>
+
+                    <div id="processing-state" class="hidden">
+                        <div class="workspace-grid">
+                            
+                            <div>
+                                <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;" id="filename-display">photo.jpg</h3>
+                                <div class="cropper-container-wrapper">
+                                    <img id="image-workspace" src="" alt="Workspace">
+                                </div>
+                                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem; text-align: center;">
+                                    Drag to pan, use your mouse wheel to zoom in/out, and resize the box to frame your face perfectly.
+                                </p>
+                            </div>
+
+                            <div class="controls-panel">
+                                
+                                <div class="control-group">
+                                    <label>Shape</label>
+                                    <div class="shape-selector">
+                                        <label class="shape-option">
+                                            <input type="radio" name="crop-shape" value="circle" checked>
+                                            <span class="shape-label">⭕ Circle</span>
+                                        </label>
+                                        <label class="shape-option">
+                                            <input type="radio" name="crop-shape" value="square">
+                                            <span class="shape-label">⬛ Square</span>
+                                        </label>
+                                    </div>
+                                    <small id="shape-hint" style="display: block; margin-top: 0.5rem; color: var(--text-muted); font-size: 0.8rem;">
+                                        Circle crops will be downloaded as transparent PNGs.
+                                    </small>
+                                </div>
+
+                                <div class="control-group">
+                                    <div class="slider-header">
+                                        <span>Export Resolution</span>
+                                        <span class="slider-value" id="res-value">500x500 px</span>
+                                    </div>
+                                    <input type="range" id="res-slider" min="200" max="1080" value="500" step="10">
+                                </div>
+
+                                <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem;">
+                                    <button class="btn btn-primary" id="download-btn">⬇️ Download Avatar</button>
+                                    <button class="btn btn-outline" id="reset-btn">Crop Another Photo</button>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Importance of a Perfectly Cropped Profile Picture</h2>
+                <p>Your profile picture is your digital handshake. Whether you are optimizing a LinkedIn profile for career advancement, launching a dramatic storytelling YouTube channel, or managing a brand's presence on TikTok, your avatar is the first visual element your audience registers. In the professional world, a poorly cropped, off-center, or stretched image immediately signals a lack of attention to detail.</p>
+                
+                <p>However, framing an image perfectly is often a frustrating experience. Most social media platforms force your rectangular photographs into a strict 1:1 aspect ratio (a perfect square) or mask them into a tight circle. If your face is too close to the edge of the original photo, the platform's auto-cropper might cut off your chin or forehead. To maintain total control over your digital identity, you need a dedicated <strong>Profile Picture Cropper</strong>.</p>
+
+                <h2>Circle vs. Square: Platform Standards</h2>
+                <p>Different networks have different architectural requirements for avatars. Understanding these standards ensures your branding remains consistent across the web:</p>
+                <ul>
+                    <li><strong>Instagram & TikTok (Circle):</strong> These platforms exclusively display avatars as small circles. Our "Circle" crop option ensures you can center your face perfectly. The downloaded file will be a PNG with a transparent background around the circle, guaranteeing it looks flawless on any device.</li>
+                    <li><strong>LinkedIn & X / Twitter (Circle):</strong> While the upload box is square, the actual display on the feed is circular. It is vital to ensure your face is zoomed in enough to be recognizable on a tiny mobile screen, but zoomed out enough that the circular mask doesn't cut off your features.</li>
+                    <li><strong>YouTube & Facebook (Square/Circle Hybrid):</strong> YouTube channels require a square image (minimum 800x800 px) but render it as a circle in the comments section. Using our tool allows you to export a high-resolution 1080x1080 square while ensuring the vital elements are centered for the circular fallback.</li>
+                </ul>
+
+                <h2>The Privacy Guarantee of Client-Side Cropping</h2>
+                <p>Many users unwittingly upload their personal, unedited photographs to random "online avatar maker" websites. This is a significant privacy risk. Uploading personal photos to a third-party server exposes your biometric data to potential scraping, facial recognition databases, and unauthorized retention.</p>
+                <p><strong>Toolenix ensures your face remains private.</strong> Our utility is built utilizing HTML5 Canvas and the powerful Cropper.js library. When you upload your photo, it is loaded entirely into your web browser's local memory (RAM). The zooming, panning, and final mathematical crop happen on your own computer's CPU. Your unedited photos are never transmitted across the network, guaranteeing 100% offline privacy.</p>
+
+                <h2>Step-by-Step Guide: How to Frame the Perfect Avatar</h2>
+                <p>Creating a professional, high-resolution avatar takes only a few seconds:</p>
+                <ol>
+                    <li><strong>Upload Your Photo:</strong> Drag and drop your JPG, PNG, or WebP image into the upload area. Try to use a high-resolution, well-lit photograph.</li>
+                    <li><strong>Select the Shape:</strong> Choose whether you want a standard Square or a transparent Circle output based on your target platform. (Note: Selecting "Circle" will slightly alter the visual crop box to help you frame it).</li>
+                    <li><strong>Frame the Subject:</strong> Use your mouse wheel (or pinch on mobile) to zoom in and out of the image. Click and drag the image to pan it within the crop box. Ensure your eyes are situated in the upper third of the circle for the most flattering composition.</li>
+                    <li><strong>Set the Resolution:</strong> Use the slider to dictate the final output size. For most platforms, 500x500 pixels is perfect. For high-definition displays (like YouTube channel icons), slide it up to 1080x1080 pixels.</li>
+                    <li><strong>Download:</strong> Click the "Download Avatar" button. The local script will render the new image and save it securely to your device.</li>
+                </ol>
+
+                <h2>Complementary Image Utilities</h2>
+                <p>Ensure your digital assets are perfectly optimized with our other free local tools:</p>
+                <ul>
+                    <li><a href="image-compressor.html"><strong>Image Compressor:</strong></a> If your newly cropped avatar exceeds the 2MB upload limit on certain forums, run it through our compressor.</li>
+                    <li><a href="image-resizer.html"><strong>Image Resizer:</strong></a> Need to resize cinematic background banners to match your new profile picture? Use our exact-dimension resizer.</li>
+                    <li><a href="svg-to-png.html"><strong>SVG to PNG:</strong></a> If your avatar is a vector logo rather than a photograph, use this tool to rasterize it perfectly.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>You shouldn't have to fight with clunky social media uploaders or risk your privacy on cloud servers just to update your profile picture. By utilizing the Toolenix Profile Picture Cropper, you gain pixel-perfect control over your digital framing using secure, offline processing. Bookmark this tool to ensure you and your clients always present a polished, professional image across the web.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const uploadArea = document.getElementById('upload-state');
+            const fileInput = document.getElementById('image-input');
+            const processingState = document.getElementById('processing-state');
+            
+            const filenameDisplay = document.getElementById('filename-display');
+            const imageWorkspace = document.getElementById('image-workspace');
+            
+            const shapeRadios = document.querySelectorAll('input[name="crop-shape"]');
+            const resSlider = document.getElementById('res-slider');
+            const resValue = document.getElementById('res-value');
+            const shapeHint = document.getElementById('shape-hint');
+            
+            const downloadBtn = document.getElementById('download-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            
+            let cropper = null;
+            let currentFileName = "";
+            let isCircle = true;
+
+            // Drag and Drop Logic
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaultBehavior, false);
+            });
+
+            function preventDefaultBehavior(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.add('dragover'), false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.remove('dragover'), false);
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                handleFileSelection(e.dataTransfer.files[0]);
+            });
+
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) handleFileSelection(this.files[0]);
+            });
+
+            function handleFileSelection(file) {
+                const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+                if (!file || !validTypes.includes(file.type.toLowerCase())) {
+                    if (window.showToast) window.showToast('Please provide a valid JPG, PNG, or WebP image.', 'error');
+                    return;
+                }
+                
+                currentFileName = file.name.replace(/\.[^/.]+$/, "");
+                filenameDisplay.textContent = file.name;
+                
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imageWorkspace.src = e.target.result;
+                    uploadArea.classList.add('hidden');
+                    processingState.classList.remove('hidden');
+                    
+                    initCropper();
+                };
+                reader.readAsDataURL(file);
+            }
+
+            function initCropper() {
+                if (cropper) cropper.destroy();
+
+                cropper = new Cropper(imageWorkspace, {
+                    aspectRatio: 1, // Always 1:1 for Profile Pictures
+                    viewMode: 1, // Restrict crop box to not exceed canvas
+                    dragMode: 'move', // Allow moving the image naturally
+                    guides: false,
+                    center: true,
+                    highlight: false,
+                    cropBoxMovable: true,
+                    cropBoxResizable: true,
+                    toggleDragModeOnDblclick: false,
+                    ready: function () {
+                        updateCropShape();
+                    }
+                });
+            }
+
+            // Shape Toggle Logic
+            shapeRadios.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    isCircle = e.target.value === 'circle';
+                    updateCropShape();
+                    
+                    if (isCircle) {
+                        shapeHint.textContent = "Circle crops will be downloaded as transparent PNGs.";
+                    } else {
+                        shapeHint.textContent = "Square crops will be downloaded as standard PNGs.";
+                    }
+                });
+            });
+
+            function updateCropShape() {
+                // We use CSS to make the Cropper view box look like a circle visually
+                const viewBox = document.querySelector('.cropper-view-box');
+                const face = document.querySelector('.cropper-face');
+                
+                if (viewBox && face) {
+                    if (isCircle) {
+                        viewBox.classList.add('circle-mask');
+                        face.classList.add('circle-mask');
+                    } else {
+                        viewBox.classList.remove('circle-mask');
+                        face.classList.remove('circle-mask');
+                    }
+                }
+            }
+
+            // Resolution Slider Logic
+            resSlider.addEventListener('input', () => {
+                resValue.textContent = `${resSlider.value}x${resSlider.value} px`;
+            });
+
+            // Function to generate circular canvas
+            function getRoundedCanvas(sourceCanvas) {
+                var canvas = document.createElement('canvas');
+                var context = canvas.getContext('2d');
+                var width = sourceCanvas.width;
+                var height = sourceCanvas.height;
+
+                canvas.width = width;
+                canvas.height = height;
+                
+                context.imageSmoothingEnabled = true;
+                context.drawImage(sourceCanvas, 0, 0, width, height);
+                
+                // Composite operation to clip existing drawing into a circle
+                context.globalCompositeOperation = 'destination-in';
+                context.beginPath();
+                context.arc(width / 2, height / 2, Math.min(width, height) / 2, 0, 2 * Math.PI, true);
+                context.fill();
+                
+                return canvas;
+            }
+
+            // Download Logic
+            downloadBtn.addEventListener('click', () => {
+                if (!cropper) return;
+
+                downloadBtn.textContent = "Processing...";
+                downloadBtn.disabled = true;
+                
+                const finalRes = parseInt(resSlider.value);
+
+                setTimeout(() => {
+                    try {
+                        // 1. Get raw cropped canvas at exact requested resolution
+                        let croppedCanvas = cropper.getCroppedCanvas({
+                            width: finalRes,
+                            height: finalRes,
+                            imageSmoothingEnabled: true,
+                            imageSmoothingQuality: 'high'
+                        });
+
+                        // 2. If circle, mask the canvas
+                        let finalCanvas = croppedCanvas;
+                        if (isCircle) {
+                            finalCanvas = getRoundedCanvas(croppedCanvas);
+                        }
+
+                        // 3. Export as PNG (required to preserve transparency of circle corners)
+                        const dataUrl = finalCanvas.toDataURL('image/png');
+                        
+                        const suffix = isCircle ? 'avatar_circle' : 'avatar_square';
+                        
+                        const link = document.createElement('a');
+                        link.download = `${currentFileName}_${suffix}.png`;
+                        link.href = dataUrl;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        
+                        if(window.showToast) window.showToast(`Avatar downloaded successfully!`, 'success');
+                    } catch (error) {
+                        console.error('Cropping Error:', error);
+                        if(window.showToast) window.showToast('An error occurred during cropping.', 'error');
+                    } finally {
+                        downloadBtn.textContent = "⬇️ Download Avatar";
+                        downloadBtn.disabled = false;
+                    }
+                }, 100);
+            });
+
+            function resetWorkspace() {
+                if (cropper) {
+                    cropper.destroy();
+                    cropper = null;
+                }
+                
+                currentFileName = "";
+                fileInput.value = '';
+                imageWorkspace.src = '';
+                
+                processingState.classList.add('hidden');
+                uploadArea.classList.remove('hidden');
+            }
+
+            resetBtn.addEventListener('click', resetWorkspace);
+        });
+    </script>
+</body>
+</html>

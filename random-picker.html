@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>Random Number & Name Picker - Free Giveaway Tool | Toolenix</title>
+    <meta name="title" content="Random Number & Name Picker - Free Giveaway Tool | Toolenix">
+    <meta name="description" content="Generate random numbers or pick a random winner from a list instantly. A 100% free, offline tool for giveaways, teachers, and raffles.">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.toolenix.com/random-picker.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/random-picker.html">
+    <meta property="og:title" content="Random Number & Name Picker - Instant Giveaway Tool">
+    <meta property="og:description" content="Fairly pick a random name from a list or generate secure random numbers in your browser. Perfect for contests and events.">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/random-picker.html">
+    <meta property="twitter:title" content="Random Number & Name Picker - Instant Giveaway Tool">
+    <meta property="twitter:description" content="Fairly pick a random name from a list or generate secure random numbers in your browser. Perfect for contests and events.">
+    
+    <!-- Assets -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <!-- Schema.org for SoftwareApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix Random Picker",
+      "operatingSystem": "All",
+      "applicationCategory": "UtilitiesApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A client-side utility for generating pseudo-random numbers and selecting random lines from a list for giveaways and sampling."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Calculators & Utilities",
+        "item": "https://www.toolenix.com/#calculators"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Random Picker"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            align-items: start;
+        }
+
+        @media (max-width: 800px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .controls-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        /* Tabs */
+        .tab-container {
+            display: flex;
+            background: var(--bg-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 1rem;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        .tab-content {
+            display: none;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .tab-content.active {
+            display: flex;
+        }
+
+        /* Inputs */
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .input-group label {
+            font-weight: 600;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        .control-input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            font-size: 1.1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .control-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .text-area {
+            width: 100%;
+            height: 200px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        /* Number Row Grid */
+        .number-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* Result Panel */
+        .result-panel {
+            background: var(--card-bg);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.15);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 350px;
+        }
+
+        .result-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .result-value {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--primary);
+            word-break: break-word;
+            line-height: 1.2;
+            transition: transform 0.1s ease;
+        }
+
+        /* Animation Class */
+        .rolling {
+            animation: shake 0.1s infinite alternate;
+            opacity: 0.7;
+        }
+
+        @keyframes shake {
+            0% { transform: scale(0.98); }
+            100% { transform: scale(1.02); }
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <!-- Breadcrumbs -->
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#calculators">Everyday Utilities</a> &gt; Random Picker
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <!-- Tool Interface -->
+        <section style="padding: 3rem 0;">
+            <div class="container">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">Random Number & Name Picker</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Generate fair random numbers or pick a winner from a list instantly. 100% offline and secure.</p>
+                </div>
+
+                <div class="workspace-grid">
+                    
+                    <!-- Left: Configuration Panel -->
+                    <div class="controls-panel">
+                        
+                        <!-- Mode Tabs -->
+                        <div class="tab-container">
+                            <button class="tab-btn active" data-target="tab-number">🔢 Numbers</button>
+                            <button class="tab-btn" data-target="tab-names">👥 Names</button>
+                        </div>
+
+                        <!-- Number Generator View -->
+                        <div id="tab-number" class="tab-content active">
+                            <div class="number-row">
+                                <div class="input-group">
+                                    <label for="num-min">Min Value</label>
+                                    <input type="number" id="num-min" class="control-input" value="1">
+                                </div>
+                                <div class="input-group">
+                                    <label for="num-max">Max Value</label>
+                                    <input type="number" id="num-max" class="control-input" value="100">
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="num-count">How many numbers?</label>
+                                <input type="number" id="num-count" class="control-input" value="1" min="1" max="100">
+                            </div>
+                            <button class="btn btn-primary" id="btn-generate-num" style="padding: 1rem; font-size: 1.1rem; margin-top: 1rem;">🎲 Generate Number</button>
+                        </div>
+
+                        <!-- Name Picker View -->
+                        <div id="tab-names" class="tab-content">
+                            <div class="input-group">
+                                <label for="name-list">List of Names/Items</label>
+                                <textarea id="name-list" class="control-input text-area" placeholder="Paste your list here (one name per line)...
+Example:
+Alice
+Bob
+Charlie
+Diana"></textarea>
+                                <small style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.3rem;">Put each name on a new line.</small>
+                            </div>
+                            <button class="btn btn-primary" id="btn-pick-name" style="padding: 1rem; font-size: 1.1rem; margin-top: 1rem;">🏆 Pick a Winner</button>
+                        </div>
+
+                    </div>
+
+                    <!-- Right: Results Panel -->
+                    <div class="result-panel">
+                        <div class="result-title" id="result-title">Result</div>
+                        <div class="result-value" id="result-display">?</div>
+                        <button class="btn btn-outline" id="copy-result-btn" style="margin-top: 2rem; display: none;">📄 Copy Result</button>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Deep SEO Editorial Section -->
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Importance of True Randomness</h2>
+                <p>Whether you are a teacher deciding which student has to present their project first, an Instagram influencer picking the winner of an iPhone giveaway, or a statistician gathering a random sample of data, fairness is absolutely critical. Humans are notoriously terrible at being random; our brains naturally favor certain patterns, numbers, and names.</p>
+                
+                <p>To ensure absolute impartiality, you need a computational algorithm. Welcome to the Toolenix Random Number & Name Picker. We built this utility to provide instant, un-biased results directly in your browser. With a simple, engaging interface, it guarantees fair outcomes for games, raffles, and statistical sampling.</p>
+
+                <h2>How the Random Selection Works</h2>
+                <p>The core of this tool is powered by JavaScript's built-in <code>Math.random()</code> engine. This engine generates a Pseudo-Random Number between 0 (inclusive) and 1 (exclusive) based on complex algorithms tied to your computer's system clock. </p>
+                
+                <h3>1. Random Number Generator</h3>
+                <p>If you need to pick a number between 1 and 100, the tool takes the decimal generated by <code>Math.random()</code> and mathematically scales it to fit your exact minimum and maximum parameters. You can even generate multiple numbers simultaneously. This is perfect for rolling digital dice (1 to 6), picking lottery numbers, or setting up a corporate raffle.</p>
+
+                <h3>2. Random Name / Item Picker</h3>
+                <p>When running a giveaway on social media, you might export a list of hundreds of commenters. Selecting one manually is prone to bias. Our Name Picker allows you to paste massive lists of names (separated by line breaks). The algorithm counts the total number of names, assigns each a hidden numerical value, and uses the random number engine to pull a guaranteed fair winner.</p>
+
+                <h2>Privacy: Why Offline Selection Matters</h2>
+                <p>When you conduct a high-stakes giveaway or a confidential corporate audit, the list of entrants often contains Personally Identifiable Information (PII) like email addresses, full names, or employee IDs. If you upload this list to a random "Wheel Spinner" website, you are submitting your audience's private data to an external server.</p>
+                <p><strong>Toolenix ensures zero data transmission.</strong> Our picker is built using Vanilla JavaScript that operates entirely within the isolated sandbox of your web browser. When you paste a list of 5,000 emails to pick a winner, the random selection happens on your local CPU. Your participant list is never uploaded, keeping you compliant with privacy laws like GDPR and CCPA.</p>
+
+                <h2>Complementary Everyday Tools</h2>
+                <p>If you are managing lists or planning events, check out our other free utilities:</p>
+                <ul>
+                    <li><a href="text-list-organizer.html"><strong>Text List Organizer:</strong></a> Before pasting your list into the Name Picker, use this tool to instantly remove duplicate entries (so no one gets two entries in your giveaway).</li>
+                    <li><a href="word-counter.html"><strong>Word Counter:</strong></a> Ensure your giveaway rules and captions meet social media character limits.</li>
+                    <li><a href="percentage-calculator.html"><strong>Percentage Calculator:</strong></a> Calculate what percentage of your total followers entered the giveaway to measure engagement rates.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Ensuring fairness in selections doesn't require downloading clunky software or exposing participant data to third-party servers. By utilizing the Toolenix Random Picker, you gain access to an instantaneous, unbiased selection engine. Bookmark this page to run fair giveaways, pick raffle winners, and generate random numbers safely and securely.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <!-- Tool Execution Code -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // Tab switching logic
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            let currentMode = 'number'; // 'number' or 'names'
+
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Update UI
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    btn.classList.add('active');
+                    const targetId = btn.getAttribute('data-target');
+                    document.getElementById(targetId).classList.add('active');
+                    
+                    currentMode = targetId === 'tab-number' ? 'number' : 'names';
+                    
+                    // Reset Display
+                    resultDisplay.textContent = '?';
+                    resultTitle.textContent = 'Result';
+                    copyResultBtn.style.display = 'none';
+                });
+            });
+
+            // UI Elements
+            const resultDisplay = document.getElementById('result-display');
+            const resultTitle = document.getElementById('result-title');
+            const copyResultBtn = document.getElementById('copy-result-btn');
+
+            // Number Controls
+            const numMin = document.getElementById('num-min');
+            const numMax = document.getElementById('num-max');
+            const numCount = document.getElementById('num-count');
+            const btnGenNum = document.getElementById('btn-generate-num');
+
+            // Name Controls
+            const nameList = document.getElementById('name-list');
+            const btnPickName = document.getElementById('btn-pick-name');
+
+            // Helper: Random int between min and max (inclusive)
+            function getRandomInt(min, max) {
+                min = Math.ceil(min);
+                max = Math.floor(max);
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+
+            // Animation effect
+            function animateRolling(finalResult, isArray = false) {
+                let ticks = 0;
+                const maxTicks = 15; // Speed/duration of roll
+                resultDisplay.classList.add('rolling');
+                copyResultBtn.style.display = 'none';
+                
+                const rollInterval = setInterval(() => {
+                    // Show random garbage during roll
+                    if (currentMode === 'number') {
+                        resultDisplay.textContent = getRandomInt(1, 999);
+                    } else {
+                        const tempNames = ["Choosing...", "Spinning...", "Selecting...", "Wait..."];
+                        resultDisplay.textContent = tempNames[ticks % tempNames.length];
+                    }
+
+                    ticks++;
+                    
+                    if (ticks >= maxTicks) {
+                        clearInterval(rollInterval);
+                        resultDisplay.classList.remove('rolling');
+                        
+                        // Set final result
+                        if (isArray) {
+                            resultDisplay.innerHTML = finalResult.join('<br>');
+                            // Adjust font size if lots of numbers
+                            if (finalResult.length > 5) {
+                                resultDisplay.style.fontSize = '2rem';
+                            } else {
+                                resultDisplay.style.fontSize = '4rem';
+                            }
+                        } else {
+                            resultDisplay.textContent = finalResult;
+                            resultDisplay.style.fontSize = '4rem'; // Reset font
+                        }
+                        
+                        copyResultBtn.style.display = 'inline-block';
+                        
+                        // Small bounce effect via CSS scale (handled mostly by removing rolling, but let's add a clean text color flash)
+                        resultDisplay.style.color = '#10B981'; // Flash green
+                        setTimeout(() => {
+                            resultDisplay.style.color = 'var(--primary)';
+                        }, 500);
+                        
+                    }
+                }, 50); // 50ms per tick
+            }
+
+            // Generate Numbers
+            btnGenNum.addEventListener('click', () => {
+                const min = parseInt(numMin.value, 10);
+                const max = parseInt(numMax.value, 10);
+                let count = parseInt(numCount.value, 10);
+
+                if (isNaN(min) || isNaN(max) || min > max) {
+                    if(window.showToast) window.showToast('Invalid Min/Max values.', 'error');
+                    return;
+                }
+                if (isNaN(count) || count < 1) count = 1;
+                if (count > 50) count = 50; // Cap to prevent UI overflow
+
+                resultTitle.textContent = count > 1 ? 'Random Numbers' : 'Random Number';
+
+                const results = [];
+                for (let i = 0; i < count; i++) {
+                    results.push(getRandomInt(min, max));
+                }
+
+                animateRolling(results, count > 1);
+            });
+
+            // Pick Name
+            btnPickName.addEventListener('click', () => {
+                const text = nameList.value;
+                // Split by newline and filter out empty lines
+                const lines = text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+
+                if (lines.length === 0) {
+                    if(window.showToast) window.showToast('Please enter at least one name.', 'error');
+                    return;
+                }
+
+                resultTitle.textContent = 'Winning Entry';
+                
+                const randomIndex = getRandomInt(0, lines.length - 1);
+                const winner = lines[randomIndex];
+
+                animateRolling(winner, false);
+            });
+
+            // Copy Action
+            copyResultBtn.addEventListener('click', () => {
+                const textToCopy = resultDisplay.innerText; // innerText respects <br> as newlines
+                
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    if(window.showToast) window.showToast('Result copied!', 'success');
+                    const originalText = copyResultBtn.textContent;
+                    copyResultBtn.textContent = '✅ Copied!';
+                    setTimeout(() => { copyResultBtn.textContent = originalText; }, 2000);
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Hash Generator - MD5, SHA-256 & SHA-512 Free Offline | Toolenix</title>
+    <meta name="title" content="Hash Generator - MD5, SHA-256 & SHA-512 Free Offline | Toolenix">
+    <meta name="description" content="Generate MD5, SHA-1, SHA-256, and SHA-512 cryptographic hashes instantly. 100% free, private, and offline client-side processing for developers.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/hash-generator.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/hash-generator.html">
+    <meta property="og:title" content="Cryptographic Hash Generator - Secure & Offline">
+    <meta property="og:description" content="Compute secure hashes for data integrity verification directly in your browser. Zero server logging guarantees complete privacy.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/hash-generator.html">
+    <meta property="twitter:title" content="Cryptographic Hash Generator - Secure & Offline">
+    <meta property="twitter:description" content="Compute secure hashes for data integrity verification directly in your browser. Zero server logging guarantees complete privacy.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix Hash Generator",
+      "operatingSystem": "All",
+      "applicationCategory": "DeveloperApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A secure client-side application for developers to compute one-way cryptographic hash functions (MD5, SHA-1, SHA-256, SHA-512) locally without server tracking."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Developer Tools",
+        "item": "https://www.toolenix.com/#dev-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Hash Generator"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Input Pane */
+        .editor-pane {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1.2rem;
+            background: rgba(37, 99, 235, 0.05);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px 12px 0 0;
+            border-bottom: none;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .text-input-area {
+            width: 100%;
+            height: 400px;
+            padding: 1.5rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 0 0 12px 12px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1rem;
+            line-height: 1.6;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .text-input-area:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Output Pane (Hash Cards) */
+        .hash-results-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .hash-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 1.2rem;
+            box-shadow: var(--shadow-soft);
+            transition: border-color 0.2s;
+        }
+
+        .hash-card:hover {
+            border-color: var(--primary);
+        }
+
+        .hash-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .hash-title {
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .hash-badge {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .hash-badge.warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: #D97706;
+        }
+
+        .hash-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .hash-output-field {
+            width: 100%;
+            background: var(--bg-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            padding: 0.8rem;
+            padding-right: 3.5rem;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            outline: none;
+            word-break: break-all;
+        }
+
+        .copy-hash-btn {
+            position: absolute;
+            right: 0.5rem;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .copy-hash-btn:hover {
+            background: var(--primary);
+            color: #ffffff;
+            transform: scale(1.05);
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+        .seo-article code { background: rgba(100, 116, 139, 0.1); padding: 0.2rem 0.4rem; border-radius: 4px; font-family: monospace; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#dev-tools">Developer Tools</a> &gt; Hash Generator
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 1200px;">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">Cryptographic Hash Generator</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Compute MD5, SHA-1, SHA-256, and SHA-512 hashes instantly. 100% offline generation guarantees your strings are never logged.</p>
+                </div>
+
+                <div class="workspace-grid">
+                    
+                    <div class="editor-pane">
+                        <div class="editor-header">
+                            <span>Input String</span>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="btn btn-outline" id="paste-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem;">📋 Paste</button>
+                                <button class="btn btn-outline" id="clear-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem; color: #EF4444; border-color: rgba(239, 68, 68, 0.3);">🗑️ Clear</button>
+                            </div>
+                        </div>
+                        <textarea id="text-input" class="text-input-area" placeholder="Type or paste your data here to generate real-time hashes..."></textarea>
+                    </div>
+
+                    <div class="hash-results-container">
+                        
+                        <div class="hash-card">
+                            <div class="hash-header">
+                                <div class="hash-title">
+                                    MD5
+                                    <span class="hash-badge warning" title="Considered cryptographically broken. Use for checksums only.">Legacy</span>
+                                </div>
+                                <span style="font-size: 0.8rem; color: var(--text-muted);">128-bit</span>
+                            </div>
+                            <div class="hash-input-wrapper">
+                                <input type="text" id="output-md5" class="hash-output-field" readonly placeholder="Waiting for input...">
+                                <button class="copy-hash-btn" data-target="output-md5" title="Copy MD5">📋</button>
+                            </div>
+                        </div>
+
+                        <div class="hash-card">
+                            <div class="hash-header">
+                                <div class="hash-title">
+                                    SHA-1
+                                    <span class="hash-badge warning" title="Vulnerable to collision attacks.">Legacy</span>
+                                </div>
+                                <span style="font-size: 0.8rem; color: var(--text-muted);">160-bit</span>
+                            </div>
+                            <div class="hash-input-wrapper">
+                                <input type="text" id="output-sha1" class="hash-output-field" readonly placeholder="Waiting for input...">
+                                <button class="copy-hash-btn" data-target="output-sha1" title="Copy SHA-1">📋</button>
+                            </div>
+                        </div>
+
+                        <div class="hash-card">
+                            <div class="hash-header">
+                                <div class="hash-title">
+                                    SHA-256
+                                    <span class="hash-badge">Secure</span>
+                                </div>
+                                <span style="font-size: 0.8rem; color: var(--text-muted);">256-bit</span>
+                            </div>
+                            <div class="hash-input-wrapper">
+                                <input type="text" id="output-sha256" class="hash-output-field" readonly placeholder="Waiting for input...">
+                                <button class="copy-hash-btn" data-target="output-sha256" title="Copy SHA-256">📋</button>
+                            </div>
+                        </div>
+
+                        <div class="hash-card">
+                            <div class="hash-header">
+                                <div class="hash-title">
+                                    SHA-512
+                                    <span class="hash-badge">Ultra Secure</span>
+                                </div>
+                                <span style="font-size: 0.8rem; color: var(--text-muted);">512-bit</span>
+                            </div>
+                            <div class="hash-input-wrapper">
+                                <input type="text" id="output-sha512" class="hash-output-field" readonly placeholder="Waiting for input...">
+                                <button class="copy-hash-btn" data-target="output-sha512" title="Copy SHA-512">📋</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Developer's Guide to Cryptographic Hashing</h2>
+                <p>In the realm of computer science, maintaining the integrity and security of data is paramount. Whether you are storing user passwords in a PostgreSQL database, verifying that a downloaded software package has not been tampered with by malware, or creating digital signatures, you must utilize mathematical algorithms known as <strong>Cryptographic Hashes</strong>.</p>
+                
+                <p>Welcome to the Toolenix Hash Generator. We engineered this utility to provide developers and security analysts with instant, real-time hashing capabilities across the four most prominent algorithms: MD5, SHA-1, SHA-256, and SHA-512. Most importantly, this tool operates strictly on client-side architecture. Your raw input data is never transmitted to an external server. Below, we break down how hashing differs from encryption, the concept of "collisions," and which algorithm you should use for your specific project.</p>
+
+                <h2>Hashing vs. Encryption: A Critical Distinction</h2>
+                <p>A common mistake made by junior developers is using the terms "hashing" and "encryption" interchangeably. They serve completely different purposes.</p>
+                <p><strong>Encryption is a two-way street.</strong> When you encrypt a string of text (using an algorithm like AES), you are locking it with a specific key. The purpose of encryption is to obscure the data during transit and then use that exact same key to unlock (decrypt) it on the other side so the original text can be read.</p>
+                <p><strong>Hashing is a one-way street.</strong> A hash function takes an input string of <em>any</em> size (a single password or an entire 5GB movie file) and outputs a fixed-length string of characters. You cannot "decrypt" or reverse a hash back into its original text. It is a digital fingerprint. If even a single comma is changed in a 500-page document, the resulting hash will look completely different. This makes hashing perfect for verifying data integrity without exposing the data itself.</p>
+
+                <h2>Understanding the Algorithms: Which Should You Use?</h2>
+                <p>As computational power increases, older hashing algorithms become vulnerable to attacks. Choosing the right algorithm is critical for your application's security.</p>
+                
+                <h3>MD5 (Message-Digest Algorithm 5)</h3>
+                <p>Invented in 1991, MD5 produces a 128-bit hash. For over a decade, it was the gold standard for web security. Today, it is <strong>cryptographically broken</strong>. Modern supercomputers can generate MD5 "collisions" (finding two completely different files that produce the exact same MD5 hash) with ease. <em>Use Case:</em> You should NEVER use MD5 for storing passwords. It is only useful today as a fast checksum to verify non-malicious file corruption during large downloads.</p>
+
+                <h3>SHA-1 (Secure Hash Algorithm 1)</h3>
+                <p>Developed by the NSA, SHA-1 produces a 160-bit hash. Like MD5, it has been officially deprecated. In 2017, Google successfully executed the "SHAttered" attack, proving that SHA-1 collisions could be practically generated. <em>Use Case:</em> It is retained mostly for legacy systems and Git version control (which uses SHA-1 to identify commits), but should not be used for new security applications.</p>
+
+                <h3>SHA-256 (Secure Hash Algorithm 2)</h3>
+                <p>SHA-256 is the current industry standard for cryptographic security. It produces a 256-bit hash. It is mathematically so complex that it is currently considered completely secure against brute-force collision attacks, even by nation-state actors. <em>Use Case:</em> It is the algorithm behind Bitcoin mining, SSL certificates, and modern password storage (when combined with a cryptographic "salt").</p>
+
+                <h3>SHA-512</h3>
+                <p>A variant of the SHA-2 family, SHA-512 produces a massive 512-bit hash. While it provides an extreme level of security, it is computationally heavier. Interestingly, on 64-bit hardware architecture, SHA-512 can sometimes run faster than SHA-256 due to how the math aligns with the processor's registers. <em>Use Case:</em> Ideal for ultra-secure data verification and highly sensitive government or financial applications.</p>
+
+                <h2>The Danger of Server-Side Hash Generators</h2>
+                <p>If you search the internet for an "MD5 Generator," almost every tool you find relies on backend processing. You type your string into a box, click submit, and their server performs the math. If you are hashing an API secret, a user's password, or a proprietary database key, you are literally giving your deepest secrets to a random website.</p>
+                <p><strong>Toolenix provides absolute privacy.</strong> By leveraging the highly respected `crypto-js` library natively inside your web browser, our tool computes the hashes in your local RAM. The moment you type a character, your own CPU performs the calculations and displays the hashes instantly. Your text never leaves your device.</p>
+
+                <h2>Frequently Asked Questions (FAQs)</h2>
+                
+                <h3>Can a hash be reversed (cracked)?</h3>
+                <p>Mathematically, no. A hash function is one-way. However, hackers "crack" hashes using <em>Rainbow Tables</em>. A rainbow table is a massive pre-computed database containing millions of common words (like "password123") and their corresponding MD5 or SHA-256 hashes. If your hash matches one in their database, they know your original text. To prevent this, developers should always add a random string of text (a "salt") to passwords before hashing them.</p>
+
+                <h3>Why did the hash completely change when I added a space?</h3>
+                <p>This is known as the "Avalanche Effect." A core property of a strong cryptographic hash is that even the tiniest change in the input (like changing an uppercase "A" to a lowercase "a" or adding a trailing space) must result in a completely randomized, drastically different output. This ensures hackers cannot guess how close they are to the original string.</p>
+
+                <h3>Does a larger input file take longer to hash?</h3>
+                <p>Yes. While the final output string is always a fixed length (e.g., 64 characters for SHA-256), the algorithm must read every single byte of the input file to compute the mathematics. Hashing a 10-character password is instantaneous; hashing a 2GB ISO file can take several seconds or minutes.</p>
+
+                <h2>Complementary Security Utilities</h2>
+                <p>Enhance your development workflow with our other free local security tools:</p>
+                <ul>
+                    <li><a href="password-generator.html"><strong>Password Generator:</strong></a> Create highly secure, high-entropy strings that are practically immune to rainbow table attacks.</li>
+                    <li><a href="uuid-generator.html"><strong>UUID Generator:</strong></a> Generate cryptographically secure Version 4 UUIDs offline for database primary keys.</li>
+                    <li><a href="base64-encoder-decoder.html"><strong>Base64 Encoder:</strong></a> Need to transmit your generated hash inside a legacy API structure? Encode it securely into Base64 format.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Protecting data integrity requires uncompromising, mathematically secure algorithms. By utilizing the Toolenix Hash Generator, you gain access to an instantaneous suite of the world's most popular cryptographic functions. Protect your sensitive passwords and API keys by completely avoiding server-based conversion tools. Bookmark this page to ensure you always have a secure, offline verification utility ready at your fingertips.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const textInput = document.getElementById('text-input');
+            const clearBtn = document.getElementById('clear-btn');
+            const pasteBtn = document.getElementById('paste-btn');
+            
+            const outMD5 = document.getElementById('output-md5');
+            const outSHA1 = document.getElementById('output-sha1');
+            const outSHA256 = document.getElementById('output-sha256');
+            const outSHA512 = document.getElementById('output-sha512');
+            
+            const copyBtns = document.querySelectorAll('.copy-hash-btn');
+
+            // Core Hashing Function
+            function generateHashes() {
+                const text = textInput.value;
+                
+                if (text.length === 0) {
+                    outMD5.value = '';
+                    outSHA1.value = '';
+                    outSHA256.value = '';
+                    outSHA512.value = '';
+                    return;
+                }
+
+                // Using CryptoJS for highly optimized, cross-browser compatible hashing
+                outMD5.value = CryptoJS.MD5(text).toString();
+                outSHA1.value = CryptoJS.SHA1(text).toString();
+                outSHA256.value = CryptoJS.SHA256(text).toString();
+                outSHA512.value = CryptoJS.SHA512(text).toString();
+            }
+
+            // Real-time listener
+            textInput.addEventListener('input', generateHashes);
+
+            // Copy Action for each specific hash
+            copyBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetId = btn.getAttribute('data-target');
+                    const targetInput = document.getElementById(targetId);
+                    
+                    if (!targetInput.value) {
+                        if (window.showToast) window.showToast('No hash to copy!', 'error');
+                        return;
+                    }
+                    
+                    navigator.clipboard.writeText(targetInput.value).then(() => {
+                        if (window.showToast) window.showToast('Hash copied to clipboard!', 'success');
+                        
+                        const originalIcon = btn.innerHTML;
+                        btn.innerHTML = '✅';
+                        setTimeout(() => {
+                            btn.innerHTML = originalIcon;
+                        }, 2000);
+                    });
+                });
+            });
+
+            // Action: Clear
+            clearBtn.addEventListener('click', () => {
+                textInput.value = '';
+                generateHashes();
+                textInput.focus();
+            });
+
+            // Action: Paste
+            pasteBtn.addEventListener('click', async () => {
+                try {
+                    const text = await navigator.clipboard.readText();
+                    textInput.value = text;
+                    generateHashes(); // Manually trigger update
+                    if (window.showToast) window.showToast('Pasted from clipboard!', 'success');
+                } catch (err) {
+                    console.error('Failed to read clipboard: ', err);
+                    if (window.showToast) window.showToast('Please press Ctrl+V / Cmd+V to paste manually.', 'error');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

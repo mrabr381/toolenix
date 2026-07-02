@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>Lorem Ipsum Generator - Free Dummy Text Provider | Toolenix</title>
+    <meta name="title" content="Lorem Ipsum Generator - Free Dummy Text Provider | Toolenix">
+    <meta name="description" content="Generate custom Lorem Ipsum placeholder text instantly. Choose by paragraphs, words, or sentences. 100% free offline tool for web designers.">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.toolenix.com/lorem-ipsum-generator.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/lorem-ipsum-generator.html">
+    <meta property="og:title" content="Lorem Ipsum Generator - Instant UI Placeholder Text">
+    <meta property="og:description" content="Generate dummy text for your web design mockups and layouts locally in your browser.">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/lorem-ipsum-generator.html">
+    <meta property="twitter:title" content="Lorem Ipsum Generator - Instant UI Placeholder Text">
+    <meta property="twitter:description" content="Generate dummy text for your web design mockups and layouts locally in your browser.">
+    
+    <!-- Assets -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <!-- Schema.org for SoftwareApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix Lorem Ipsum Generator",
+      "operatingSystem": "All",
+      "applicationCategory": "DesignApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A client-side utility for web designers and developers to generate random, customizable 'Lorem Ipsum' placeholder text for UI mockups and prototypes."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Developer Tools",
+        "item": "https://www.toolenix.com/#dev-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Lorem Ipsum Generator"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Controls Panel */
+        .controls-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .input-group {
+            margin-bottom: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .input-group label {
+            font-weight: 600;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        .control-input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .control-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Custom Checkbox */
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-main);
+            user-select: none;
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+        
+        .checkbox-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+        
+        .checkmark {
+            height: 20px;
+            width: 20px;
+            background-color: var(--bg-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 4px;
+            margin-right: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .checkbox-container:hover input ~ .checkmark {
+            border-color: var(--primary);
+        }
+        
+        .checkbox-container input:checked ~ .checkmark {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .checkmark:after {
+            content: "";
+            display: none;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            margin-bottom: 2px;
+        }
+        
+        .checkbox-container input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        /* Output Pane */
+        .editor-pane {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: rgba(37, 99, 235, 0.05);
+            border-bottom: 1px solid var(--border-glass);
+            font-weight: 600;
+        }
+
+        .text-area {
+            width: 100%;
+            height: 500px;
+            padding: 1.5rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: none;
+            font-family: inherit;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            resize: vertical;
+            outline: none;
+        }
+
+        .text-area.html-mode {
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--primary);
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <!-- Breadcrumbs -->
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#dev-tools">Developer Tools</a> &gt; Lorem Ipsum Generator
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <!-- Tool Interface -->
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 1100px;">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">Lorem Ipsum Generator</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Generate clean placeholder text for your UI mockups instantly. 100% free, highly customizable, and completely offline.</p>
+                </div>
+
+                <div class="workspace-grid">
+                    
+                    <!-- Left: Configuration Controls -->
+                    <div class="controls-panel">
+                        <div class="input-group">
+                            <label for="gen-amount">Quantity</label>
+                            <input type="number" id="gen-amount" class="control-input" value="5" min="1" max="100">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="gen-type">Format</label>
+                            <select id="gen-type" class="control-input">
+                                <option value="paragraphs" selected>Paragraphs</option>
+                                <option value="sentences">Sentences</option>
+                                <option value="words">Words</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group" style="margin-top: 1.5rem;">
+                            <span style="font-weight: 600; color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase;">Options:</span>
+                            
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="opt-start-lorem" checked>
+                                <span class="checkmark"></span>
+                                Start with "Lorem ipsum..."
+                            </label>
+
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="opt-html-tags">
+                                <span class="checkmark"></span>
+                                Wrap output in HTML tags (&lt;p&gt;)
+                            </label>
+                        </div>
+
+                        <button class="btn btn-primary" id="generate-btn" style="width: 100%; margin-top: 1.5rem; padding: 0.8rem;">⚙️ Generate Text</button>
+                    </div>
+
+                    <!-- Right: Output Editor -->
+                    <div class="editor-pane">
+                        <div class="editor-header">
+                            <span>Generated Text Output</span>
+                            <button class="btn btn-outline" id="copy-btn" style="padding: 0.3rem 0.8rem; font-size: 0.85rem;">📄 Copy Text</button>
+                        </div>
+                        <textarea id="text-output" class="text-area" readonly placeholder="Your generated placeholder text will appear here..."></textarea>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Deep SEO Editorial Section -->
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Essential Guide to Lorem Ipsum Placeholder Text</h2>
+                <p>When presenting a new website design, application UI mockup, or magazine layout to a client, the design itself should be the focal point. If a designer uses readable English text (like "Put the company history here"), the client's brain naturally begins reading and judging the words, distracting them from the structural layout, typography, and visual hierarchy of the page.</p>
+                
+                <p>To solve this cognitive friction, the printing and typesetting industry adopted <strong>Lorem Ipsum</strong>. It is a pseudo-Latin text that looks like normal English but carries absolutely no meaning. Welcome to the Toolenix Lorem Ipsum Generator. We engineered this offline utility to provide front-end developers and graphic designers with instant, customizable blocks of dummy text for their creative projects.</p>
+
+                <h2>The Origins and Meaning of Lorem Ipsum</h2>
+                <p>Contrary to popular belief, Lorem Ipsum is not simply random text generated by a computer mashing keys. It actually has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.</p>
+                <p>The standard "Lorem ipsum dolor sit amet..." passage is derived from sections 1.10.32 and 1.10.33 of <em>"de Finibus Bonorum et Malorum"</em> (The Extremes of Good and Evil) by the Roman philosopher Marcus Tullius Cicero. A typesetter in the 1500s took a galley of this type and scrambled it to make a type specimen book. Today, it remains the undisputed industry standard for placeholder copy because it has a more-or-less normal distribution of letters, making it look like readable English.</p>
+
+                <h2>Why Using a Generator is Better Than Copy-Pasting</h2>
+                <p>You might wonder why you shouldn't just copy a block of Lorem Ipsum from Wikipedia and paste it repeatedly into your Figma or HTML files. Here is why professional developers utilize dynamic generators:</p>
+                <ul>
+                    <li><strong>Natural Variation:</strong> If you paste the exact same paragraph five times, the repeated visual patterns become obvious and look unprofessional. A generator algorithmically shuffles the classical words, creating unique, natural-looking paragraphs every single time.</li>
+                    <li><strong>Exact Measurements:</strong> If you are designing a strict UI card that only holds exactly 15 words, attempting to manually count and cut a paragraph is tedious. Our generator allows you to specify exactly "15 Words" and outputs the perfect string instantly.</li>
+                    <li><strong>HTML Integration:</strong> When hard-coding a frontend template, developers need their text wrapped in standard markup. By toggling the "Wrap in HTML tags" checkbox, our tool automatically outputs your paragraphs wrapped perfectly in <code>&lt;p&gt;</code> tags, ready to drop into VS Code.</li>
+                </ul>
+
+                <h2>The Privacy Guarantee of Client-Side Processing</h2>
+                <p>Most online Lorem Ipsum generators are riddled with intrusive display advertisements and hidden tracking scripts that monitor your usage. <strong>Toolenix operates entirely differently.</strong></p>
+                <p>Our generator utilizes a localized JavaScript array of the classical Latin vocabulary. When you click "Generate Text," your own device's CPU mathematically constructs the paragraphs and sentences entirely within your browser's local sandbox. The tool does not connect to an external server or database. It works perfectly even if you disconnect from the internet, ensuring an ad-free, secure, and lightning-fast experience.</p>
+
+                <h2>Complementary Web Design Utilities</h2>
+                <p>Enhance your front-end development and wireframing workflow with our other free local tools:</p>
+                <ul>
+                    <li><a href="markdown-to-html.html"><strong>Markdown to HTML:</strong></a> Paste your generated Lorem Ipsum into our Markdown editor to quickly draft structurally sound web pages with headers and lists.</li>
+                    <li><a href="css-gradient-generator.html"><strong>CSS Gradient Generator:</strong></a> Once your text is placed, design a beautiful, modern background gradient to complement your typography.</li>
+                    <li><a href="word-counter.html"><strong>Word Counter:</strong></a> Ensure the dummy text perfectly matches the character limit specifications provided by your SEO or marketing team.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>A polished design presentation relies on keeping the client focused on the visual architecture, not the copy. By utilizing the Toolenix Lorem Ipsum Generator, you gain an instantaneous, customizable placeholder utility that operates securely offline. Streamline your UI wireframing process, export ready-to-use HTML strings, and bookmark this tool to ensure you never run out of dummy text.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <!-- Tool Execution Code -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const genAmount = document.getElementById('gen-amount');
+            const genType = document.getElementById('gen-type');
+            const optStartLorem = document.getElementById('opt-start-lorem');
+            const optHtmlTags = document.getElementById('opt-html-tags');
+            const textOutput = document.getElementById('text-output');
+            
+            const generateBtn = document.getElementById('generate-btn');
+            const copyBtn = document.getElementById('copy-btn');
+
+            // Standard Lorem Ipsum Vocabulary Bank
+            const WORDS = [
+                "lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing", "elit", 
+                "sed", "do", "eiusmod", "tempor", "incididunt", "ut", "labore", "et", "dolore", 
+                "magna", "aliqua", "enim", "ad", "minim", "veniam", "quis", "nostrud", "exercitation", 
+                "ullamco", "laboris", "nisi", "aliquip", "ex", "ea", "commodo", "consequat", "duis", 
+                "aute", "irure", "reprehenderit", "in", "voluptate", "velit", "esse", "cillum", 
+                "fugiat", "nulla", "pariatur", "excepteur", "sint", "occaecat", "cupidatat", "non", 
+                "proident", "sunt", "culpa", "qui", "officia", "deserunt", "mollit", "anim", "id", "est", "laborum"
+            ];
+
+            // Helper: Get a random word
+            function getRandomWord() {
+                return WORDS[Math.floor(Math.random() * WORDS.length)];
+            }
+
+            // Helper: Capitalize first letter
+            function capitalize(str) {
+                return str.charAt(0).toUpperCase() + str.slice(1);
+            }
+
+            // Generate a sentence
+            function generateSentence(isFirstSentence = false) {
+                if (isFirstSentence && optStartLorem.checked) {
+                    // Standard start
+                    return "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+                }
+
+                // Random sentence length between 6 and 15 words
+                const wordCount = Math.floor(Math.random() * 10) + 6;
+                let sentence = [];
+                
+                for (let i = 0; i < wordCount; i++) {
+                    sentence.push(getRandomWord());
+                }
+                
+                // Add commas randomly for structure
+                if (wordCount > 8) {
+                    const commaPos = Math.floor(Math.random() * (wordCount - 4)) + 2;
+                    sentence[commaPos] += ',';
+                }
+
+                return capitalize(sentence.join(' ')) + '.';
+            }
+
+            // Generate a paragraph
+            function generateParagraph(isFirstParagraph = false) {
+                // Random paragraph length between 4 and 7 sentences
+                const sentenceCount = Math.floor(Math.random() * 4) + 4;
+                let paragraph = [];
+                
+                for (let i = 0; i < sentenceCount; i++) {
+                    const isFirst = (isFirstParagraph && i === 0);
+                    paragraph.push(generateSentence(isFirst));
+                }
+                
+                return paragraph.join(' ');
+            }
+
+            // Core Generation Controller
+            function processGeneration() {
+                let amount = parseInt(genAmount.value, 10);
+                if (isNaN(amount) || amount < 1) amount = 1;
+                
+                const type = genType.value;
+                const useHtml = optHtmlTags.checked;
+                
+                let result = [];
+
+                if (type === 'words') {
+                    // Generate specific number of words
+                    if (optStartLorem.checked && amount >= 5) {
+                        result.push("Lorem", "ipsum", "dolor", "sit", "amet");
+                        for (let i = 5; i < amount; i++) result.push(getRandomWord());
+                    } else {
+                        for (let i = 0; i < amount; i++) result.push(getRandomWord());
+                    }
+                    
+                    let text = capitalize(result.join(' '));
+                    if(useHtml) text = `<p>${text}</p>`;
+                    textOutput.value = text;
+                    
+                } else if (type === 'sentences') {
+                    for (let i = 0; i < amount; i++) {
+                        result.push(generateSentence(i === 0));
+                    }
+                    
+                    let text = result.join(' ');
+                    if(useHtml) text = `<p>${text}</p>`;
+                    textOutput.value = text;
+                    
+                } else {
+                    // Paragraphs
+                    for (let i = 0; i < amount; i++) {
+                        let para = generateParagraph(i === 0);
+                        if (useHtml) {
+                            para = `<p>${para}</p>`;
+                        }
+                        result.push(para);
+                    }
+                    
+                    textOutput.value = result.join(useHtml ? '\n' : '\n\n');
+                }
+
+                // UI feedback toggle
+                if (useHtml) {
+                    textOutput.classList.add('html-mode');
+                } else {
+                    textOutput.classList.remove('html-mode');
+                }
+            }
+
+            // Event Listeners
+            generateBtn.addEventListener('click', () => {
+                processGeneration();
+                if(window.showToast) window.showToast('Text Generated!', 'success');
+            });
+            
+            // Generate on Enter key or direct change if valid
+            genAmount.addEventListener('keyup', (e) => {
+                if(e.key === 'Enter') processGeneration();
+            });
+
+            // Action: Copy
+            copyBtn.addEventListener('click', () => {
+                if (!textOutput.value) {
+                    if (window.showToast) window.showToast('Generate text first!', 'error');
+                    return;
+                }
+                
+                navigator.clipboard.writeText(textOutput.value).then(() => {
+                    if (window.showToast) window.showToast('Text copied to clipboard!', 'success');
+                    
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✅ Copied!';
+                    setTimeout(() => { copyBtn.textContent = originalText; }, 2000);
+                });
+            });
+
+            // Init on load
+            processGeneration();
+        });
+    </script>
+</body>
+</html>

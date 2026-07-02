@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>PDF to JPG Converter - Convert PDF Pages to Images Free Offline | Toolenix</title>
+    <meta name="title" content="PDF to JPG Converter - Convert PDF Pages to Images Free Offline | Toolenix">
+    <meta name="description" content="Convert your PDF pages into high-quality JPG images instantly. 100% free, private, and client-side processed. No file uploads, no watermarks, download all as ZIP.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/pdf-to-jpg.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/pdf-to-jpg.html">
+    <meta property="og:title" content="PDF to JPG Converter - Convert PDF to Images Securely">
+    <meta property="og:description" content="Transform PDF documents into high-resolution JPG images without uploading files to a server. Fast, free, and completely secure.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/pdf-to-jpg.html">
+    <meta property="twitter:title" content="PDF to JPG Converter - Convert PDF to Images Securely">
+    <meta property="twitter:description" content="Transform PDF documents into high-resolution JPG images without uploading files to a server. Fast, free, and completely secure.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix PDF to JPG Converter",
+      "operatingSystem": "All",
+      "applicationCategory": "UtilitiesApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A secure client-side utility that converts PDF document pages into independent high-resolution JPEG images directly within the web browser."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "PDF Tools",
+        "item": "https://www.toolenix.com/#pdf-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "PDF to JPG"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .upload-area {
+            border: 2px dashed var(--primary);
+            border-radius: 16px;
+            padding: 4rem 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: rgba(37, 99, 235, 0.05);
+            cursor: pointer;
+            margin-bottom: 2rem;
+        }
+        .upload-area:hover, .upload-area.dragover {
+            background: rgba(37, 99, 235, 0.1);
+            transform: translateY(-2px);
+            border-color: var(--secondary);
+        }
+        .hidden { display: none !important; }
+
+        /* Dynamic Preview Grid */
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 1rem;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.02);
+            border: 1px solid var(--border-glass);
+        }
+        .preview-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            padding: 0.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-soft);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .preview-card canvas {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+        }
+        .preview-card span {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary)"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12( 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#pdf-tools">PDF Tools</a> &gt; PDF to JPG
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 900px;">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">PDF to JPG Converter</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Extract every page of your PDF file into a high-quality JPEG image. Fast, free, and fully private.</p>
+                </div>
+
+                <div class="glass" style="padding: 2rem;">
+                    
+                    <div id="upload-state" class="upload-area">
+                        <input type="file" id="pdf-input" accept="application/pdf" class="hidden">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🖼️</div>
+                        <h3 style="margin-bottom: 0.5rem;">Drag & drop your PDF file here</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">or</p>
+                        <button class="btn btn-primary" onclick="document.getElementById('pdf-input').click()">Select PDF File</button>
+                    </div>
+
+                    <div id="processing-state" class="hidden" style="text-align: center;">
+                        <div class="status-badge">
+                            📁 <span id="filename-display">document.pdf</span> (<span id="page-count">0</span> Pages Detected)
+                        </div>
+                        
+                        <p style="color: var(--text-muted); font-size: 0.95rem;">Review your document pages below before completing extraction.</p>
+                        
+                        <div id="preview-grid" class="preview-grid"></div>
+
+                        <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                            <button class="btn btn-outline" id="reset-btn">Cancel</button>
+                            <button class="btn btn-primary" id="convert-btn">Convert to JPG</button>
+                        </div>
+                    </div>
+
+                    <div id="result-state" class="hidden" style="text-align: center; padding: 3rem 0;">
+                        <div style="font-size: 4rem; color: #10B981; margin-bottom: 1rem;">🎉</div>
+                        <h3 style="margin-bottom: 1rem; font-size: 1.5rem;">Conversion Finished!</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 2rem;">All pages were successfully rasterized into images without leaving your machine.</p>
+                        <div style="display: flex; gap: 1rem; justify-content: center;">
+                            <button class="btn btn-outline" id="start-over-btn">Convert Another</button>
+                            <button id="download-zip-btn" class="btn btn-primary">Download Images (ZIP Archive)</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Comprehensive Guide to Converting PDF Documents into JPG Images</h2>
+                <p>The Portable Document Format (PDF) is the universal baseline for cross-platform file transfers, corporate filings, and academic publishing. However, the exact structural characteristics that make PDFs robust—like read-only layout preservation, complex structural encapsulation, and multi-element mapping—also make them remarkably inflexible. When you need to embed an excerpt of a document into a presentation slide, upload a certificate to a web form that accepts only graphic attachments, or share standalone document sheets on social media platforms, standard PDF configurations fall short. You need to <strong>convert PDF to JPG</strong>.</p>
+                
+                <p>Welcome to the Toolenix <strong>PDF to JPG Converter</strong>. This utility has been precisely engineered to transform multi-page PDF documents into crystal-clear, high-fidelity JPEG raster images. Rooted in absolute client-side performance, our platform bypasses old-school server methodologies to execute image conversions right inside your internet browser application. This structural guide evaluates the underlying mechanics of image extraction, document data protection, and ideal strategies for digital rendering workflows.</p>
+
+                <h2>Understanding Document Extraction: Vector to Raster Formats</h2>
+                <p>To accurately assess why converting a document requires tailored software configurations, it is helpful to explore the structural variations between vector layouts and raster file designs. A standard PDF file is essentially a collection of vector instructions. It maps coordinates for typography, embedded text blocks, scalable geometric properties, and layered elements. When your device opens a PDF, it continuously renders these coordinate instructions dynamically, ensuring crisp clarity even when zoomed significantly.</p>
+                <p>Conversely, a Joint Photographic Experts Group (JPG/JPEG) document uses a raster image file configuration. Instead of preserving geometric formulas and layout parameters, a JPG locks in a static grid of independent pixel elements, each defined by exact color information. Converting a PDF to a JPG requires a process called <strong>rasterization</strong>—reading the hidden structural instructions of the source file and rewriting every layer into a single-plane grid of high-resolution pixels. The Toolenix processing system converts every document page line by line to maintain exact alignment, typography spacing, and color fidelity.</p>
+
+                <h2>The Security Reality of Cloud-Based PDF Conversion Tools</h2>
+                <p>An overwhelming majority of web tools offering document conversions use cloud-based pipelines. When you use those platforms, your system transfers the local document across public servers to a remote server cluster. A backend computing routine reads the document, runs a command-line script to separate the assets, and provides a web-accessible download link.</p>
+                <p>For individuals handling non-sensitive public assets, this architecture works, but it poses significant issues for corporate structures, legal professionals, and health services handling sensitive records:</p>
+                <ul>
+                    <li><strong>Permanent Document Leaks:</strong> Once a file moves beyond your local infrastructure to an external host, you lose absolute tracking authority. Unsecured server setups, accidental logs, and targeted cyber exploits can expose your confidential information.</li>
+                    <li><strong>Bandwidth Constraints:</strong> Transferring a complex 80MB document across an internet connection takes considerable upload and download time, bottlenecking productivity.</li>
+                    <li><strong>Arbitrary File Limits:</strong> Because maintaining remote servers involves computing overhead, companies enforce size caps (e.g., maximum 5 pages or files smaller than 15MB) on free users to push them toward subscription fees.</li>
+                </ul>
+                <p><strong>Toolenix eliminates these operational hurdles by moving the entire conversion architecture directly into your browser.</strong> Using HTML5 Canvas mechanisms and compiled JavaScript workers, the application loads your file into your browser's isolated sandbox memory. The rasterization process runs entirely on your local hardware. No remote server is contacted, ensuring absolute privacy, native processing speeds, and zero file size caps.</p>
+
+                <h2>Core Functional Features of the Toolenix Image Extraction Suite</h2>
+                <p>Our client-side design offers an uncompromised, feature-rich asset engine:</p>
+                <ul>
+                    <li><strong>Unified ZIP Packaging:</strong> Instead of making you click "Save" on 30 separate image files for a long document, our script bundles every extracted page into a structured ZIP archive automatically.</li>
+                    <li><strong>Real-Time Thumbnail View:</strong> As soon as you add your file, our local worker renders visual thumbnails of the pages, confirming accuracy before starting conversion.</li>
+                    <li><strong>Zero Brand Markings:</strong> We keep your professional outputs clean. Toolenix does not stamp intrusive watermark banners on your finalized image exports.</li>
+                    <li><strong>True Lossless Conversion:</strong> The local rendering loop reads the highest embedded rendering resolution, delivering clean text geometry and rich contrast in the resulting JPEGs.</li>
+                    <li><strong>No Software Installs:</strong> Enjoy the processing power of a heavy desktop application directly in a standard browser tab on Windows, Mac, Linux, or mobile devices.</li>
+                </ul>
+
+                <h2>Step-by-Step Instructions: Converting PDF Pages to Images</h2>
+                <p>The user workspace is designed to be clear and intuitive. Follow these simple steps to process your files:</p>
+                <ol>
+                    <li><strong>Load the Document Asset:</strong> Click "Select PDF File" to open your system's directory picker, or drag your file into the dashed workspace area. The local execution thread will immediately parse your file's layout metadata.</li>
+                    <li><strong>Verify Document Pages:</strong> Review the dynamically generated page layout thumbnails within the preview container to make sure the document is correct and complete.</li>
+                    <li><strong>Initialize the Image Engine:</strong> Click the "Convert to JPG" button. The background worker script will quickly process each page container into a separate pixel matrix.</li>
+                    <li><strong>Download the Archive:</strong> Click the "Download Images (ZIP Archive)" button to instantly save the compressed collection of JPEG pages to your local downloads folder.</li>
+                </ol>
+
+                <h2>Best Practices for High-Quality Document Rasterization</h2>
+                <p>To ensure perfect legibility and layout preservation when exporting documents as images, keep these helpful tips in mind:</p>
+                <p><strong>Account for Raster Text Limits:</strong> Because a JPG converts vector typography into static pixels, text elements will lose scalability. If an image is intended for close reading, avoid resizing it down significantly after conversion to prevent pixelation blur.</p>
+                <p><strong>Ensure Fonts Are Embedded:</strong> If your PDF includes rare custom fonts that aren't embedded in the file structure, a browser rendering system may fall back to standard web fonts like Arial or Times New Roman. For best results, use standard PDF export profiles that embed font glyphs directly.</p>
+                <p><strong>Organize Your Output Packages:</strong> When extracting pages from multi-page documents, immediately place the resulting images into a dedicated project folder to keep your storage organized and avoid mixing up files.</p>
+
+                <h2>Frequently Asked Questions (FAQs)</h2>
+                
+                <h3>Are my financial files safe from third-party tracking on Toolenix?</h3>
+                <p>Yes, absolutely. Toolenix uses a strict local data approach. The translation logic runs in your browser using local resources. Your files are never uploaded, stored, or reviewed by any remote web server.</p>
+
+                <h3>Can I choose to export just a single page as an image?</h3>
+                <p>Our current standard tool processes the entire document file to build a complete ZIP archive package. If you only need one page, simply extract that specific file from the downloaded ZIP and discard the rest.</p>
+
+                <h3>What is the maximum file size limit for converting documents?</h3>
+                <p>There are no artificial limits here. Because processing happens locally, you are limited only by the memory and CPU power of your device. The application can easily handle large documents that often crash standard online upload platforms.</p>
+
+                <h3>Why should I choose JPG over PNG for document text?</h3>
+                <p>JPG files feature advanced compression algorithms that reduce file sizes for dense multi-page documents, making them ideal for emails and web uploads. For graphics requiring transparency or perfect contrast lines, try our upcoming <a href="pdf-to-png.html">PDF to PNG Converter</a>.</p>
+
+                <h2>Complementary Document Utilities</h2>
+                <p>Keep your workflows moving efficiently with our other free browser tools:</p>
+                <ul>
+                    <li><a href="merge-pdf.html"><strong>Merge PDF Documents:</strong></a> Combine multiple separate PDF sheets back into a single clean file.</li>
+                    <li><a href="split-pdf.html"><strong>Split PDF Pages:</strong></a> Isolate specific page ranges from large documents before converting them into images.</li>
+                    <li><a href="jpg-to-pdf.html"><strong>JPG to PDF Converter:</strong></a> Revert your image files back into a single clean PDF document.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Rasterizing multi-page documents shouldn't require paying for premium software or risking your data privacy on unverified servers. The Toolenix PDF to JPG Converter provides a secure, professional-grade solution powered entirely by your modern web browser. Bookmark this utility to keep a reliable image extraction tool ready whenever your digital workspace requires it.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        // Direct PDF.js worker setup using absolute CDN path
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const uploadArea = document.getElementById('upload-state');
+            const fileInput = document.getElementById('pdf-input');
+            const processingState = document.getElementById('processing-state');
+            const resultState = document.getElementById('result-state');
+            
+            const filenameDisplay = document.getElementById('filename-display');
+            const pageCountDisplay = document.getElementById('page-count');
+            const previewGrid = document.getElementById('preview-grid');
+            
+            const convertBtn = document.getElementById('convert-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const startOverBtn = document.getElementById('start-over-btn');
+            const downloadZipBtn = document.getElementById('download-zip-btn');
+            
+            let currentPdfDoc = null;
+            let fileDataBuffer = null;
+            let zipBlobUrl = null;
+            let currentFileName = "document";
+
+            // Drag/Drop Listeners
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaultBehavior, false);
+            });
+
+            function preventDefaultBehavior(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.add('dragover'), false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.remove('dragover'), false);
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                handleFileSelection(e.dataTransfer.files[0]);
+            });
+
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) handleFileSelection(this.files[0]);
+            });
+
+            async function handleFileSelection(file) {
+                if (!file || file.type !== 'application/pdf') {
+                    if (window.showToast) window.showToast('Please provide a valid PDF document.', 'error');
+                    return;
+                }
+                
+                currentFileName = file.name.replace(/\.[^/.]+$/, "");
+                filenameDisplay.textContent = file.name;
+                
+                try {
+                    fileDataBuffer = await file.arrayBuffer();
+                    
+                    // Initialize document stream via PDF.js loading anchor
+                    const loadingTask = pdfjsLib.getDocument({ data: fileDataBuffer });
+                    currentPdfDoc = await loadingTask.promise;
+                    
+                    const numPages = currentPdfDoc.numPages;
+                    pageCountDisplay.textContent = numPages;
+                    
+                    // Clear out old viewports
+                    previewGrid.innerHTML = '';
+                    
+                    // Hide active picker view
+                    uploadArea.classList.add('hidden');
+                    processingState.classList.remove('hidden');
+                    
+                    // Generate asynchronous preview thumbnails at low scale for memory optimization
+                    for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+                        const page = await currentPdfDoc.getPage(pageNum);
+                        
+                        const card = document.createElement('div');
+                        card.className = 'preview-card';
+                        
+                        const canvas = document.createElement('canvas');
+                        const context = canvas.getContext('2d');
+                        
+                        // Render thumbnail preview at 0.5x scaling context
+                        const previewViewport = page.getViewport({ scale: 0.5 });
+                        canvas.height = previewViewport.height;
+                        canvas.width = previewViewport.width;
+                        
+                        card.appendChild(canvas);
+                        
+                        const label = document.createElement('span');
+                        label.textContent = `Page ${pageNum}`;
+                        card.appendChild(label);
+                        
+                        previewGrid.appendChild(card);
+                        
+                        await page.render({
+                            canvasContext: context,
+                            viewport: previewViewport
+                        }).promise;
+                    }
+
+                } catch (err) {
+                    console.error('Local engine parsing error:', err);
+                    if (window.showToast) window.showToast('Failed to read file. The document may be password protected.', 'error');
+                    resetConverterWorkspace();
+                }
+            }
+
+            function resetConverterWorkspace() {
+                currentPdfDoc = null;
+                fileDataBuffer = null;
+                if (zipBlobUrl) URL.revokeObjectURL(zipBlobUrl);
+                zipBlobUrl = null;
+                fileInput.value = '';
+                
+                processingState.classList.add('hidden');
+                resultState.classList.add('hidden');
+                uploadArea.classList.remove('hidden');
+            }
+
+            resetBtn.addEventListener('click', resetConverterWorkspace);
+            startOverBtn.addEventListener('click', resetConverterWorkspace);
+
+            // Execute full-resolution extraction and zip creation
+            convertBtn.addEventListener('click', async () => {
+                if (!currentPdfDoc) return;
+                
+                convertBtn.textContent = 'Processing Pages...';
+                convertBtn.disabled = true;
+                
+                try {
+                    const zip = new JSZip();
+                    const totalPages = currentPdfDoc.numPages;
+                    
+                    // Create an offscreen canvas to render target high-res images cleanly
+                    const offscreenCanvas = document.createElement('canvas');
+                    const ctx = offscreenCanvas.getContext('2d');
+                    
+                    for (let i = 1; i <= totalPages; i++) {
+                        const page = await currentPdfDoc.getPage(i);
+                        
+                        // Scale to 1.5x for high-quality text rasterization
+                        const viewport = page.getViewport({ scale: 1.5 });
+                        offscreenCanvas.height = viewport.height;
+                        offscreenCanvas.width = viewport.width;
+                        
+                        await page.render({
+                            canvasContext: ctx,
+                            viewport: viewport
+                        }).promise;
+                        
+                        // Extract base64 image data string directly from canvas
+                        const imgDataUrl = offscreenCanvas.toDataURL('image/jpeg', 0.92);
+                        const base64Data = imgDataUrl.split(',')[1];
+                        
+                        // Pad filename mapping sequentially (e.g., page_01.jpg)
+                        const paddedIndex = String(i).padStart(2, '0');
+                        zip.file(`${currentFileName}_page_${paddedIndex}.jpg`, base64Data, { base64: true });
+                    }
+                    
+                    const contentBlob = await zip.generateAsync({ type: 'blob' });
+                    zipBlobUrl = URL.createObjectURL(contentBlob);
+                    
+                    processingState.classList.add('hidden');
+                    resultState.classList.remove('hidden');
+                    if (window.showToast) window.showToast('All pages converted successfully!', 'success');
+                    
+                } catch (error) {
+                    console.error('Conversion processing halt error:', error);
+                    if (window.showToast) window.showToast('An extraction error occurred during rasterization.', 'error');
+                } finally {
+                    convertBtn.textContent = 'Convert to JPG';
+                    convertBtn.disabled = false;
+                }
+            });
+
+            downloadZipBtn.addEventListener('click', () => {
+                if (zipBlobUrl) {
+                    const tempAnchor = document.createElement('a');
+                    tempAnchor.href = zipBlobUrl;
+                    tempAnchor.download = `${currentFileName}_images.zip`;
+                    document.body.appendChild(tempAnchor);
+                    tempAnchor.click();
+                    document.body.removeChild(tempAnchor);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

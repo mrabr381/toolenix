@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>WebP to JPG / PNG Converter - Free Offline Tool | Toolenix</title>
+    <meta name="title" content="WebP to JPG / PNG Converter - Free Offline Tool | Toolenix">
+    <meta name="description" content="Instantly convert WebP images to standard JPG or PNG formats. 100% free, perfectly secure, and client-side processed. No server uploads required.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/webp-converter.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/webp-converter.html">
+    <meta property="og:title" content="WebP Converter - Fast & Secure Image Conversion">
+    <meta property="og:description" content="Convert modern WebP images into universally compatible JPG or PNG files offline inside your browser.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/webp-converter.html">
+    <meta property="twitter:title" content="WebP Converter - Fast & Secure Image Conversion">
+    <meta property="twitter:description" content="Convert modern WebP images into universally compatible JPG or PNG files offline inside your browser.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix WebP Converter",
+      "operatingSystem": "All",
+      "applicationCategory": "MultimediaApplication",
+      "browserRequirements": "Requires a modern web browser with HTML5 Canvas support.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A secure client-side application that converts WebP image formats into universally supported JPEG or PNG formats locally without server uploads."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Image Tools",
+        "item": "https://www.toolenix.com/#image-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "WebP Converter"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .upload-area {
+            border: 2px dashed var(--primary);
+            border-radius: 16px;
+            padding: 4rem 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: rgba(37, 99, 235, 0.05);
+            cursor: pointer;
+            margin-bottom: 2rem;
+        }
+        .upload-area:hover, .upload-area.dragover {
+            background: rgba(37, 99, 235, 0.1);
+            transform: translateY(-2px);
+            border-color: var(--secondary);
+        }
+        .hidden { display: none !important; }
+
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+            align-items: start;
+        }
+        
+        @media (max-width: 900px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Image Preview Area */
+        .preview-container {
+            background: rgba(0, 0, 0, 0.02);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .preview-image-wrapper {
+            background-image: 
+                linear-gradient(45deg, #e5e7eb 25%, transparent 25%), 
+                linear-gradient(-45deg, #e5e7eb 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #e5e7eb 75%), 
+                linear-gradient(-45deg, transparent 75%, #e5e7eb 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+            border: 1px solid var(--border-glass);
+        }
+
+        .preview-image-wrapper img {
+            max-width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+        }
+
+        /* Controls Panel */
+        .controls-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .control-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 0.8rem;
+        }
+
+        /* Format Toggle Radio Buttons */
+        .format-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+
+        .format-option {
+            position: relative;
+        }
+
+        .format-option input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .format-label {
+            display: block;
+            text-align: center;
+            padding: 0.8rem;
+            background: var(--bg-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .format-option input:checked + .format-label {
+            background: rgba(37, 99, 235, 0.1);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .format-option input:focus + .format-label {
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Custom Range Slider */
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+        
+        .slider-value {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            margin-top: -8px;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.4);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 6px;
+            cursor: pointer;
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        [data-theme="dark"] input[type=range]::-webkit-slider-runnable-track {
+            background: #334155;
+        }
+
+        .stats-box {
+            background: rgba(37, 99, 235, 0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(37, 99, 235, 0.1);
+        }
+        
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+        
+        .stat-row:last-child { margin-bottom: 0; }
+        .stat-value { font-weight: 700; color: var(--text-main); }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#image-tools">Image Tools</a> &gt; WebP Converter
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 1100px;">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">WebP to JPG/PNG Converter</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Convert WebP files to universally compatible formats instantly. 100% free, private, and powered by client-side processing.</p>
+                </div>
+
+                <div class="glass" style="padding: 2rem;">
+                    
+                    <div id="upload-state" class="upload-area">
+                        <input type="file" id="image-input" accept="image/webp, image/jpeg, image/png" class="hidden">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🔄</div>
+                        <h3 style="margin-bottom: 0.5rem;">Drag & drop your WebP image here</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Convert any WebP, PNG, or JPG file locally</p>
+                        <button class="btn btn-primary" onclick="document.getElementById('image-input').click()">Select Image File</button>
+                    </div>
+
+                    <div id="processing-state" class="hidden">
+                        <div class="workspace-grid">
+                            
+                            <div class="preview-container">
+                                <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;" id="filename-display">image.webp</h3>
+                                <div class="preview-image-wrapper">
+                                    <img id="image-preview" src="" alt="Image Preview">
+                                </div>
+                                <p style="font-size: 0.85rem; color: var(--text-muted);">Preview scaled to fit screen. Conversion happens at original resolution.</p>
+                            </div>
+
+                            <div class="controls-panel">
+                                
+                                <div class="control-group">
+                                    <label>Select Output Format</label>
+                                    <div class="format-selector">
+                                        <label class="format-option">
+                                            <input type="radio" name="output-format" value="image/jpeg" checked>
+                                            <span class="format-label">JPG (Smaller Size)</span>
+                                        </label>
+                                        <label class="format-option">
+                                            <input type="radio" name="output-format" value="image/png">
+                                            <span class="format-label">PNG (Lossless/Transparent)</span>
+                                        </label>
+                                    </div>
+                                    <small id="format-hint" style="display: block; margin-top: 0.5rem; color: var(--text-muted); font-size: 0.8rem;">
+                                        JPG does not support transparency. Transparent backgrounds will become white.
+                                    </small>
+                                </div>
+
+                                <div class="control-group" id="quality-control">
+                                    <div class="slider-header">
+                                        <span>JPG Quality</span>
+                                        <span class="slider-value" id="quality-value">90%</span>
+                                    </div>
+                                    <input type="range" id="quality-slider" min="10" max="100" value="90" step="1">
+                                </div>
+
+                                <div class="stats-box">
+                                    <div class="stat-row">
+                                        <span>Original Size:</span>
+                                        <span class="stat-value" id="original-size">0 KB</span>
+                                    </div>
+                                    <div class="stat-row">
+                                        <span>Est. New Size:</span>
+                                        <span class="stat-value" id="estimated-size" style="color: var(--primary);">0 KB</span>
+                                    </div>
+                                </div>
+
+                                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                    <button class="btn btn-primary" id="download-btn">⬇️ Download Converted Image</button>
+                                    <button class="btn btn-outline" id="reset-btn">Convert Another File</button>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Complete Guide to WebP Conversion: Why and How?</h2>
+                <p>If you have ever tried to save an image from a website to use in a presentation, video edit, or graphic design project, you have likely encountered the `.webp` file extension. Developed by Google, WebP is an incredibly efficient modern image format that provides superior lossless and lossy compression for web images. It makes websites load faster and saves massive amounts of server bandwidth.</p>
+                
+                <p>However, this web optimization comes with a significant drawback: <strong>Universal Compatibility</strong>. Many legacy desktop applications, older mobile operating systems, email clients, and professional video editing suites do not support WebP files. When you try to import a WebP image, you receive an "Unsupported Format" error. To use these files in your professional workflow, you must use a <strong>WebP to JPG or PNG Converter</strong>. Welcome to the Toolenix conversion utility, designed to solve format compatibility issues instantly, securely, and entirely offline.</p>
+
+                <h2>Choosing Your Output: JPG vs. PNG</h2>
+                <p>When converting a WebP file, you must choose the correct output format based on your specific needs. Our tool offers both major standards:</p>
+                
+                <h3>Converting to JPG (JPEG)</h3>
+                <p>The JPG format is the undisputed king of digital photography and broad compatibility. It utilizes lossy compression, which keeps the file size incredibly small while maintaining visual quality. <strong>However, JPG does not support transparency (Alpha Channels).</strong> If you convert a WebP logo that has a transparent background into a JPG, our tool will automatically fill the transparent areas with a solid white background to prevent the image from rendering as a broken black box.</p>
+                <p><em>Best For:</em> Photographs, highly detailed artwork, and images where file size must be kept to an absolute minimum.</p>
+
+                <h3>Converting to PNG</h3>
+                <p>The PNG (Portable Network Graphics) format is a lossless format. This means it retains 100% of the original image data, resulting in a perfectly sharp image but a significantly larger file size. Most importantly, <strong>PNG supports transparency</strong>. If you download a WebP icon or logo with a transparent background, you must select PNG as your output format to preserve that transparency.</p>
+                <p><em>Best For:</em> Logos, icons, typography graphics, and any image that requires a transparent background.</p>
+
+                <h2>The Danger of Cloud-Based Image Converters</h2>
+                <p>If you search the web for "convert webp to jpg," you will find hundreds of free cloud-based tools. These platforms require you to upload your downloaded WebP image to their servers. The server runs a conversion script (like ImageMagick), saves the new JPG to their hard drive, and provides you with a download link.</p>
+                <p>If you are converting a sensitive document scan, a proprietary corporate asset, or a personal photograph, uploading it to an unknown third-party server is a massive privacy risk. Furthermore, uploading and downloading heavy images consumes your internet bandwidth and wastes valuable time.</p>
+                <p><strong>Toolenix utilizes Client-Side Canvas Rendering.</strong> Our utility is built entirely on native HTML5 and JavaScript APIs. When you drop your WebP image into our tool, it is loaded directly into your browser's local memory (RAM). Your own computer's graphics processor handles the format conversion instantaneously. Your images are never transmitted across the internet, guaranteeing 100% privacy and zero upload wait times.</p>
+
+                <h2>Step-by-Step Guide: How to Convert Your Image</h2>
+                <p>Transforming your modern web images into universal formats takes only a few clicks:</p>
+                <ol>
+                    <li><strong>Upload the WebP File:</strong> Drag and drop your `.webp` file into the dashed upload area. (Note: You can also use this tool to convert PNGs to JPGs and vice versa).</li>
+                    <li><strong>Select the Output Format:</strong> Choose either JPG or PNG. Remember, if your image has a transparent background that you want to keep, you must select PNG.</li>
+                    <li><strong>Adjust Quality (JPG Only):</strong> If you selected JPG, use the slider to adjust the compression quality. 90% is the standard sweet spot for retaining visual fidelity while shrinking the file size.</li>
+                    <li><strong>Download:</strong> Click the blue "Download Converted Image" button. Our local script will instantly generate the new file format and save it directly to your device's hard drive.</li>
+                </ol>
+
+                <h2>Frequently Asked Questions (FAQs)</h2>
+                
+                <h3>Why did the background of my image turn white?</h3>
+                <p>You likely uploaded a WebP image with a transparent background and selected JPG as your output format. The JPG file format mathematically cannot support transparency. To prevent the background from defaulting to black, our converter safely fills transparent pixels with white. If you need the transparency, switch the output format to PNG.</p>
+
+                <h3>Will converting a WebP to JPG reduce its quality?</h3>
+                <p>WebP is generally more efficient than JPG. When you convert a highly compressed WebP back into a JPG, there may be a microscopic loss of data due to the nature of lossy compression. However, by keeping the Quality Slider at 90% or higher, the visual difference to the human eye is virtually imperceptible.</p>
+
+                <h3>Are my private images stored on your website?</h3>
+                <p>Absolutely not. Because Toolenix operates on a strict client-side architecture, the rendering happens entirely inside the isolated sandbox of your web browser. We physically cannot see, log, or intercept the files you drop into the converter.</p>
+
+                <h2>Complementary Digital Asset Utilities</h2>
+                <p>Once your image is universally compatible, refine it further with our other free local utilities:</p>
+                <ul>
+                    <li><a href="image-resizer.html"><strong>Image Resizer:</strong></a> Did you download a massive 4K WebP image? Resize the newly converted JPG to the exact pixel dimensions required for your project.</li>
+                    <li><a href="image-compressor.html"><strong>Image Compressor:</strong></a> If your new PNG file is too heavy for your website, run it through our compressor to crush the file size while maintaining quality.</li>
+                    <li><a href="png-to-pdf.html"><strong>PNG to PDF:</strong></a> Compile your freshly converted transparent PNG graphics into a pristine, shareable PDF presentation.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Navigating the modern web shouldn't mean getting locked out of your legacy software or struggling with format incompatibility. By utilizing the Toolenix WebP Converter, you gain access to an instantaneous, mathematically precise conversion engine that operates entirely offline. Protect your privacy, bypass server upload limits, and bookmark this page to ensure your digital assets are always ready for your professional workflow.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const uploadArea = document.getElementById('upload-state');
+            const fileInput = document.getElementById('image-input');
+            const processingState = document.getElementById('processing-state');
+            
+            const filenameDisplay = document.getElementById('filename-display');
+            const imagePreview = document.getElementById('image-preview');
+            
+            const formatRadios = document.querySelectorAll('input[name="output-format"]');
+            const formatHint = document.getElementById('format-hint');
+            const qualityControl = document.getElementById('quality-control');
+            const qualitySlider = document.getElementById('quality-slider');
+            const qualityValue = document.getElementById('quality-value');
+            
+            const originalSizeDisplay = document.getElementById('original-size');
+            const estimatedSizeDisplay = document.getElementById('estimated-size');
+            
+            const downloadBtn = document.getElementById('download-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            
+            let originalImage = new Image();
+            let originalFile = null;
+            let currentFileName = "";
+            let currentOutputFormat = "image/jpeg";
+            
+            // Format Bytes utility
+            function formatBytes(bytes, decimals = 2) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const dm = decimals < 0 ? 0 : decimals;
+                const sizes = ['Bytes', 'KB', 'MB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+            }
+
+            // Drag and Drop Logic
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaultBehavior, false);
+            });
+
+            function preventDefaultBehavior(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.add('dragover'), false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.remove('dragover'), false);
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                handleFileSelection(e.dataTransfer.files[0]);
+            });
+
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) handleFileSelection(this.files[0]);
+            });
+
+            function handleFileSelection(file) {
+                const validTypes = ['image/webp', 'image/jpeg', 'image/jpg', 'image/png'];
+                if (!file || !validTypes.includes(file.type.toLowerCase())) {
+                    if (window.showToast) window.showToast('Please provide a valid WebP, JPG, or PNG image.', 'error');
+                    return;
+                }
+                
+                originalFile = file;
+                currentFileName = file.name.replace(/\.[^/.]+$/, "");
+                
+                filenameDisplay.textContent = file.name;
+                originalSizeDisplay.textContent = formatBytes(file.size);
+                
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    originalImage.onload = () => {
+                        imagePreview.src = originalImage.src;
+                        uploadArea.classList.add('hidden');
+                        processingState.classList.remove('hidden');
+                        updateEstimatedSize();
+                    };
+                    originalImage.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+
+            // Output Format Logic
+            formatRadios.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    currentOutputFormat = e.target.value;
+                    if (currentOutputFormat === 'image/jpeg') {
+                        qualityControl.style.display = 'block';
+                        formatHint.textContent = "JPG does not support transparency. Transparent backgrounds will become white.";
+                    } else {
+                        qualityControl.style.display = 'none';
+                        formatHint.textContent = "PNG uses lossless compression and preserves all transparent backgrounds.";
+                    }
+                    updateEstimatedSize();
+                });
+            });
+
+            // Quality Slider Logic
+            qualitySlider.addEventListener('input', () => {
+                qualityValue.textContent = `${qualitySlider.value}%`;
+                // Debounce to prevent lag
+                clearTimeout(window.estimateTimeout);
+                window.estimateTimeout = setTimeout(updateEstimatedSize, 100);
+            });
+
+            // Function to generate data URL and estimate size
+            function generateConvertedDataURL() {
+                if (!originalImage.src) return null;
+
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+
+                canvas.width = originalImage.width;
+                canvas.height = originalImage.height;
+
+                // Handle Transparency for JPG
+                if (currentOutputFormat === 'image/jpeg') {
+                    ctx.fillStyle = "#FFFFFF"; // Fill white background
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                }
+                
+                ctx.drawImage(originalImage, 0, 0);
+
+                let dataUrl;
+                if (currentOutputFormat === 'image/jpeg') {
+                    const quality = parseInt(qualitySlider.value) / 100;
+                    dataUrl = canvas.toDataURL('image/jpeg', quality);
+                } else {
+                    dataUrl = canvas.toDataURL('image/png');
+                }
+                
+                return dataUrl;
+            }
+
+            function updateEstimatedSize() {
+                const dataUrl = generateConvertedDataURL();
+                if(!dataUrl) return;
+                
+                const padding = (dataUrl.match(/=/g) || []).length;
+                const base64String = dataUrl.split(',')[1];
+                const newSizeBytes = Math.max(0, (base64String.length * 0.75) - padding);
+                
+                estimatedSizeDisplay.textContent = formatBytes(newSizeBytes);
+            }
+
+            // Download Logic
+            downloadBtn.addEventListener('click', () => {
+                downloadBtn.textContent = "Processing...";
+                downloadBtn.disabled = true;
+                
+                setTimeout(() => {
+                    try {
+                        const dataUrl = generateConvertedDataURL();
+                        if(!dataUrl) throw new Error("Conversion failed");
+                        
+                        const extension = currentOutputFormat === 'image/jpeg' ? 'jpg' : 'png';
+                        
+                        const link = document.createElement('a');
+                        link.download = `${currentFileName}_converted.${extension}`;
+                        link.href = dataUrl;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        
+                        if(window.showToast) window.showToast(`Converted to ${extension.toUpperCase()} successfully!`, 'success');
+                    } catch (error) {
+                        console.error('Download Error:', error);
+                        if(window.showToast) window.showToast('An error occurred during conversion.', 'error');
+                    } finally {
+                        downloadBtn.textContent = "⬇️ Download Converted Image";
+                        downloadBtn.disabled = false;
+                    }
+                }, 100); // Small timeout to allow UI update
+            });
+
+            function resetWorkspace() {
+                originalImage = new Image();
+                originalFile = null;
+                currentFileName = "";
+                
+                fileInput.value = '';
+                imagePreview.src = '';
+                
+                processingState.classList.add('hidden');
+                uploadArea.classList.remove('hidden');
+            }
+
+            resetBtn.addEventListener('click', resetWorkspace);
+        });
+    </script>
+</body>
+</html>

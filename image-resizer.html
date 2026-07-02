@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Image Resizer - Change Photo Dimensions Free Offline | Toolenix</title>
+    <meta name="title" content="Image Resizer - Change Photo Dimensions Free Offline | Toolenix">
+    <meta name="description" content="Resize your JPG, PNG, and WebP images to exact pixel dimensions instantly. 100% free, perfectly secure, and client-side processed.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/image-resizer.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/image-resizer.html">
+    <meta property="og:title" content="Image Resizer - Change Dimensions Securely">
+    <meta property="og:description" content="Resize images to exact pixel heights and widths instantly with zero server uploads. Secure, fast, and entirely free.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/image-resizer.html">
+    <meta property="twitter:title" content="Image Resizer - Change Dimensions Securely">
+    <meta property="twitter:description" content="Resize images to exact pixel heights and widths instantly with zero server uploads. Secure, fast, and entirely free.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix Image Resizer",
+      "operatingSystem": "All",
+      "applicationCategory": "MultimediaApplication",
+      "browserRequirements": "Requires a modern web browser with HTML5 Canvas support.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A secure client-side application that resizes raster images to exact pixel dimensions locally in the browser without server uploads."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Image Tools",
+        "item": "https://www.toolenix.com/#image-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Image Resizer"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .upload-area {
+            border: 2px dashed var(--primary);
+            border-radius: 16px;
+            padding: 4rem 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: rgba(37, 99, 235, 0.05);
+            cursor: pointer;
+            margin-bottom: 2rem;
+        }
+        .upload-area:hover, .upload-area.dragover {
+            background: rgba(37, 99, 235, 0.1);
+            transform: translateY(-2px);
+            border-color: var(--secondary);
+        }
+        .hidden { display: none !important; }
+
+        /* Workspace Grid */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+            align-items: start;
+        }
+        
+        @media (max-width: 900px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Image Preview Area */
+        .preview-container {
+            background: rgba(0, 0, 0, 0.02);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .preview-image-wrapper {
+            background-image: 
+                linear-gradient(45deg, #e5e7eb 25%, transparent 25%), 
+                linear-gradient(-45deg, #e5e7eb 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #e5e7eb 75%), 
+                linear-gradient(-45deg, transparent 75%, #e5e7eb 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+            border: 1px solid var(--border-glass);
+        }
+
+        .preview-image-wrapper img {
+            max-width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+        }
+
+        /* Controls Panel */
+        .controls-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .control-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        .dimensions-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 0.5rem;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .dim-input-wrapper {
+            position: relative;
+        }
+
+        .dim-input-wrapper input {
+            width: 100%;
+            padding: 0.8rem;
+            padding-right: 2rem;
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            background: var(--bg-main);
+            color: var(--text-main);
+            font-size: 1rem;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .dim-input-wrapper input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .dim-label {
+            position: absolute;
+            right: 0.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            pointer-events: none;
+        }
+
+        .lock-btn {
+            background: rgba(37, 99, 235, 0.1);
+            border: none;
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+        }
+
+        .lock-btn:hover {
+            background: var(--primary);
+            color: #ffffff;
+        }
+        
+        .lock-btn.unlocked {
+            background: rgba(100, 116, 139, 0.1);
+            color: var(--text-muted);
+        }
+
+        .quick-presets {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .preset-btn {
+            background: var(--bg-main);
+            border: 1px solid var(--border-glass);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .preset-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#image-tools">Image Tools</a> &gt; Image Resizer
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 1100px;">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">Image Resizer</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Scale your images to exact pixel dimensions instantly. 100% free, private, and powered by client-side browser processing.</p>
+                </div>
+
+                <div class="glass" style="padding: 2rem;">
+                    
+                    <div id="upload-state" class="upload-area">
+                        <input type="file" id="image-input" accept="image/jpeg, image/png, image/webp" class="hidden">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">📐</div>
+                        <h3 style="margin-bottom: 0.5rem;">Drag & drop an image to resize</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Supports JPG, PNG, and WebP formats</p>
+                        <button class="btn btn-primary" onclick="document.getElementById('image-input').click()">Select Image</button>
+                    </div>
+
+                    <div id="processing-state" class="hidden">
+                        <div class="workspace-grid">
+                            
+                            <div class="preview-container">
+                                <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem;" id="filename-display">image.jpg</h3>
+                                <div class="preview-image-wrapper">
+                                    <img id="image-preview" src="" alt="Resized Preview">
+                                </div>
+                                <p style="font-size: 0.85rem; color: var(--text-muted);">Preview scaled to fit screen. Final download will match exact dimensions.</p>
+                            </div>
+
+                            <div class="controls-panel">
+                                <div class="control-group">
+                                    <label>Dimensions</label>
+                                    <div class="dimensions-grid">
+                                        <div class="dim-input-wrapper">
+                                            <input type="number" id="input-width" min="1" placeholder="Width">
+                                            <span class="dim-label">W</span>
+                                        </div>
+                                        
+                                        <button class="lock-btn" id="lock-ratio-btn" title="Toggle Aspect Ratio Lock">🔒</button>
+                                        
+                                        <div class="dim-input-wrapper">
+                                            <input type="number" id="input-height" min="1" placeholder="Height">
+                                            <span class="dim-label">H</span>
+                                        </div>
+                                    </div>
+                                    <small style="color: var(--text-muted); font-size: 0.8rem;">Click the lock icon to maintain original aspect ratio.</small>
+                                </div>
+
+                                <div class="control-group">
+                                    <label>Quick Presets</label>
+                                    <div class="quick-presets">
+                                        <button class="preset-btn" data-width="1920" data-height="1080">1080p (FHD)</button>
+                                        <button class="preset-btn" data-width="1280" data-height="720">720p (HD)</button>
+                                        <button class="preset-btn" data-width="1080" data-height="1080">Instagram Square</button>
+                                        <button class="preset-btn" data-width="1000" data-height="1500">Pinterest Pin</button>
+                                        <button class="preset-btn" data-width="1200" data-height="630">Facebook/X Post</button>
+                                    </div>
+                                </div>
+
+                                <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem;">
+                                    <button class="btn btn-primary" id="download-btn">⬇️ Download Resized Image</button>
+                                    <button class="btn btn-outline" id="reset-btn">Resize Another Image</button>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Ultimate Guide to Resizing Images Offline</h2>
+                <p>In digital content creation, arbitrary image dimensions simply do not work. Every major social media platform, content management system (CMS), and advertising network operates on strict aspect ratios and pixel requirements. Uploading an incorrectly sized image results in aggressive automatic cropping, pixelation, or vital information being cut out of the frame. Whether you're prepping a dramatic thumbnail for a storytelling YouTube channel, resizing cinematic assets generated by AI video tools like Veo, or optimizing vertical pins for a marketing campaign, mastering an <strong>Image Resizer</strong> is crucial.</p>
+                
+                <p>Welcome to the Toolenix Image Resizer. We designed this utility to give you exact, pixel-perfect control over your digital assets. Crucially, it operates on a 100% client-side architecture. This means you can resize unreleased project files or sensitive personal photos without ever uploading them to an external server. Below, we discuss aspect ratios, platform-specific dimensions, and why offline processing is the standard for professionals.</p>
+
+                <h2>Aspect Ratios vs. Pixel Dimensions</h2>
+                <p>When resizing a photo, it is vital to understand the relationship between pixel dimensions and aspect ratios:</p>
+                <ul>
+                    <li><strong>Pixel Dimensions:</strong> This is the absolute physical size of the image on a screen, expressed as Width × Height (e.g., 1920 × 1080).</li>
+                    <li><strong>Aspect Ratio:</strong> This is the proportional relationship between the width and the height. An image that is 1920x1080 has an aspect ratio of 16:9. An image that is 1280x720 <em>also</em> has an aspect ratio of 16:9.</li>
+                </ul>
+                <p>Our tool features an <strong>Aspect Ratio Lock</strong> (the padlock icon between the inputs). When the lock is closed, changing the width will automatically calculate the correct height, ensuring your image does not become stretched or squished. If you unlock it, you can force the image into any dimensions you choose, though this may warp the visual content.</p>
+
+                <h2>Essential Image Dimensions for Digital Marketers</h2>
+                <p>If you are managing social media or optimizing SEO layouts for international audiences, keep these standard dimensions saved:</p>
+                <p><strong>YouTube Thumbnails (1280 × 720 px):</strong> Thumbnails are the lifeblood of video click-through rates (CTR). If you are generating cinematic portraits or dramatic storytelling assets, you must ensure the final export is exactly 1280x720 pixels (16:9 ratio). Anything else will result in black bars (letterboxing) on the sides of your video preview.</p>
+                <p><strong>Instagram Posts:</strong> While Instagram originally forced a 1:1 square ratio (1080 × 1080 px), the algorithm now heavily favors vertical portraits sized at <strong>1080 × 1350 px</strong> (4:5 ratio) because they take up more vertical screen space on mobile devices.</p>
+                <p><strong>Pinterest Pins (1000 × 1500 px):</strong> Pinterest is a visually dominant search engine. The platform strictly advises a 2:3 vertical aspect ratio. Uploading wide, landscape images will drastically reduce your visibility in the feed.</p>
+                <p><strong>Open Graph Images (1200 × 630 px):</strong> When someone shares your website link on Facebook, X (formerly Twitter), or LinkedIn, the platform automatically pulls an "Open Graph" image to display as a preview card. This must be 1200x630 to avoid awkward cropping.</p>
+
+                <h2>The Security of Client-Side Resizing</h2>
+                <p>If you search for an "online image resizer," you will find dozens of websites that require you to upload your image to their cloud servers. The server executes a basic resizing script, saves the new image to their hard drive, and gives you a download link.</p>
+                <p>If you are resizing an unreleased corporate logo, an AI-generated asset you wish to copyright, or a photograph of a legal document, uploading it to a random server is a catastrophic security risk. You lose control over your data the moment the upload begins.</p>
+                <p><strong>Toolenix eliminates server uploads.</strong> We utilize the HTML5 Canvas API directly inside your web browser. When you drop an image into our workspace, your computer's RAM holds the image, and your local CPU calculates the mathematical resizing. The process is instantaneous, the dimensions are perfectly accurate, and your image never crosses the internet.</p>
+
+                <h2>Step-by-Step Guide: How to Resize an Image Perfectly</h2>
+                <p>Adjusting your assets takes just a few clicks:</p>
+                <ol>
+                    <li><strong>Upload Your Asset:</strong> Drag and drop your JPG, PNG, or WebP file into the upload area. The original image will appear on the canvas.</li>
+                    <li><strong>Input the New Dimensions:</strong> Type your target width or height into the input boxes. If the lock icon is engaged (blue), the opposite dimension will calculate automatically. If you need to force a specific size (like a 1080x1080 square) from a rectangle, click the lock icon to unlock it (grey).</li>
+                    <li><strong>Use Quick Presets:</strong> Alternatively, click one of our common preset buttons below the inputs to instantly snap the dimensions to standard platform requirements.</li>
+                    <li><strong>Download the Image:</strong> Click the "Download Resized Image" button. The local script will instantly rasterize the new canvas and save the file to your hard drive.</li>
+                </ol>
+
+                <h2>Frequently Asked Questions (FAQs)</h2>
+                
+                <h3>Why does my image look stretched when I type in new numbers?</h3>
+                <p>If you unlock the aspect ratio and force a rectangular image (e.g., 1920x1080) into a square box (e.g., 1080x1080), the pixels must compress horizontally, resulting in a "squished" or stretched look. To avoid this, always keep the aspect ratio lock engaged. If you need a square, you must crop the image rather than strictly resize it.</p>
+
+                <h3>Does resizing an image reduce its file size?</h3>
+                <p>If you are scaling an image down (e.g., from 4000px wide to 800px wide), the file size (megabytes) will drop significantly because there are fewer pixels to store. However, if you are keeping the dimensions similar but need a smaller file size for web loading, you should use our <a href="image-compressor.html">Image Compressor</a> instead.</p>
+
+                <h3>Can I scale a small image up to make it bigger?</h3>
+                <p>Yes, the tool allows you to input dimensions larger than the original file (upscaling). However, because raster images (JPG/PNG) are made of fixed pixels, forcing them to become larger will result in a blurry or pixelated image. Upscaling cannot magically create detail that was not there to begin with.</p>
+
+                <h2>Complementary Digital Tools</h2>
+                <p>Complete your digital asset workflow with our other free local utilities:</p>
+                <ul>
+                    <li><a href="image-compressor.html"><strong>Image Compressor:</strong></a> Once your image is the correct physical dimension, run it through our compressor to shrink the file weight for SEO optimization.</li>
+                    <li><a href="jpg-to-pdf.html"><strong>JPG to PDF:</strong></a> Compile your perfectly sized images into a professional, shareable PDF document.</li>
+                    <li><a href="word-counter.html"><strong>Word Counter:</strong></a> Ensure your SEO titles and meta descriptions are perfectly sized alongside your images.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Guessing your image dimensions or relying on clunky CMS auto-croppers damages the professionalism of your digital presence. By utilizing the Toolenix Image Resizer, you leverage powerful, offline canvas rendering to ensure every asset you publish is pixel-perfect. Stop risking your private graphics on cloud servers. Bookmark this page and handle all your resizing needs directly from your browser.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const uploadArea = document.getElementById('upload-state');
+            const fileInput = document.getElementById('image-input');
+            const processingState = document.getElementById('processing-state');
+            
+            const filenameDisplay = document.getElementById('filename-display');
+            const imagePreview = document.getElementById('image-preview');
+            
+            const widthInput = document.getElementById('input-width');
+            const heightInput = document.getElementById('input-height');
+            const lockBtn = document.getElementById('lock-ratio-btn');
+            const presetBtns = document.querySelectorAll('.preset-btn');
+            
+            const downloadBtn = document.getElementById('download-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            
+            let originalImage = new Image();
+            let currentFileName = "";
+            let currentFileType = "image/jpeg";
+            let originalRatio = 1;
+            let isRatioLocked = true;
+
+            // Drag and Drop Logic
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaultBehavior, false);
+            });
+
+            function preventDefaultBehavior(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.add('dragover'), false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.remove('dragover'), false);
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                handleFileSelection(e.dataTransfer.files[0]);
+            });
+
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) handleFileSelection(this.files[0]);
+            });
+
+            function handleFileSelection(file) {
+                const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+                if (!file || !validTypes.includes(file.type.toLowerCase())) {
+                    if (window.showToast) window.showToast('Please provide a valid JPG, PNG, or WebP image.', 'error');
+                    return;
+                }
+                
+                currentFileName = file.name.replace(/\.[^/.]+$/, "");
+                currentFileType = file.type;
+                filenameDisplay.textContent = file.name;
+                
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    originalImage.onload = () => {
+                        // Set up initial dimensions
+                        originalRatio = originalImage.width / originalImage.height;
+                        widthInput.value = originalImage.width;
+                        heightInput.value = originalImage.height;
+                        
+                        imagePreview.src = originalImage.src;
+                        
+                        uploadArea.classList.add('hidden');
+                        processingState.classList.remove('hidden');
+                    };
+                    originalImage.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+
+            // Aspect Ratio Lock Toggle
+            lockBtn.addEventListener('click', () => {
+                isRatioLocked = !isRatioLocked;
+                if (isRatioLocked) {
+                    lockBtn.innerHTML = '🔒';
+                    lockBtn.classList.remove('unlocked');
+                    // Immediately fix height based on current width when locking
+                    if (widthInput.value) {
+                        heightInput.value = Math.round(widthInput.value / originalRatio);
+                    }
+                } else {
+                    lockBtn.innerHTML = '🔓';
+                    lockBtn.classList.add('unlocked');
+                }
+            });
+
+            // Input Logic
+            widthInput.addEventListener('input', () => {
+                if (isRatioLocked && widthInput.value) {
+                    heightInput.value = Math.max(1, Math.round(widthInput.value / originalRatio));
+                }
+            });
+
+            heightInput.addEventListener('input', () => {
+                if (isRatioLocked && heightInput.value) {
+                    widthInput.value = Math.max(1, Math.round(heightInput.value * originalRatio));
+                }
+            });
+
+            // Preset Buttons Logic
+            presetBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetWidth = btn.dataset.width;
+                    const targetHeight = btn.dataset.height;
+                    
+                    // If locked, we scale based on width to maintain ratio
+                    if (isRatioLocked) {
+                        widthInput.value = targetWidth;
+                        heightInput.value = Math.max(1, Math.round(targetWidth / originalRatio));
+                        if(window.showToast) window.showToast(`Scaled to width ${targetWidth}px (Ratio Maintained)`, 'success');
+                    } else {
+                        // If unlocked, we force both dimensions
+                        widthInput.value = targetWidth;
+                        heightInput.value = targetHeight;
+                        if(window.showToast) window.showToast(`Forced dimensions to ${targetWidth}x${targetHeight}`, 'success');
+                    }
+                });
+            });
+
+            // Download Logic
+            downloadBtn.addEventListener('click', () => {
+                const finalWidth = parseInt(widthInput.value);
+                const finalHeight = parseInt(heightInput.value);
+                
+                if (!finalWidth || !finalHeight || finalWidth < 1 || finalHeight < 1) {
+                    if(window.showToast) window.showToast('Please enter valid dimensions.', 'error');
+                    return;
+                }
+
+                // Create offscreen canvas for rendering
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                canvas.width = finalWidth;
+                canvas.height = finalHeight;
+
+                // Draw image resized
+                // If it's a PNG being saved as a JPEG (if original was JPEG), fill white background
+                if (currentFileType === 'image/jpeg') {
+                    ctx.fillStyle = '#FFFFFF';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                }
+                
+                ctx.drawImage(originalImage, 0, 0, finalWidth, finalHeight);
+
+                // Export matching the original format type
+                const resizedDataUrl = canvas.toDataURL(currentFileType, 0.92); // 92% quality is standard high-quality web output
+                
+                // Trigger download
+                const link = document.createElement('a');
+                link.download = `${currentFileName}_${finalWidth}x${finalHeight}.${currentFileType.split('/')[1]}`;
+                link.href = resizedDataUrl;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                if(window.showToast) window.showToast('Image resized successfully!', 'success');
+            });
+
+            function resetWorkspace() {
+                originalImage = new Image();
+                currentFileName = "";
+                
+                fileInput.value = '';
+                imagePreview.src = '';
+                widthInput.value = '';
+                heightInput.value = '';
+                
+                isRatioLocked = true;
+                lockBtn.innerHTML = '🔒';
+                lockBtn.classList.remove('unlocked');
+                
+                processingState.classList.add('hidden');
+                uploadArea.classList.remove('hidden');
+            }
+
+            resetBtn.addEventListener('click', resetWorkspace);
+        });
+    </script>
+</body>
+</html>

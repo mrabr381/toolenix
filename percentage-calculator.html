@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Percentage Calculator - Free Online Math Tool | Toolenix</title>
+    <meta name="title" content="Percentage Calculator - Free Online Math Tool | Toolenix">
+    <meta name="description" content="Calculate percentages, discounts, and percentage increase/decrease instantly. A 100% free, private, and offline calculator for students and businesses.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/percentage-calculator.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/percentage-calculator.html">
+    <meta property="og:title" content="Percentage Calculator - Instant Offline Math">
+    <meta property="og:description" content="Solve complex percentage problems in seconds. Calculate discounts, margins, and ratios instantly in your browser.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/percentage-calculator.html">
+    <meta property="twitter:title" content="Percentage Calculator - Instant Offline Math">
+    <meta property="twitter:description" content="Solve complex percentage problems in seconds. Calculate discounts, margins, and ratios instantly in your browser.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix Percentage Calculator",
+      "operatingSystem": "All",
+      "applicationCategory": "UtilitiesApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A client-side utility for instantly calculating percentage values, ratios, and percentage differences offline."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Calculators",
+        "item": "https://www.toolenix.com/#calculators"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Percentage Calculator"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .calculators-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .calc-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .calc-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .calc-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .calc-input {
+            width: 120px;
+            padding: 0.8rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .calc-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .calc-result-box {
+            flex-grow: 1;
+            min-width: 150px;
+            padding: 0.8rem 1rem;
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: #10B981;
+            border-radius: 8px;
+            font-weight: 800;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 600px) {
+            .calc-row {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+            .calc-input {
+                width: 100%;
+            }
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#calculators">Everyday Calculators</a> &gt; Percentage Calculator
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">Percentage Calculator</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Calculate standard percentages, ratios, and percentage differences instantly. 100% free and offline.</p>
+                </div>
+
+                <div class="calculators-wrapper">
+                    
+                    <div class="calc-card">
+                        <div class="calc-title">🔢 Basic Percentage</div>
+                        <div class="calc-row">
+                            <span>What is</span>
+                            <input type="number" id="c1-x" class="calc-input" placeholder="20" step="any">
+                            <span>% of</span>
+                            <input type="number" id="c1-y" class="calc-input" placeholder="150" step="any">
+                            <span>?</span>
+                            <div class="calc-result-box" id="c1-res">...</div>
+                        </div>
+                        <p style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted);">Use this to find a discount amount or calculate tax.</p>
+                    </div>
+
+                    <div class="calc-card">
+                        <div class="calc-title">⚖️ Percentage Ratio</div>
+                        <div class="calc-row">
+                            <input type="number" id="c2-x" class="calc-input" placeholder="30" step="any">
+                            <span>is what percent of</span>
+                            <input type="number" id="c2-y" class="calc-input" placeholder="150" step="any">
+                            <span>?</span>
+                            <div class="calc-result-box" id="c2-res">...</div>
+                        </div>
+                        <p style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted);">Use this to find your test score or profit margin.</p>
+                    </div>
+
+                    <div class="calc-card">
+                        <div class="calc-title">📈 Percentage Increase / Decrease</div>
+                        <div class="calc-row">
+                            <span>Change from</span>
+                            <input type="number" id="c3-x" class="calc-input" placeholder="100" step="any">
+                            <span>to</span>
+                            <input type="number" id="c3-y" class="calc-input" placeholder="150" step="any">
+                            <span>is</span>
+                            <div class="calc-result-box" id="c3-res">...</div>
+                        </div>
+                        <p style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted);">Use this to track price changes, growth, or return on investment (ROI).</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>Understanding the Mathematics of Percentages</h2>
+                <p>The word "percentage" comes from the Latin phrase <em>per centum</em>, which literally translates to "by the hundred." In mathematics, a percentage is simply a ratio or a number expressed as a fraction of 100. It is the universal standard for expressing proportions, making it incredibly easy to compare two vastly different quantities.</p>
+                
+                <p>Whether you are calculating the tip on a restaurant bill, determining the sales tax on a new computer, or evaluating the profit margin on your dropshipping store, percentage calculations are an unavoidable part of daily life. Welcome to the Toolenix Percentage Calculator. We built this offline mathematical utility to solve the three most common percentage problems instantly, without requiring you to remember the algebraic formulas.</p>
+
+                <h2>The Three Core Percentage Formulas</h2>
+                
+                <h3>1. What is X% of Y? (The Basic Percentage)</h3>
+                <p>This is the most common calculation. You use this when you know the total amount and the percentage, and you need to find the numerical value.
+                <br><strong>Formula:</strong> $Value = (\frac{X}{100}) \times Y$
+                <br><strong>Example:</strong> You are buying a $1,200 laptop and the sales tax is 8%. What is 8% of $1,200? The answer is $96.</p>
+
+                <h3>2. X is what percent of Y? (The Ratio)</h3>
+                <p>You use this calculation to find the percentage when you already have the two numbers. This is exactly how teachers calculate test scores.
+                <br><strong>Formula:</strong> $Percentage = (\frac{X}{Y}) \times 100$
+                <br><strong>Example:</strong> You scored 45 out of 60 on a math exam. 45 is what percent of 60? The answer is 75%.</p>
+
+                <h3>3. Percentage Increase or Decrease</h3>
+                <p>This formula tracks change over time. It is heavily utilized in finance, stock market trading, and retail pricing. It tells you exactly how much a value has grown or shrunk relative to its original size.
+                <br><strong>Formula:</strong> $Change = (\frac{Y - X}{|X|}) \times 100$
+                <br><strong>Example:</strong> Your rent was $1,000 last year, and now it is $1,150. What is the percentage increase? The answer is a 15% increase.</p>
+
+                <h2>Real-World Applications in Business</h2>
+                <p>If you run a small business or an e-commerce platform, mastering these calculations is critical to your survival:</p>
+                <ul>
+                    <li><strong>Discounts and Markdowns:</strong> If you want to run a "25% Off" Black Friday sale on a $40 product, you use the first calculator to find out the discount is $10, making the new price $30.</li>
+                    <li><strong>Profit Margins:</strong> If you buy a product for $50 and sell it for $80, your gross profit is $30. You use the second calculator (30 is what percent of 80) to find out your profit margin is 37.5%.</li>
+                </ul>
+
+                <h2>The Privacy of Client-Side Math</h2>
+                <p>Many online calculators require an active internet connection to process your inputs on an external server. If you are calculating the financial growth of your proprietary business, sending those numbers across the internet is a privacy risk. <strong>Toolenix operates entirely offline.</strong> The JavaScript math functions run locally inside your browser's RAM. Your financial data and calculations are never transmitted, guaranteeing 100% privacy.</p>
+
+                <h2>Complementary Calculators & Utilities</h2>
+                <p>Supercharge your daily productivity with our other free offline tools:</p>
+                <ul>
+                    <li><a href="unit-converter.html"><strong>Unit Converter:</strong></a> Calculate exact measurements across length, weight, area, and temperature instantly.</li>
+                    <li><a href="word-counter.html"><strong>Word Counter:</strong></a> Writing an essay? Check your exact word count and reading time without leaving your browser.</li>
+                    <li><a href="password-generator.html"><strong>Password Generator:</strong></a> Protect your financial accounts and databases with cryptographically secure, random passwords.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>You shouldn't have to memorize algebraic formulas or struggle with a basic phone calculator to figure out your finances. By utilizing the Toolenix Percentage Calculator, you gain access to an instantaneous, mathematically perfect engine designed for everyday use. Bookmark this page to ensure you can calculate discounts, taxes, and margins flawlessly, even when offline.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // Utility to format numbers cleanly (max 4 decimal places)
+            function formatNumber(num) {
+                if (isNaN(num) || !isFinite(num)) return '...';
+                return parseFloat(num.toFixed(4));
+            }
+
+            // --- Calculator 1: X% of Y ---
+            const c1X = document.getElementById('c1-x');
+            const c1Y = document.getElementById('c1-y');
+            const c1Res = document.getElementById('c1-res');
+
+            function calc1() {
+                const x = parseFloat(c1X.value);
+                const y = parseFloat(c1Y.value);
+                if (!isNaN(x) && !isNaN(y)) {
+                    c1Res.textContent = formatNumber((x / 100) * y);
+                } else {
+                    c1Res.textContent = '...';
+                }
+            }
+            c1X.addEventListener('input', calc1);
+            c1Y.addEventListener('input', calc1);
+
+            // --- Calculator 2: X is what % of Y ---
+            const c2X = document.getElementById('c2-x');
+            const c2Y = document.getElementById('c2-y');
+            const c2Res = document.getElementById('c2-res');
+
+            function calc2() {
+                const x = parseFloat(c2X.value);
+                const y = parseFloat(c2Y.value);
+                if (!isNaN(x) && !isNaN(y) && y !== 0) {
+                    c2Res.textContent = formatNumber((x / y) * 100) + '%';
+                } else {
+                    c2Res.textContent = '...';
+                }
+            }
+            c2X.addEventListener('input', calc2);
+            c2Y.addEventListener('input', calc2);
+
+            // --- Calculator 3: % Increase/Decrease ---
+            const c3X = document.getElementById('c3-x');
+            const c3Y = document.getElementById('c3-y');
+            const c3Res = document.getElementById('c3-res');
+
+            function calc3() {
+                const x = parseFloat(c3X.value);
+                const y = parseFloat(c3Y.value);
+                if (!isNaN(x) && !isNaN(y) && x !== 0) {
+                    const change = ((y - x) / Math.abs(x)) * 100;
+                    if (change > 0) {
+                        c3Res.textContent = formatNumber(change) + '% Increase';
+                        c3Res.style.color = '#10B981'; // Green
+                    } else if (change < 0) {
+                        c3Res.textContent = formatNumber(Math.abs(change)) + '% Decrease';
+                        c3Res.style.color = '#EF4444'; // Red
+                    } else {
+                        c3Res.textContent = '0% Change';
+                        c3Res.style.color = 'var(--text-main)';
+                    }
+                } else {
+                    c3Res.textContent = '...';
+                    c3Res.style.color = '#10B981';
+                }
+            }
+            c3X.addEventListener('input', calc3);
+            c3Y.addEventListener('input', calc3);
+
+        });
+    </script>
+</body>
+</html>

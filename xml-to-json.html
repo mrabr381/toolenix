@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>XML to JSON Converter - Free Online Developer Tool | Toolenix</title>
+    <meta name="title" content="XML to JSON Converter - Free Online Developer Tool | Toolenix">
+    <meta name="description" content="Convert XML data to structured JSON format instantly. 100% free, offline, and secure parsing for developers and API engineers.">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.toolenix.com/xml-to-json.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/xml-to-json.html">
+    <meta property="og:title" content="XML to JSON Converter - Instant Offline Parsing">
+    <meta property="og:description" content="Translate legacy XML configurations and SOAP responses into modern JSON securely within your browser.">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/xml-to-json.html">
+    <meta property="twitter:title" content="XML to JSON Converter - Instant Offline Parsing">
+    <meta property="twitter:description" content="Translate legacy XML configurations and SOAP responses into modern JSON securely within your browser.">
+    
+    <!-- Assets -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <!-- Schema.org for SoftwareApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix XML to JSON Converter",
+      "operatingSystem": "All",
+      "applicationCategory": "DeveloperApplication",
+      "browserRequirements": "Requires a modern web browser with DOMParser API support.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A client-side utility for software engineers to parse Extensible Markup Language (XML) documents and accurately convert them into JavaScript Object Notation (JSON) format."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Dev Tools",
+        "item": "https://www.toolenix.com/#dev-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "XML to JSON Converter"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 900px) {
+            .workspace-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .editor-pane {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: rgba(37, 99, 235, 0.05);
+            border-bottom: 1px solid var(--border-glass);
+            font-weight: 600;
+        }
+
+        .text-area {
+            width: 100%;
+            height: 480px;
+            padding: 1.5rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: none;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            resize: vertical;
+            outline: none;
+            white-space: pre;
+            overflow-x: auto;
+        }
+
+        .text-area:focus {
+            box-shadow: inset 0 0 0 2px var(--primary);
+        }
+
+        .output-area {
+            background: rgba(0, 0, 0, 0.01);
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            box-shadow: var(--shadow-soft);
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .toolbar-group {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .action-btn {
+            background: var(--primary);
+            color: #ffffff;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .select-input {
+            padding: 0.4rem 0.8rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* Error Status Bar */
+        .error-bar {
+            display: none;
+            background: rgba(239, 68, 68, 0.1);
+            color: #EF4444;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            margin-top: 1.5rem;
+            font-family: monospace;
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+        .seo-article code { background: rgba(100, 116, 139, 0.1); padding: 0.2rem 0.4rem; border-radius: 4px; font-family: monospace; }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <!-- Breadcrumbs -->
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#dev-tools">Developer Tools</a> &gt; XML to JSON Converter
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <!-- Tool Interface -->
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 1200px;">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">XML to JSON Converter</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Transform legacy XML into modern JSON format. 100% offline, privacy-first structural parsing.</p>
+                </div>
+
+                <div class="toolbar">
+                    <div class="toolbar-group">
+                        <label style="font-weight: 600; color: var(--text-muted); font-size: 0.9rem;">Indentation:</label>
+                        <select id="indent-style" class="select-input">
+                            <option value="2">2 Spaces</option>
+                            <option value="4" selected>4 Spaces</option>
+                            <option value="tab">Tab</option>
+                            <option value="min">Minified</option>
+                        </select>
+                    </div>
+                    <button class="action-btn" id="convert-btn">🔄 Convert to JSON</button>
+                </div>
+
+                <div id="error-bar" class="error-bar"></div>
+
+                <div class="workspace-grid">
+                    
+                    <!-- XML Input -->
+                    <div class="editor-pane">
+                        <div class="editor-header">
+                            <span>Input (XML)</span>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="btn btn-outline" id="paste-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem;">📋 Paste</button>
+                                <button class="btn btn-outline" id="clear-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem; color: #EF4444; border-color: rgba(239, 68, 68, 0.3);">🗑️ Clear</button>
+                            </div>
+                        </div>
+                        <textarea id="xml-input" class="text-area" placeholder='Paste your XML code here...
+
+Example:
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog>
+    <book id="bk101">
+        <author>Gambardella, Matthew</author>
+        <title>XML Developer Guide</title>
+        <price>44.95</price>
+    </book>
+</catalog>'></textarea>
+                    </div>
+
+                    <!-- JSON Output -->
+                    <div class="editor-pane">
+                        <div class="editor-header">
+                            <span style="color: var(--primary);">Output (JSON)</span>
+                            <button class="btn btn-primary" id="copy-btn" style="padding: 0.2rem 0.8rem; font-size: 0.85rem;">📄 Copy JSON</button>
+                        </div>
+                        <textarea id="json-output" class="text-area output-area" readonly placeholder="Your converted JSON object will appear here..."></textarea>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Deep SEO Editorial Section -->
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Developer's Guide to Converting XML to JSON</h2>
+                <p>For decades, XML (Extensible Markup Language) was the undisputed king of data transfer on the internet. Corporate banking APIs, enterprise SOAP (Simple Object Access Protocol) web services, and RSS feeds all relied on XML's highly structured, tag-based format. However, the rise of JavaScript and modern frontend frameworks like React and Vue triggered a massive industry shift towards JSON (JavaScript Object Notation).</p>
+                
+                <p>JSON is significantly lighter, easier to read, and naturally native to JavaScript—meaning it can be parsed by modern browsers infinitely faster than XML. When a modern web application needs to integrate with a legacy enterprise system, the first step an engineer must take is bridging this gap. Welcome to the Toolenix XML to JSON Converter. We engineered this offline utility to seamlessly translate heavy tag-based documents into clean, modern JSON arrays.</p>
+
+                <h2>How the Conversion Algorithm Works</h2>
+                <p>Converting XML to JSON is not as simple as replacing angle brackets (<code>&lt;&gt;</code>) with curly braces (<code>{}</code>). The two formats have fundamentally different structural philosophies. Our algorithm utilizes your browser's native <code>DOMParser</code> API to accurately construct a DOM tree from your XML string, and then traverses it using recursive logic to build a JSON object.</p>
+
+                <h3>1. Handling Nested Elements and Text Nodes</h3>
+                <p>In XML, a tag wraps text: <code>&lt;author&gt;John Doe&lt;/author&gt;</code>. In JSON, this translates cleanly into a key-value pair: <code>"author": "John Doe"</code>. Our algorithm detects pure text nodes and assigns them efficiently, stripping away unnecessary white space for a cleaner output.</p>
+
+                <h3>2. The "Array Problem" in XML</h3>
+                <p>One of the biggest challenges in converting XML to JSON is the lack of explicit arrays in XML. In JSON, an array is clearly defined by brackets <code>[]</code>. In XML, an array is simply multiple sibling elements sharing the same tag name.
+                <br><br>
+                For example:
+                <br><code>&lt;catalog&gt;</code>
+                <br><code>  &lt;book&gt;Book A&lt;/book&gt;</code>
+                <br><code>  &lt;book&gt;Book B&lt;/book&gt;</code>
+                <br><code>&lt;/catalog&gt;</code>
+                <br><br>
+                Our intelligent algorithm detects when multiple sibling tags share identical names and automatically groups them into a properly formatted JSON array: <code>"book": ["Book A", "Book B"]</code>.</p>
+
+                <h3>3. Preserving XML Attributes</h3>
+                <p>XML allows metadata inside the opening tag (e.g., <code>&lt;book id="bk101" language="en"&gt;</code>). Because JSON only supports keys and values, attributes must be handled carefully. Our converter utilizes the industry-standard <code>@attributes</code> convention. When an element contains attributes, they are preserved inside an isolated <code>@attributes</code> object within the JSON key, ensuring absolutely zero data loss during translation.</p>
+
+                <h2>The Absolute Necessity of Offline Processing</h2>
+                <p>If you search the web for an "XML to JSON Converter," you will be bombarded with free, cloud-based PHP services. Uploading your XML to these servers is a catastrophic security risk. Legacy XML files frequently contain raw database dumps, confidential financial configurations, SOAP payloads with user credentials, and proprietary API schemas.</p>
+                <p><strong>Toolenix guarantees your data privacy.</strong> Our converter executes purely via Vanilla JavaScript inside your local browser tab. The data parsing happens on your local RAM and CPU. Your proprietary XML records never traverse the internet and are never logged on our servers, ensuring your enterprise integrations remain strictly confidential.</p>
+
+                <h2>Complementary API and Developer Utilities</h2>
+                <p>Accelerate your software engineering workflow with our other secure, offline tools:</p>
+                <ul>
+                    <li><a href="json-formatter.html"><strong>JSON Formatter:</strong></a> If your newly converted JSON needs further modification or validation, use our dedicated structural formatter.</li>
+                    <li><a href="base64-encoder-decoder.html"><strong>Base64 Encoder:</strong></a> Legacy XML documents often embed images or authentication keys using Base64. Decode those strings directly using our local tool.</li>
+                    <li><a href="jwt-decoder.html"><strong>JWT Decoder:</strong></a> Modernizing a legacy authentication system? Inspect your JSON Web Tokens securely offline.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Modernizing legacy data does not require building custom parsing scripts from scratch or risking your data on external servers. By utilizing the Toolenix XML to JSON Converter, you gain access to an instantaneous, mathematically accurate structural parser. Bridge the gap between SOAP and REST effortlessly, and bookmark this page to keep your API development workflow lightning fast.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <!-- Tool Execution Code -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const xmlInput = document.getElementById('xml-input');
+            const jsonOutput = document.getElementById('json-output');
+            const convertBtn = document.getElementById('convert-btn');
+            const indentStyle = document.getElementById('indent-style');
+            
+            const errorBar = document.getElementById('error-bar');
+            const copyBtn = document.getElementById('copy-btn');
+            const clearBtn = document.getElementById('clear-btn');
+            const pasteBtn = document.getElementById('paste-btn');
+
+            // --- Core Recursive XML to JSON Algorithm ---
+            function xmlToJson(xmlNode) {
+                // Create the return object
+                let obj = {};
+
+                // 1. Process Element Node
+                if (xmlNode.nodeType === 1) { 
+                    // Handle Attributes
+                    if (xmlNode.attributes.length > 0) {
+                        obj["@attributes"] = {};
+                        for (let j = 0; j < xmlNode.attributes.length; j++) {
+                            const attribute = xmlNode.attributes.item(j);
+                            obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
+                        }
+                    }
+                } 
+                // 2. Process Text Node
+                else if (xmlNode.nodeType === 3) { 
+                    return xmlNode.nodeValue.trim();
+                }
+
+                // 3. Process Child Nodes
+                if (xmlNode.hasChildNodes()) {
+                    for(let i = 0; i < xmlNode.childNodes.length; i++) {
+                        const item = xmlNode.childNodes.item(i);
+                        const nodeName = item.nodeName;
+
+                        // If it's purely a text node
+                        if (nodeName === '#text') {
+                            const text = item.nodeValue.trim();
+                            if (text) {
+                                // If the object only has text and no attributes/children yet
+                                if (Object.keys(obj).length === 0) {
+                                    obj = text;
+                                } else {
+                                    obj["#text"] = text;
+                                }
+                            }
+                        } else if (nodeName !== '#comment') { // Ignore comments
+                            const childObj = xmlToJson(item);
+                            
+                            // If property doesn't exist yet
+                            if (typeof(obj[nodeName]) === 'undefined') {
+                                obj[nodeName] = childObj;
+                            } else {
+                                // If it exists but isn't an array yet, convert it to an array
+                                if (typeof(obj[nodeName].push) === 'undefined') {
+                                    const oldObj = obj[nodeName];
+                                    obj[nodeName] = [];
+                                    obj[nodeName].push(oldObj);
+                                }
+                                // Push the new child into the array
+                                obj[nodeName].push(childObj);
+                            }
+                        }
+                    }
+                }
+                
+                // Edge case: If an element is totally empty (e.g., <tag/>) and has no attributes
+                if (xmlNode.nodeType === 1 && xmlNode.childNodes.length === 0 && xmlNode.attributes.length === 0) {
+                    obj = null;
+                }
+
+                return obj;
+            }
+
+            function processConversion() {
+                let rawXml = xmlInput.value.trim();
+                errorBar.style.display = 'none';
+
+                if (!rawXml) {
+                    jsonOutput.value = '';
+                    return;
+                }
+
+                try {
+                    // 1. Remove XML declaration if it exists (e.g. <?xml version="1.0"?>)
+                    rawXml = rawXml.replace(/<\?xml.*\?>/g, '').trim();
+
+                    // 2. Parse string to DOM Document
+                    const parser = new DOMParser();
+                    const xmlDoc = parser.parseFromString(rawXml, "text/xml");
+
+                    // 3. Check for parser errors natively caught by DOMParser
+                    const parseError = xmlDoc.querySelector("parsererror");
+                    if (parseError) {
+                        throw new Error(parseError.textContent);
+                    }
+
+                    // 4. Convert DOM to JS Object
+                    const jsonResult = {};
+                    jsonResult[xmlDoc.documentElement.nodeName] = xmlToJson(xmlDoc.documentElement);
+
+                    // 5. Format Output
+                    const style = indentStyle.value;
+                    let formattedJson = '';
+                    
+                    if (style === 'min') {
+                        formattedJson = JSON.stringify(jsonResult);
+                    } else if (style === 'tab') {
+                        formattedJson = JSON.stringify(jsonResult, null, '\t');
+                    } else {
+                        formattedJson = JSON.stringify(jsonResult, null, parseInt(style, 10));
+                    }
+
+                    jsonOutput.value = formattedJson;
+                    if(window.showToast) window.showToast('XML Converted Successfully!', 'success');
+
+                } catch (e) {
+                    console.error("XML Parsing Error:", e);
+                    jsonOutput.value = '';
+                    errorBar.style.display = 'block';
+                    errorBar.textContent = `XML Parsing Error: Make sure your XML is properly formatted and closed. \n\nDetails: ${e.message}`;
+                }
+            }
+
+            // --- Triggers ---
+            convertBtn.addEventListener('click', processConversion);
+            indentStyle.addEventListener('change', () => {
+                if (jsonOutput.value) processConversion();
+            });
+
+            // Action: Copy
+            copyBtn.addEventListener('click', () => {
+                if (!jsonOutput.value) {
+                    if (window.showToast) window.showToast('No JSON to copy!', 'error');
+                    return;
+                }
+                navigator.clipboard.writeText(jsonOutput.value).then(() => {
+                    if (window.showToast) window.showToast('JSON copied!', 'success');
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✅ Copied!';
+                    setTimeout(() => { copyBtn.textContent = originalText; }, 2000);
+                });
+            });
+
+            // Action: Clear
+            clearBtn.addEventListener('click', () => {
+                xmlInput.value = '';
+                jsonOutput.value = '';
+                errorBar.style.display = 'none';
+                xmlInput.focus();
+            });
+
+            // Action: Paste
+            pasteBtn.addEventListener('click', async () => {
+                try {
+                    const text = await navigator.clipboard.readText();
+                    xmlInput.value = text;
+                    processConversion();
+                } catch (err) {
+                    console.error('Paste failed: ', err);
+                    if (window.showToast) window.showToast('Please press Ctrl+V / Cmd+V to paste.', 'error');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

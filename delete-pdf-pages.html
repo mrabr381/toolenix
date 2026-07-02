@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Delete PDF Pages - Remove Pages from PDF Free Offline | Toolenix</title>
+    <meta name="title" content="Delete PDF Pages - Remove Pages from PDF Free Offline | Toolenix">
+    <meta name="description" content="Visually select and delete unwanted pages from your PDF documents. 100% free, secure, and client-side processed. No file uploads or watermarks.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/delete-pdf-pages.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/delete-pdf-pages.html">
+    <meta property="og:title" content="Delete PDF Pages - Remove Pages Securely">
+    <meta property="og:description" content="Visually select and remove pages from your PDF file without uploading your document to a cloud server. Fast, free, and secure.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/delete-pdf-pages.html">
+    <meta property="twitter:title" content="Delete PDF Pages - Remove Pages Securely">
+    <meta property="twitter:description" content="Visually select and remove pages from your PDF file without uploading your document to a cloud server. Fast, free, and secure.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix PDF Page Remover",
+      "operatingSystem": "All",
+      "applicationCategory": "UtilitiesApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A secure client-side application that allows users to visually inspect a PDF document and selectively delete specific pages without server uploads."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "PDF Tools",
+        "item": "https://www.toolenix.com/#pdf-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Delete PDF Pages"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .upload-area {
+            border: 2px dashed var(--primary);
+            border-radius: 16px;
+            padding: 4rem 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: rgba(37, 99, 235, 0.05);
+            cursor: pointer;
+            margin-bottom: 2rem;
+        }
+        .upload-area:hover, .upload-area.dragover {
+            background: rgba(37, 99, 235, 0.1);
+            transform: translateY(-2px);
+            border-color: var(--secondary);
+        }
+        .hidden { display: none !important; }
+
+        /* Interactive Grid for Deletion */
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+            max-height: 550px;
+            overflow-y: auto;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: 12px;
+            border: 1px solid var(--border-glass);
+        }
+        
+        .page-card {
+            position: relative;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: var(--shadow-soft);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+        
+        .page-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-color: #EF4444;
+        }
+        
+        /* Deletion State Styling */
+        .page-card.deleted {
+            opacity: 0.5;
+            border-color: #EF4444;
+            background: rgba(239, 68, 68, 0.05);
+        }
+        
+        .deleted-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(239, 68, 68, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            z-index: 10;
+        }
+        
+        .page-card.deleted .deleted-overlay {
+            opacity: 1;
+        }
+
+        .page-canvas-wrapper {
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+        
+        .page-canvas-wrapper canvas {
+            max-width: 100%;
+            max-height: 100%;
+            border: 1px solid #e2e8f0;
+            background: #ffffff;
+        }
+        
+        .page-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+        
+        .page-card.deleted .page-label {
+            color: #EF4444;
+            text-decoration: line-through;
+        }
+
+        .info-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(37, 99, 235, 0.05);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            border: 1px solid rgba(37, 99, 235, 0.1);
+            margin-bottom: 1rem;
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#pdf-tools">PDF Tools</a> &gt; Delete PDF Pages
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 1000px;">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">Delete PDF Pages</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Remove blank, incorrect, or sensitive pages from your document. Visual click-to-delete interface powered by 100% private local processing.</p>
+                </div>
+
+                <div class="glass" style="padding: 2rem;">
+                    
+                    <div id="upload-state" class="upload-area">
+                        <input type="file" id="pdf-input" accept="application/pdf" class="hidden">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🗑️</div>
+                        <h3 style="margin-bottom: 0.5rem;">Drag & drop your PDF file here</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">or</p>
+                        <button class="btn btn-primary" onclick="document.getElementById('pdf-input').click()">Select PDF File</button>
+                    </div>
+
+                    <div id="processing-state" class="hidden">
+                        
+                        <div class="info-bar">
+                            <div style="font-weight: 600;">
+                                <span style="color: var(--primary);">📄 <span id="filename-display">document.pdf</span></span>
+                            </div>
+                            <div style="color: var(--text-muted); font-size: 0.95rem;">
+                                Pages Selected for Deletion: <strong id="delete-count" style="color: #EF4444; font-size: 1.1rem;">0</strong>
+                            </div>
+                        </div>
+                        
+                        <p style="color: var(--text-muted); font-size: 0.95rem; text-align: center; margin-bottom: 0.5rem;">Click on the pages you want to remove. A red trash icon will mark them for deletion.</p>
+
+                        <div id="preview-grid" class="preview-grid"></div>
+
+                        <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
+                            <button class="btn btn-outline" id="reset-btn">Cancel</button>
+                            <button class="btn btn-primary" id="apply-btn">Remove Pages & Save</button>
+                        </div>
+                    </div>
+
+                    <div id="result-state" class="hidden" style="text-align: center; padding: 3rem 0;">
+                        <div style="font-size: 4rem; color: #10B981; margin-bottom: 1rem;">✅</div>
+                        <h3 style="margin-bottom: 1rem; font-size: 1.5rem;">Pages Removed Successfully!</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 2rem;">Your streamlined document has been created securely on your device.</p>
+                        <div style="display: flex; gap: 1rem; justify-content: center;">
+                            <button class="btn btn-outline" id="start-over-btn">Edit Another PDF</button>
+                            <a id="download-link" class="btn btn-primary" href="#" download="Toolenix_Cleaned.pdf">Download Document</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Comprehensive Guide to Deleting Pages from PDF Documents</h2>
+                <p>Digital documents are rarely perfect on the first draft or initial scan. You may receive a 50-page vendor contract that includes 10 pages of irrelevant appendices. Perhaps you scanned a physical file but accidentally captured a blank page or a blurry duplicate. In professional environments, sending a document riddled with blank pages, out-of-date information, or unnecessary clutter is perceived as disorganized. To maintain a crisp, professional presentation, you must be able to <strong>delete pages from a PDF</strong>.</p>
+                
+                <p>Welcome to the Toolenix <strong>Delete PDF Pages</strong> utility. We have designed a highly intuitive, visual workspace that takes the guesswork out of PDF management. Instead of blindly typing page numbers into an input box, our tool renders your entire document into a visual grid, allowing you to click and remove pages effortlessly. Most importantly, we do this without sacrificing your data privacy. Below, we explore the mechanics of PDF page extraction, the critical importance of local file processing, and expert tips for document hygiene.</p>
+
+                <h2>Why Remove Pages from a PDF?</h2>
+                <p>Beyond simply creating a "cleaner" document, the ability to selectively delete pages serves several highly practical and security-focused purposes:</p>
+                <ul>
+                    <li><strong>Removing Sensitive Information:</strong> Often, a master report contains confidential financial tables or employee data mixed in with public information. Before distributing the report to external stakeholders, you must safely excise the sensitive pages.</li>
+                    <li><strong>Fixing Scanning Errors:</strong> Modern auto-document feeders (ADFs) frequently pull through blank pages or get jammed, creating duplicated or skewed sheets within your final scan file. Deleting these errors post-scan is much faster than re-scanning the physical pile.</li>
+                    <li><strong>Reducing File Size:</strong> If a document is pushing up against email attachment limits (usually 25MB), stripping out heavy, full-page graphics or irrelevant marketing pages can drastically lower the file's weight.</li>
+                    <li><strong>Isolating Signatures:</strong> If you only need to return the signed signature page of a 40-page legal agreement, deleting the remaining 39 pages saves time and bandwidth for both you and the recipient.</li>
+                </ul>
+
+                <h2>The Hidden Dangers of Cloud-Based PDF Editors</h2>
+                <p>If you search the web for "how to remove PDF pages," you will find numerous online editors that offer this feature. However, almost all of them operate on a traditional cloud server model. They require you to upload your document to their database, where their background servers process your deletion requests.</p>
+                <p>This architecture introduces severe risks to your privacy. If you are uploading a document specifically to remove confidential pages (like social security numbers or banking details), sending the master file to an unverified third-party server defeats the entire purpose of the security exercise. You are handing the data over to the server administrators before the sensitive pages are actually removed.</p>
+                <p><strong>Toolenix eliminates this massive vulnerability by utilizing 100% Client-Side Processing.</strong> Using modern HTML5 Canvas technology and WebAssembly, our tool parses your document directly inside your local web browser. The visual thumbnails are generated by your own graphics card, and the PDF rebuilding process utilizes your own CPU. Your confidential master document never leaves your computer, ensuring absolute compliance with corporate data protection standards.</p>
+
+                <h2>Features of the Toolenix Page Deletion Utility</h2>
+                <p>Our commitment to local processing yields a suite of professional features:</p>
+                <ul>
+                    <li><strong>Visual Click-to-Delete Interface:</strong> No more guessing page numbers. See exactly what you are deleting with our real-time thumbnail grid.</li>
+                    <li><strong>Instant Processing Speeds:</strong> Because you aren't waiting on a server upload, the visual grid renders instantly, and the final document is generated in milliseconds.</li>
+                    <li><strong>Lossless Rebuilding:</strong> We do not re-rasterize or compress the pages you choose to keep. The text and images on the remaining pages retain their original pristine quality.</li>
+                    <li><strong>Infinite File Sizes:</strong> We don't restrict you to 10MB or 20MB caps. Process massive 500-page manuals easily, limited only by your computer's local RAM.</li>
+                </ul>
+
+                <h2>Step-by-Step Guide: How to Remove Pages from a PDF</h2>
+                <p>Curating your digital documents is incredibly easy. Follow these simple steps:</p>
+                <ol>
+                    <li><strong>Load Your Document:</strong> Drag and drop your PDF into the dashed upload area. Our local script will instantly read the file and generate a visual thumbnail for every single page.</li>
+                    <li><strong>Select Pages for Deletion:</strong> Scroll through the grid. When you see a page you want to discard (e.g., a blank page or sensitive table), simply click on the thumbnail. A red overlay with a trash icon will mark it for deletion. Click it again to deselect if you make a mistake.</li>
+                    <li><strong>Verify Your Selection:</strong> Check the "Pages Selected for Deletion" counter at the top of the workspace to ensure you have targeted the correct number of pages.</li>
+                    <li><strong>Execute the Deletion:</strong> Click the blue "Remove Pages & Save" button. The client-side script will instantly build a brand-new PDF containing only the unmarked pages.</li>
+                    <li><strong>Download:</strong> Click "Download Document" to save the cleaned, streamlined file to your local hard drive.</li>
+                </ol>
+
+                <h2>Best Practices for Document Hygiene</h2>
+                <p>To ensure your final documents are perfect before you send them, keep these professional tips in mind:</p>
+                <p><strong>Beware of Shifting Page Numbers:</strong> When you delete a page from the middle of a PDF, the internal pagination changes. If you delete page 4, the old page 5 now becomes the new page 4. However, if your document has printed page numbers embedded in the footer text, those numbers will now be out of sync. Keep this in mind when dealing with Tables of Contents.</p>
+                <p><strong>Check Bookmarks and Hyperlinks:</strong> If you have a highly interactive PDF with internal bookmarks, deleting the page that a bookmark links to will result in a "dead link" error. Always double-check your navigational links after heavily editing a document.</p>
+                <p><strong>Always Preserve the Original:</strong> Our tool automatically generates a new file with `_Cleaned` appended to the filename. Always verify the downloaded file before you manually delete the original master file from your hard drive.</p>
+
+                <h2>Common Mistakes to Avoid</h2>
+                <ul>
+                    <li><strong>Deleting the Wrong Page Visually:</strong> When dealing with text-heavy documents, two pages can look identical as tiny thumbnails. If you are unsure, open the PDF in your native viewer first to confirm the exact page numbers, then count them out on our grid.</li>
+                    <li><strong>Attempting to Edit Encrypted Files:</strong> Our local script cannot parse or alter the structure of a password-protected PDF. You must remove the encryption using our <a href="unlock-pdf.html">Unlock PDF Tool</a> before you can selectively delete pages.</li>
+                </ul>
+
+                <h2>Frequently Asked Questions (FAQs)</h2>
+                
+                <h3>Will deleting pages reduce the overall file size?</h3>
+                <p>Yes. By removing a page, you are removing the text, layout data, and specifically any heavy images embedded on that page. Deleting graphic-heavy pages will significantly reduce the final file size.</p>
+
+                <h3>Can I retrieve a deleted page later?</h3>
+                <p>No. Once the new file is generated and downloaded, the deleted pages are permanently excised from that specific file. This is why we always recommend keeping a backup of your original master document until you verify the new file.</p>
+
+                <h3>Are my confidential documents safe on this platform?</h3>
+                <p>Yes. Toolenix utilizes strict client-side processing. Your document is read, rendered, and edited entirely within your web browser. No data is transmitted to or stored on our servers.</p>
+
+                <h3>Is this tool completely free to use?</h3>
+                <p>Absolutely. We do not restrict the number of times you can use the tool, nor do we artificially cap the size of the documents you can edit. It is 100% free with zero watermarks.</p>
+
+                <h2>Complementary Document Utilities</h2>
+                <p>Refine your digital paperwork even further with our other free local tools:</p>
+                <ul>
+                    <li><a href="split-pdf.html"><strong>Split PDF:</strong></a> Instead of deleting pages, extract a specific range of pages into their own independent document.</li>
+                    <li><a href="merge-pdf.html"><strong>Merge PDF:</strong></a> Combine your freshly cleaned document with other related PDF files into a single presentation.</li>
+                    <li><a href="rotate-pdf.html"><strong>Rotate PDF:</strong></a> Fix the orientation of upside-down pages visually and permanently.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Curating your digital documents shouldn't require installing expensive desktop software or exposing your private files to cloud servers. By harnessing the power of local browser processing, the Toolenix Delete PDF Pages utility provides a professional, instant, and flawlessly secure method for managing your digital files. Bookmark this page to ensure your documents are always crisp, relevant, and secure.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        // Initialize PDF.js worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const uploadArea = document.getElementById('upload-state');
+            const fileInput = document.getElementById('pdf-input');
+            const processingState = document.getElementById('processing-state');
+            const resultState = document.getElementById('result-state');
+            
+            const filenameDisplay = document.getElementById('filename-display');
+            const deleteCountDisplay = document.getElementById('delete-count');
+            const previewGrid = document.getElementById('preview-grid');
+            
+            const applyBtn = document.getElementById('apply-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const startOverBtn = document.getElementById('start-over-btn');
+            const downloadLink = document.getElementById('download-link');
+            
+            let currentFileBuffer = null;
+            let currentFileName = "";
+            let numPages = 0;
+            
+            // Boolean array tracking which indices (0-based) are marked for deletion
+            let pagesToDelete = [];
+            let totalDeleted = 0;
+
+            // Drag and Drop Logic
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaultBehavior, false);
+            });
+
+            function preventDefaultBehavior(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.add('dragover'), false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.remove('dragover'), false);
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                handleFileSelection(e.dataTransfer.files[0]);
+            });
+
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) handleFileSelection(this.files[0]);
+            });
+
+            async function handleFileSelection(file) {
+                if (!file || file.type !== 'application/pdf') {
+                    if (window.showToast) window.showToast('Please provide a valid PDF document.', 'error');
+                    return;
+                }
+                
+                currentFileName = file.name.replace(/\.[^/.]+$/, "");
+                filenameDisplay.textContent = file.name;
+                
+                try {
+                    currentFileBuffer = await file.arrayBuffer();
+                    
+                    // Load into PDF.js to generate visual thumbnails
+                    const loadingTask = pdfjsLib.getDocument({ data: currentFileBuffer });
+                    const pdfDoc = await loadingTask.promise;
+                    
+                    numPages = pdfDoc.numPages;
+                    
+                    // Initialize deletion tracking array
+                    pagesToDelete = new Array(numPages).fill(false);
+                    totalDeleted = 0;
+                    updateDeleteCount();
+                    
+                    previewGrid.innerHTML = '';
+                    
+                    uploadArea.classList.add('hidden');
+                    processingState.classList.remove('hidden');
+                    
+                    // Generate asynchronous thumbnails
+                    for (let i = 1; i <= numPages; i++) {
+                        const page = await pdfDoc.getPage(i);
+                        
+                        const card = document.createElement('div');
+                        card.className = 'page-card';
+                        card.dataset.index = i - 1; // 0-based index for arrays
+                        
+                        // Overlay for deleted state
+                        const overlay = document.createElement('div');
+                        overlay.className = 'deleted-overlay';
+                        overlay.innerHTML = '🗑️';
+                        card.appendChild(overlay);
+                        
+                        const canvasWrapper = document.createElement('div');
+                        canvasWrapper.className = 'page-canvas-wrapper';
+                        
+                        const canvas = document.createElement('canvas');
+                        const context = canvas.getContext('2d');
+                        
+                        // Low resolution for fast preview rendering
+                        const viewport = page.getViewport({ scale: 0.5 });
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
+                        
+                        canvasWrapper.appendChild(canvas);
+                        card.appendChild(canvasWrapper);
+                        
+                        const label = document.createElement('div');
+                        label.className = 'page-label';
+                        label.textContent = `Page ${i}`;
+                        card.appendChild(label);
+                        
+                        // Toggle Logic
+                        card.addEventListener('click', function() {
+                            const idx = parseInt(this.dataset.index);
+                            const isCurrentlyDeleted = pagesToDelete[idx];
+                            
+                            // Prevent deleting all pages
+                            if (!isCurrentlyDeleted && totalDeleted >= numPages - 1) {
+                                if (window.showToast) window.showToast('You must keep at least one page in the document.', 'error');
+                                return;
+                            }
+                            
+                            pagesToDelete[idx] = !isCurrentlyDeleted;
+                            
+                            if (pagesToDelete[idx]) {
+                                this.classList.add('deleted');
+                                totalDeleted++;
+                            } else {
+                                this.classList.remove('deleted');
+                                totalDeleted--;
+                            }
+                            
+                            updateDeleteCount();
+                        });
+                        
+                        previewGrid.appendChild(card);
+                        
+                        await page.render({
+                            canvasContext: context,
+                            viewport: viewport
+                        }).promise;
+                    }
+
+                } catch (err) {
+                    console.error('File parsing error:', err);
+                    if (window.showToast) window.showToast('Failed to read PDF. It might be encrypted or corrupted.', 'error');
+                    resetWorkspace();
+                }
+            }
+
+            function updateDeleteCount() {
+                deleteCountDisplay.textContent = totalDeleted;
+                if (totalDeleted > 0) {
+                    applyBtn.disabled = false;
+                } else {
+                    // Disable button if nothing is selected to prevent useless processing
+                    applyBtn.disabled = true;
+                }
+            }
+
+            function resetWorkspace() {
+                currentFileBuffer = null;
+                currentFileName = "";
+                numPages = 0;
+                pagesToDelete = [];
+                totalDeleted = 0;
+                fileInput.value = '';
+                
+                if (downloadLink.href) {
+                    URL.revokeObjectURL(downloadLink.href);
+                    downloadLink.href = '#';
+                }
+                
+                processingState.classList.add('hidden');
+                resultState.classList.add('hidden');
+                uploadArea.classList.remove('hidden');
+            }
+
+            resetBtn.addEventListener('click', resetWorkspace);
+            startOverBtn.addEventListener('click', resetWorkspace);
+
+            // Core PDF Modification Logic
+            applyBtn.addEventListener('click', async () => {
+                if (totalDeleted === 0) return;
+                
+                applyBtn.textContent = 'Processing...';
+                applyBtn.disabled = true;
+
+                try {
+                    const { PDFDocument } = PDFLib;
+                    
+                    // Load original bytes into pdf-lib
+                    const originalPdf = await PDFDocument.load(currentFileBuffer);
+                    
+                    // Create new empty document
+                    const newPdf = await PDFDocument.create();
+                    
+                    // Gather indices to KEEP
+                    const pagesToKeep = [];
+                    for (let i = 0; i < numPages; i++) {
+                        if (!pagesToDelete[i]) {
+                            pagesToKeep.push(i);
+                        }
+                    }
+                    
+                    // Copy selected pages and append to new document
+                    const copiedPages = await newPdf.copyPages(originalPdf, pagesToKeep);
+                    copiedPages.forEach((page) => newPdf.addPage(page));
+
+                    // Save and initiate download
+                    const modifiedPdfBytes = await newPdf.save();
+                    const blob = new Blob([modifiedPdfBytes], { type: 'application/pdf' });
+                    const url = URL.createObjectURL(blob);
+
+                    downloadLink.href = url;
+                    downloadLink.download = `${currentFileName}_cleaned.pdf`;
+                    
+                    processingState.classList.add('hidden');
+                    resultState.classList.remove('hidden');
+                    if (window.showToast) window.showToast('Pages successfully removed!', 'success');
+
+                } catch (error) {
+                    console.error('Deletion execution error:', error);
+                    if (window.showToast) window.showToast('An error occurred while modifying the document.', 'error');
+                } finally {
+                    applyBtn.textContent = 'Remove Pages & Save';
+                    applyBtn.disabled = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

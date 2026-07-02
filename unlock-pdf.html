@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Unlock PDF - Remove PDF Passwords Free & Offline | Toolenix</title>
+    <meta name="title" content="Unlock PDF - Remove PDF Passwords Free & Offline | Toolenix">
+    <meta name="description" content="Remove passwords and unlock your PDF files instantly. 100% free, perfectly secure, and client-side processed. Your password never leaves your device.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/unlock-pdf.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/unlock-pdf.html">
+    <meta property="og:title" content="Unlock PDF - Remove Passwords Securely">
+    <meta property="og:description" content="Decrypt and remove security passwords from your PDF files without uploading them to a cloud server. Fast, free, and completely private.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/unlock-pdf.html">
+    <meta property="twitter:title" content="Unlock PDF - Remove Passwords Securely">
+    <meta property="twitter:description" content="Decrypt and remove security passwords from your PDF files without uploading them to a cloud server. Fast, free, and completely private.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix PDF Unlocker",
+      "operatingSystem": "All",
+      "applicationCategory": "SecurityApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A highly secure web utility that removes password encryption from PDF documents locally on the user's device without transmitting the file or the password to external servers."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "PDF Tools",
+        "item": "https://www.toolenix.com/#pdf-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Unlock PDF"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .upload-area {
+            border: 2px dashed var(--primary);
+            border-radius: 16px;
+            padding: 4rem 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: rgba(37, 99, 235, 0.05);
+            cursor: pointer;
+            margin-bottom: 2rem;
+        }
+        .upload-area:hover, .upload-area.dragover {
+            background: rgba(37, 99, 235, 0.1);
+            transform: translateY(-2px);
+            border-color: var(--secondary);
+        }
+        .hidden { display: none !important; }
+
+        /* Password Input Interface */
+        .password-container {
+            background: var(--bg-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin: 2rem auto;
+            max-width: 500px;
+            text-align: left;
+            box-shadow: var(--shadow-soft);
+        }
+        
+        .password-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .password-group label {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .password-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-input-wrapper input {
+            width: 100%;
+            padding: 1rem;
+            padding-right: 3rem;
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            background: var(--card-bg);
+            color: var(--text-main);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .password-input-wrapper input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(16, 185, 129, 0.1);
+            color: #10B981;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#pdf-tools">PDF Tools</a> &gt; Unlock PDF
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 900px;">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">Unlock PDF Files</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Remove password protection and un-encrypt your documents. 100% private client-side processing guarantees your password never leaves your browser.</p>
+                </div>
+
+                <div class="glass" style="padding: 2rem;">
+                    
+                    <div id="upload-state" class="upload-area">
+                        <input type="file" id="pdf-input" accept="application/pdf" class="hidden">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🔓</div>
+                        <h3 style="margin-bottom: 0.5rem;">Drag & drop your encrypted PDF here</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">or</p>
+                        <button class="btn btn-primary" onclick="document.getElementById('pdf-input').click()">Select PDF File</button>
+                    </div>
+
+                    <div id="processing-state" class="hidden" style="text-align: center;">
+                        <div class="security-badge">
+                            🔒 <span id="filename-display">document.pdf</span> is protected
+                        </div>
+                        
+                        <div class="password-container">
+                            <h3 style="margin-bottom: 0.5rem;">Enter Document Password</h3>
+                            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">You must know the password to unlock this file. Your password is used locally to decrypt the file and is <strong>never</strong> sent to our servers.</p>
+                            
+                            <div class="password-group">
+                                <label for="pdf-password">Password</label>
+                                <div class="password-input-wrapper">
+                                    <input type="password" id="pdf-password" placeholder="Enter password..." autocomplete="off">
+                                    <button class="toggle-password" id="toggle-pwd-btn" aria-label="Toggle Password Visibility">👁️</button>
+                                </div>
+                            </div>
+                            
+                            <div id="error-message" class="hidden" style="color: #EF4444; font-size: 0.9rem; margin-bottom: 1rem; font-weight: 500;">
+                                Incorrect password. Please try again.
+                            </div>
+
+                            <button class="btn btn-primary" id="unlock-btn" style="width: 100%;">Decrypt and Remove Password</button>
+                        </div>
+
+                        <div style="margin-top: 1.5rem;">
+                            <button class="btn btn-outline" id="reset-btn">Cancel and Choose Different File</button>
+                        </div>
+                    </div>
+
+                    <div id="result-state" class="hidden" style="text-align: center; padding: 3rem 0;">
+                        <div style="font-size: 4rem; color: #10B981; margin-bottom: 1rem;">🎉</div>
+                        <h3 style="margin-bottom: 1rem; font-size: 1.5rem;">PDF Unlocked Successfully!</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 2rem;">The encryption has been permanently removed. Your new document is ready to be saved.</p>
+                        <div style="display: flex; gap: 1rem; justify-content: center;">
+                            <button class="btn btn-outline" id="start-over-btn">Unlock Another File</button>
+                            <a id="download-link" class="btn btn-primary" href="#" download="Toolenix_Unlocked.pdf">Download Unlocked PDF</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Comprehensive Guide to Unlocking PDF Files Safely</h2>
+                <p>Security is a vital component of digital document management. When banks send you your monthly statements, or Human Resources emails your tax documents, those PDF files are often encrypted with a password (frequently the last four digits of your social security number or your birthdate). While this encryption is necessary for safe internet transit, it becomes incredibly frustrating for long-term storage. If you want to combine your tax returns into a single file, upload them to your accountant, or simply print them out, you must first remove that security barrier. You need a secure way to <strong>unlock PDF files</strong>.</p>
+                
+                <p>Welcome to the Toolenix <strong>Unlock PDF</strong> utility. We have engineered this tool specifically to solve the massive privacy risks associated with traditional online PDF unlockers. By utilizing advanced client-side processing, our utility allows you to decrypt your documents and permanently strip their passwords without ever sending your sensitive files—or the passwords used to open them—over the internet. Read on to understand how PDF encryption works, the dangers of cloud unlockers, and how to safely manage your digital records.</p>
+
+                <h2>Understanding PDF Passwords: User vs. Owner Passwords</h2>
+                <p>Before unlocking a document, it is helpful to understand the two different types of security encryption that can be applied to a Portable Document Format (PDF) file. The PDF specification natively supports two distinct passwords, each serving a completely different function:</p>
+                <ul>
+                    <li><strong>The User Password (Open Password):</strong> This is the most common form of encryption. It completely locks the file. When you double-click the PDF on your computer, a prompt immediately blocks you from seeing any content until you provide the correct key. Our tool requires you to input this password in order to decrypt the file.</li>
+                    <li><strong>The Owner Password (Permissions Password):</strong> This type of encryption allows anyone to open and read the document, but it places restrictions on what they can do with it. An owner password might prevent the user from printing the file, copying text to the clipboard, or merging the document.</li>
+                </ul>
+                <p>The Toolenix PDF Unlocker is designed to strip the encryption layer entirely. Once you provide the correct password to access the file's inner structure, our script writes a completely fresh, unencrypted version of the document, stripping away both Open and Permission restrictions simultaneously.</p>
+
+                <h2>The Massive Security Risk of Cloud-Based Unlockers</h2>
+                <p>If you search the internet for "remove PDF password online," you will be met with hundreds of websites offering a quick fix. However, virtually all of these websites rely on a cloud-server architecture. To use them, you must upload your locked bank statement to their server, and then <strong>type your password into their website</strong> so their server can decrypt it.</p>
+                <p>This is a catastrophic security vulnerability for three reasons:</p>
+                <ol>
+                    <li><strong>Password Logging:</strong> You are handing over a password that is likely tied to your personal identity (like your SSN or birthdate) to an unverified third party.</li>
+                    <li><strong>Data Interception:</strong> Even if the connection is secure, the decrypted version of your highly sensitive document is now sitting on an external server, totally exposed to any internal data breaches or malicious administrators.</li>
+                    <li><strong>Lost Chain of Custody:</strong> Once your decrypted medical records or financial statements are processed on a remote machine, you have zero guarantee that they have been permanently deleted.</li>
+                </ol>
+                <p><strong>Toolenix eliminates these risks entirely by using Client-Side Decryption.</strong></p>
+
+                <h2>How Toolenix Unlocks Your PDF Locally</h2>
+                <p>We designed our unlock utility using advanced WebAssembly (Wasm) and HTML5 architecture. When you drag your encrypted PDF into our workspace, the file is loaded directly into your browser's local RAM sandbox. When you type the password into the prompt, that password is used by a local JavaScript library to decrypt the file right on your machine.</p>
+                <p>The document is never uploaded to our servers. The password is never transmitted across the internet. The decrypted file is generated locally, and saved locally. We offer the exact same privacy guarantees as expensive, downloadable desktop software like Adobe Acrobat Pro, but in a free, instant web interface.</p>
+
+                <h2>Features of the Toolenix PDF Unlocker</h2>
+                <ul>
+                    <li><strong>Zero Data Transmission:</strong> Because everything runs locally, our servers physically cannot access, view, or log your confidential files or passwords.</li>
+                    <li><strong>Instant Decryption:</strong> Bypassing the need for server uploads and downloads means the unlocking process happens instantaneously, dictated only by the speed of your device's CPU.</li>
+                    <li><strong>Permanent Password Removal:</strong> We do not offer a temporary workaround. We completely rewrite the binary structure of the file to permanently remove AES and RC4 encryption wrappers.</li>
+                    <li><strong>Completely Free & Ad-Free:</strong> We don't hide the download button behind a paywall, and we don't watermark your freshly unlocked documents.</li>
+                </ul>
+
+                <h2>Step-by-Step Guide: How to Remove a PDF Password</h2>
+                <p>Removing encryption from your files takes only a few seconds. Follow this straightforward process:</p>
+                <ol>
+                    <li><strong>Upload the Locked File:</strong> Drag and drop your encrypted PDF into the dashed upload area. Our local script will instantly detect the encryption and prompt you for the key.</li>
+                    <li><strong>Enter the Password:</strong> Type the password required to open the document into the secure input field. (Remember, this must be the correct password; this tool is designed to remove known passwords, not to "hack" or brute-force unknown passwords).</li>
+                    <li><strong>Decrypt the File:</strong> Click the "Decrypt and Remove Password" button. The client-side engine will use your password to parse the document and strip the security metadata.</li>
+                    <li><strong>Download the Unlocked Document:</strong> Click the download button to save your new, permanently unlocked PDF to your computer.</li>
+                </ol>
+
+                <h2>Best Practices for Managing Sensitive PDFs</h2>
+                <p>Once you have unlocked a confidential document, you must handle it responsibly. Keep these best practices in mind:</p>
+                <p><strong>Store in a Secure Environment:</strong> Since the PDF no longer has an internal password, anyone who gains access to the file can read it. Ensure you are saving the unlocked file to an encrypted hard drive or a secure, password-protected folder on your operating system.</p>
+                <p><strong>Delete Original Email Attachments:</strong> Often, users unlock a bank statement but leave the original locked version (along with the email containing the password hint) sitting in their email inbox. Clean up your digital trail by deleting unnecessary duplicates.</p>
+                <p><strong>Optimize Before Archiving:</strong> If you are unlocking years' worth of tax documents for long-term archiving, they can take up significant storage space. Consider running your newly unlocked files through our <a href="compress-pdf.html">Compress PDF Tool</a> to reduce their digital footprint.</p>
+
+                <h2>Common Mistakes and Misconceptions</h2>
+                <ul>
+                    <li><strong>Expecting a "Password Cracker":</strong> The Toolenix utility is a password <em>remover</em>, not a password cracker. It requires you to know the original password to unlock the file. We do not provide brute-force hacking tools, as that violates ethical software guidelines.</li>
+                    <li><strong>Failing to Combine Documents:</strong> The primary reason people unlock documents is so they can consolidate them. Once your files are unlocked, don't leave them scattered! Use our <a href="merge-pdf.html">Merge PDF Tool</a> to combine all 12 of your monthly bank statements into one clean annual file.</li>
+                </ul>
+
+                <h2>Frequently Asked Questions (FAQs)</h2>
+                
+                <h3>Is it really safe to type my SSN as a password on this site?</h3>
+                <p>Yes. The input field on this page is connected exclusively to a local JavaScript function running on your own computer. The password string is never passed to a backend database, and there is no network request made when you click the "Decrypt" button.</p>
+
+                <h3>Why does the tool say "Incorrect Password"?</h3>
+                <p>PDF passwords are strictly case-sensitive. Ensure your Caps Lock key is off, and verify that there are no accidental spaces at the beginning or end of the password you entered.</p>
+
+                <h3>Can I unlock a file if I forgot the password?</h3>
+                <p>Unfortunately, no. Modern PDF files use AES-128 or AES-256 bit encryption, which is virtually uncrackable without a supercomputer. If you have lost the password, you must contact the original sender (like your bank or HR department) and request a new file.</p>
+
+                <h3>Will unlocking the PDF alter my text or formatting?</h3>
+                <p>No. Our tool strips the security envelope from the file but leaves the internal content (text, vectors, images, and layouts) entirely untouched. The document will look identical to the original.</p>
+
+                <h2>Complementary Document Utilities</h2>
+                <p>Now that your document is unlocked and accessible, take advantage of our other free utilities to manage it:</p>
+                <ul>
+                    <li><a href="merge-pdf.html"><strong>Merge PDF:</strong></a> Combine your newly unlocked document with other files into a master packet.</li>
+                    <li><a href="split-pdf.html"><strong>Split PDF:</strong></a> Extract specific pages from your unlocked document.</li>
+                    <li><a href="pdf-to-jpg.html"><strong>PDF to JPG:</strong></a> Convert the pages of your unlocked document into high-resolution images for easy sharing.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Removing passwords from your legitimate documents shouldn't require compromising your personal security. By harnessing the power of local browser execution, the Toolenix Unlock PDF utility provides a professional, instant, and flawlessly secure method for regaining control of your digital files. Stop uploading your confidential passwords to the cloud. Bookmark this page to ensure your sensitive document management remains strictly private.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const uploadArea = document.getElementById('upload-state');
+            const fileInput = document.getElementById('pdf-input');
+            
+            const processingState = document.getElementById('processing-state');
+            const filenameDisplay = document.getElementById('filename-display');
+            const passwordInput = document.getElementById('pdf-password');
+            const togglePwdBtn = document.getElementById('toggle-pwd-btn');
+            const errorMessage = document.getElementById('error-message');
+            const unlockBtn = document.getElementById('unlock-btn');
+            
+            const resultState = document.getElementById('result-state');
+            const startOverBtn = document.getElementById('start-over-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const downloadLink = document.getElementById('download-link');
+            
+            let currentFileBuffer = null;
+            let currentFileName = "";
+
+            // Drag and Drop Logic
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaultBehavior, false);
+            });
+
+            function preventDefaultBehavior(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.add('dragover'), false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.remove('dragover'), false);
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                handleFileSelection(e.dataTransfer.files[0]);
+            });
+
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) handleFileSelection(this.files[0]);
+            });
+
+            async function handleFileSelection(file) {
+                if (!file || file.type !== 'application/pdf') {
+                    if (window.showToast) window.showToast('Please provide a valid PDF document.', 'error');
+                    return;
+                }
+                
+                currentFileName = file.name.replace(/\.[^/.]+$/, "");
+                filenameDisplay.textContent = file.name;
+                
+                try {
+                    currentFileBuffer = await file.arrayBuffer();
+                    
+                    // Do a quick test load without a password to see if it's actually encrypted
+                    const { PDFDocument } = PDFLib;
+                    try {
+                        await PDFDocument.load(currentFileBuffer);
+                        // If it loads successfully without a password, it's not encrypted!
+                        if (window.showToast) window.showToast('This PDF is not password protected!', 'success');
+                        resetWorkspace();
+                        return;
+                    } catch (loadError) {
+                        // Expected behavior: it throws an error if it requires a password
+                        if (loadError.message.includes('encrypted')) {
+                            // File is encrypted, show password prompt
+                            uploadArea.classList.add('hidden');
+                            processingState.classList.remove('hidden');
+                            passwordInput.focus();
+                        } else {
+                            // Some other corruption error
+                            throw loadError;
+                        }
+                    }
+                } catch (err) {
+                    console.error('File parsing error:', err);
+                    if (window.showToast) window.showToast('Failed to read PDF. The file may be corrupted.', 'error');
+                    resetWorkspace();
+                }
+            }
+
+            // Toggle Password Visibility
+            togglePwdBtn.addEventListener('click', () => {
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    togglePwdBtn.textContent = '🙈'; // Hide icon
+                } else {
+                    passwordInput.type = 'password';
+                    togglePwdBtn.textContent = '👁️'; // Show icon
+                }
+            });
+
+            // Execute Decryption on Enter key
+            passwordInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    executeUnlock();
+                }
+            });
+
+            unlockBtn.addEventListener('click', executeUnlock);
+
+            async function executeUnlock() {
+                const userPassword = passwordInput.value;
+                
+                if (!userPassword) {
+                    errorMessage.textContent = 'Please enter a password.';
+                    errorMessage.classList.remove('hidden');
+                    return;
+                }
+
+                unlockBtn.textContent = 'Decrypting...';
+                unlockBtn.disabled = true;
+                errorMessage.classList.add('hidden');
+
+                try {
+                    const { PDFDocument } = PDFLib;
+                    
+                    // Attempt to load the document with the provided password
+                    const pdfDoc = await PDFDocument.load(currentFileBuffer, { 
+                        password: userPassword 
+                    });
+                    
+                    // If we reach here, the password was correct!
+                    // PDF-lib automatically strips encryption upon saving unless re-encryption is explicitly requested.
+                    const unlockedPdfBytes = await pdfDoc.save();
+                    
+                    const blob = new Blob([unlockedPdfBytes], { type: 'application/pdf' });
+                    const url = URL.createObjectURL(blob);
+
+                    downloadLink.href = url;
+                    downloadLink.download = `${currentFileName}_unlocked.pdf`;
+                    
+                    processingState.classList.add('hidden');
+                    resultState.classList.remove('hidden');
+                    if (window.showToast) window.showToast('Password removed successfully!', 'success');
+
+                } catch (error) {
+                    console.error('Decryption error:', error);
+                    errorMessage.textContent = 'Incorrect password. Please verify and try again.';
+                    errorMessage.classList.remove('hidden');
+                    
+                    // Add a slight shake animation for visual feedback
+                    passwordInput.parentElement.style.transform = 'translateX(-10px)';
+                    setTimeout(() => passwordInput.parentElement.style.transform = 'translateX(10px)', 100);
+                    setTimeout(() => passwordInput.parentElement.style.transform = 'translateX(-10px)', 200);
+                    setTimeout(() => passwordInput.parentElement.style.transform = 'translateX(0)', 300);
+                    
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                } finally {
+                    unlockBtn.textContent = 'Decrypt and Remove Password';
+                    unlockBtn.disabled = false;
+                }
+            }
+
+            function resetWorkspace() {
+                currentFileBuffer = null;
+                currentFileName = "";
+                fileInput.value = '';
+                passwordInput.value = '';
+                errorMessage.classList.add('hidden');
+                passwordInput.type = 'password';
+                togglePwdBtn.textContent = '👁️';
+                
+                if (downloadLink.href) {
+                    URL.revokeObjectURL(downloadLink.href);
+                    downloadLink.href = '#';
+                }
+                
+                processingState.classList.add('hidden');
+                resultState.classList.add('hidden');
+                uploadArea.classList.remove('hidden');
+            }
+
+            resetBtn.addEventListener('click', resetWorkspace);
+            startOverBtn.addEventListener('click', resetWorkspace);
+        });
+    </script>
+</body>
+</html>

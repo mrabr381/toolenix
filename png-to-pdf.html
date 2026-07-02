@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>PNG to PDF - Convert PNG Images to PDF Free | Toolenix</title>
+    <meta name="title" content="PNG to PDF - Convert PNG Images to PDF Free | Toolenix">
+    <meta name="description" content="Combine your high-quality PNG images into a single PDF document instantly. Preserves transparency and lossless quality. 100% free and private.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/png-to-pdf.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/png-to-pdf.html">
+    <meta property="og:title" content="PNG to PDF - Convert Transparent Images Securely">
+    <meta property="og:description" content="Merge multiple PNG files into a high-quality PDF document without uploading files to a server. Fast, free, and perfectly secure.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/png-to-pdf.html">
+    <meta property="twitter:title" content="PNG to PDF - Convert Transparent Images Securely">
+    <meta property="twitter:description" content="Merge multiple PNG files into a high-quality PDF document without uploading files to a server. Fast, free, and perfectly secure.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix PNG to PDF Converter",
+      "operatingSystem": "All",
+      "applicationCategory": "UtilitiesApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A secure web utility that compiles multiple lossless Portable Network Graphics (PNG) images into a single unified PDF file using local client-side processing, preserving alpha channel transparency."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "PDF Tools",
+        "item": "https://www.toolenix.com/#pdf-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "PNG to PDF"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .upload-area {
+            border: 2px dashed var(--primary);
+            border-radius: 16px;
+            padding: 4rem 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: rgba(37, 99, 235, 0.05);
+            cursor: pointer;
+            margin-bottom: 2rem;
+        }
+        .upload-area:hover, .upload-area.dragover {
+            background: rgba(37, 99, 235, 0.1);
+            transform: translateY(-2px);
+            border-color: var(--secondary);
+        }
+        .hidden { display: none !important; }
+
+        /* Draggable Image Grid */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+            padding: 1rem;
+            background: var(--bg-main);
+            border-radius: 12px;
+            border: 1px solid var(--border-glass);
+            min-height: 200px;
+        }
+        .image-card {
+            position: relative;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            padding: 0.5rem;
+            box-shadow: var(--shadow-soft);
+            cursor: grab;
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .image-card:active {
+            cursor: grabbing;
+            transform: scale(0.95);
+        }
+        
+        /* PNG Checkered Background for Transparency Preview */
+        .image-card .img-wrapper {
+            width: 100%;
+            height: 120px;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            background-image: 
+                linear-gradient(45deg, #e5e7eb 25%, transparent 25%), 
+                linear-gradient(-45deg, #e5e7eb 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #e5e7eb 75%), 
+                linear-gradient(-45deg, transparent 75%, #e5e7eb 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .image-card img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            pointer-events: none;
+        }
+        
+        .image-card .remove-btn {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #EF4444;
+            color: white;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 5;
+        }
+        .image-card span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#pdf-tools">PDF Tools</a> &gt; PNG to PDF
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 900px;">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">PNG to PDF Converter</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Compile lossless PNG graphics into a pristine PDF document. Perfectly preserves transparent backgrounds via local processing.</p>
+                </div>
+
+                <div class="glass" style="padding: 2rem;">
+                    
+                    <div id="upload-state" class="upload-area">
+                        <input type="file" id="image-input" accept="image/png" multiple class="hidden">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">✨</div>
+                        <h3 style="margin-bottom: 0.5rem;">Drag & drop PNG images here</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">or</p>
+                        <button class="btn btn-primary" onclick="document.getElementById('image-input').click()">Select PNG Files</button>
+                    </div>
+
+                    <div id="processing-state" class="hidden">
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                            <h3 style="font-weight: 600;">Selected Graphics (<span id="file-count">0</span>)</h3>
+                            <button class="btn btn-outline" onclick="document.getElementById('image-input').click()" style="padding: 0.5rem 1rem; font-size: 0.9rem;">+ Add More PNGs</button>
+                        </div>
+                        
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">Drag images to reorder them. The checkered background indicates preserved transparency.</p>
+
+                        <div id="image-grid" class="image-grid"></div>
+
+                        <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                            <button class="btn btn-outline" id="reset-btn">Clear All</button>
+                            <button class="btn btn-primary" id="convert-btn">Generate PDF</button>
+                        </div>
+                    </div>
+
+                    <div id="result-state" class="hidden" style="text-align: center; padding: 3rem 0;">
+                        <div style="font-size: 4rem; color: #10B981; margin-bottom: 1rem;">✅</div>
+                        <h3 style="margin-bottom: 1rem; font-size: 1.5rem;">PDF Generated Successfully!</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 2rem;">Your PNG graphics have been flawlessly embedded into a single document.</p>
+                        <div style="display: flex; gap: 1rem; justify-content: center;">
+                            <button class="btn btn-outline" id="start-over-btn">Create Another</button>
+                            <a id="download-link" class="btn btn-primary" href="#" download="Toolenix_Graphics.pdf">Download PDF</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Complete Guide to Converting PNG Graphics to PDF Documents</h2>
+                <p>When dealing with digital images, format matters immensely. While JPG is the universal standard for basic photography, professionals working in graphic design, web development, and digital archiving rely heavily on the <strong>PNG (Portable Network Graphics)</strong> format. Unlike JPGs, PNGs are "lossless," meaning they do not compress and destroy pixel data to save space. Furthermore, PNGs support alpha channels, allowing for perfectly transparent backgrounds. But how do you present these pristine graphics professionally? You need a reliable tool to <strong>convert PNG to PDF</strong>.</p>
+                
+                <p>Welcome to the Toolenix <strong>PNG to PDF Converter</strong>. We built this specific utility to cater to the unique requirements of high-fidelity graphics. Whether you are building a branding portfolio, compiling UI/UX screenshots for a presentation, or archiving high-resolution digital art, this tool allows you to bind your PNGs into a universal document format. Most importantly, it performs this task entirely offline in your browser, guaranteeing your proprietary designs are never leaked to a remote server.</p>
+
+                <h2>Why Choose PDF for Presenting PNG Graphics?</h2>
+                <p>Sending a client a `.zip` folder full of loose `.png` files is a disjointed experience. Compiling them into a PDF provides several distinct advantages for professionals:</p>
+                <ul>
+                    <li><strong>Guaranteed Sequencing:</strong> When you present a step-by-step UI mockup or a branding guide, the order of the images is crucial. A PDF locks your PNGs into an unchangeable paginated sequence.</li>
+                    <li><strong>Preserving Alpha Channels (Transparency):</strong> If you paste a transparent PNG logo into a basic word processor to make a document, it often renders with an ugly black or white background box. Our dedicated converter natively embeds the transparent alpha channel directly into the PDF structure, ensuring your graphics float perfectly on the digital page.</li>
+                    <li><strong>No Additional Compression Artifacts:</strong> Because PDF is essentially a flexible container, our tool embeds your PNGs exactly as they are. We do not apply secondary lossy compression, ensuring your vector-style logos and typography remain razor-sharp.</li>
+                    <li><strong>Universal Compatibility:</strong> Your client does not need Photoshop or an image viewer to see your work. Every modern device possesses a native PDF reader.</li>
+                </ul>
+
+                <h2>The Client-Side Privacy Advantage</h2>
+                <p>Graphic designers, architects, and corporate marketers are often bound by strict Non-Disclosure Agreements (NDAs). If you are compiling screenshots of an unreleased software product or sending confidential branding assets, utilizing a standard "free cloud converter" is a massive breach of protocol.</p>
+                <p>Cloud converters force you to upload your proprietary PNG files to a remote server. You have no way to verify who has access to that server, or if the server administrators are scraping user uploads for data collection. </p>
+                <p><strong>Toolenix eliminates this risk completely.</strong> By harnessing modern WebAssembly (Wasm) and HTML5 Canvas architecture, our tool brings the conversion software directly to your web browser. When you drop your PNGs into our tool, your local CPU does the processing. Your files never cross the internet. We provide the privacy guarantees of premium desktop software for absolutely free.</p>
+
+                <h2>Features of the Toolenix PNG to PDF Converter</h2>
+                <p>Our utility was built specifically to respect the fidelity of your source images:</p>
+                <ul>
+                    <li><strong>Visual Transparency Preview:</strong> Our drag-and-drop grid renders your thumbnails against a classic checkered background, verifying that your transparent alpha channels are being recognized by the tool before you convert.</li>
+                    <li><strong>Custom Page Sizing:</strong> We do not force your graphics into a standard A4 or Letter size page (which causes ugly stretching). Our algorithm calculates the exact pixel dimensions of each individual PNG and creates a custom-sized PDF page to frame it perfectly.</li>
+                    <li><strong>Drag-and-Drop Reordering:</strong> Easily adjust the narrative flow of your document by dragging the image thumbnails into the precise sequence you desire.</li>
+                    <li><strong>Zero Watermarks:</strong> Your portfolio is yours. We will never stamp our logo or a website URL onto your final professional document.</li>
+                </ul>
+
+                <h2>Step-by-Step Guide: How to Convert PNGs to PDF</h2>
+                <p>Compiling your digital assets takes mere seconds. Follow these steps:</p>
+                <ol>
+                    <li><strong>Upload Your Graphics:</strong> Click "Select PNG Files" or drag your image assets into the dashed upload zone. The local script will instantly load them into memory.</li>
+                    <li><strong>Organize Your Assets:</strong> Review the generated thumbnails. If they are out of order, click and drag them into the correct sequence. You can also click the red "X" to remove any graphics uploaded by mistake.</li>
+                    <li><strong>Execute the Conversion:</strong> Click the solid blue "Generate PDF" button. Our local script will instantly embed the PNG data into a binary PDF structure.</li>
+                    <li><strong>Download:</strong> Click "Download PDF" to save your high-fidelity, consolidated master file directly to your device.</li>
+                </ol>
+
+                <h2>Best Practices for Image Formatting</h2>
+                <p>To ensure your final document looks stunning, keep these professional tips in mind:</p>
+                <p><strong>Watch the Final File Size:</strong> Because PNGs are lossless, they can be exceptionally large files (e.g., a full-screen screenshot might be 4MB). If you combine 20 of these PNGs, your resulting PDF will be 80MB. If you need to email the final document, consider running it through our <a href="compress-pdf.html">Compress PDF Tool</a> afterward to optimize it for transit.</p>
+                <p><strong>Maintain Consistent Ratios:</strong> If you are building a presentation deck out of PNGs, try to ensure all your source images have the same aspect ratio (e.g., 16:9). While our tool will custom-size the pages, a PDF with wildly varying page sizes can be jarring for the viewer.</p>
+                <p><strong>When to use JPG instead:</strong> If you are compiling photographs (like vacation pictures or scanned documents), use our standard <a href="jpg-to-pdf.html">JPG to PDF</a> tool. PNG is best reserved for graphics with text, sharp lines, solid colors, and transparency.</p>
+
+                <h2>Frequently Asked Questions (FAQs)</h2>
+                
+                <h3>Does this tool support transparent backgrounds?</h3>
+                <p>Yes. Our client-side rendering engine natively reads the alpha channels embedded in your PNG files. If your logo has a transparent background, the resulting PDF page will reflect that transparency perfectly.</p>
+
+                <h3>Will converting my PNG reduce its visual quality?</h3>
+                <p>No. We execute a direct binary embedding of the image data into the PDF container. We do not apply any lossy compression to your PNGs during the conversion process. The edges of your text and graphics will remain razor-sharp.</p>
+
+                <h3>Is there a limit to how many PNGs I can compile?</h3>
+                <p>Toolenix does not impose any artificial server limits because we do not use servers for processing. Your limit is dictated entirely by the available RAM on your personal device. We recommend batches of 40 images or fewer to prevent your browser from stuttering.</p>
+
+                <h3>Are my unreleased designs safe here?</h3>
+                <p>Absolutely. Your privacy is guaranteed. The conversion script runs entirely within the isolated sandbox of your web browser. We physically cannot see, store, or intercept the images you drag into the tool.</p>
+
+                <h2>Complementary Image and Document Utilities</h2>
+                <p>Enhance your digital workflows with our other free local utilities:</p>
+                <ul>
+                    <li><a href="image-compressor.html"><strong>Image Compressor:</strong></a> Drastically reduce the file size of massive PNG files before combining them into a document.</li>
+                    <li><a href="pdf-to-jpg.html"><strong>PDF to JPG:</strong></a> Need to reverse the process? Extract the pages of any PDF document back into separate image files.</li>
+                    <li><a href="merge-pdf.html"><strong>Merge PDF:</strong></a> Combine your newly generated PNG portfolio with text-based PDF documents into a master file.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Presenting high-quality graphics requires a format that respects their fidelity. By utilizing the Toolenix PNG to PDF utility, you can effortlessly transform scattered design assets into a unified, professional document without sacrificing transparency or pixel clarity. Backed by absolute privacy and instantaneous local processing speeds, managing your graphic assets has never been easier. Bookmark this page and experience the power of client-side web tools today.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const uploadArea = document.getElementById('upload-state');
+            const fileInput = document.getElementById('image-input');
+            const processingState = document.getElementById('processing-state');
+            const resultState = document.getElementById('result-state');
+            
+            const imageGrid = document.getElementById('image-grid');
+            const fileCountSpan = document.getElementById('file-count');
+            
+            const convertBtn = document.getElementById('convert-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const startOverBtn = document.getElementById('start-over-btn');
+            
+            let filesArray = [];
+            let draggedItemIndex = null;
+
+            // Drag and Drop Zone Listeners
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.add('dragover'), false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.remove('dragover'), false);
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                handleFiles(e.dataTransfer.files);
+            });
+
+            fileInput.addEventListener('change', function() {
+                handleFiles(this.files);
+            });
+
+            function handleFiles(files) {
+                // Strictly filter for PNGs based on mime type
+                const validTypes = ['image/png'];
+                const newFiles = Array.from(files).filter(file => validTypes.includes(file.type.toLowerCase()));
+                
+                if (newFiles.length === 0) {
+                    if (window.showToast) window.showToast('Please upload valid PNG images only.', 'error');
+                    return;
+                }
+                
+                // Create object URL for local previews
+                const processedFiles = newFiles.map(file => ({
+                    file: file,
+                    id: Math.random().toString(36).substring(7),
+                    previewUrl: URL.createObjectURL(file)
+                }));
+                
+                filesArray = [...filesArray, ...processedFiles];
+                updateImageGrid();
+                
+                uploadArea.classList.add('hidden');
+                processingState.classList.remove('hidden');
+            }
+
+            function updateImageGrid() {
+                imageGrid.innerHTML = '';
+                fileCountSpan.textContent = filesArray.length;
+                
+                filesArray.forEach((item, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'image-card';
+                    card.setAttribute('draggable', true);
+                    card.dataset.index = index;
+                    
+                    card.innerHTML = `
+                        <button class="remove-btn" onclick="removeImage(${index})" aria-label="Remove Image">✕</button>
+                        <div class="img-wrapper">
+                            <img src="${item.previewUrl}" alt="PNG Preview">
+                        </div>
+                        <span>${item.file.name}</span>
+                    `;
+                    
+                    // Drag events
+                    card.addEventListener('dragstart', handleDragStart);
+                    card.addEventListener('dragover', handleDragOver);
+                    card.addEventListener('drop', handleDrop);
+                    card.addEventListener('dragend', handleDragEnd);
+                    
+                    imageGrid.appendChild(card);
+                });
+            }
+
+            // Global removal function for inline HTML
+            window.removeImage = (index) => {
+                URL.revokeObjectURL(filesArray[index].previewUrl);
+                filesArray.splice(index, 1);
+                
+                if (filesArray.length === 0) {
+                    resetWorkspace();
+                } else {
+                    updateImageGrid();
+                }
+            };
+
+            // Reordering
+            function handleDragStart(e) {
+                draggedItemIndex = parseInt(this.dataset.index);
+                e.dataTransfer.effectAllowed = 'move';
+                this.style.opacity = '0.4';
+            }
+
+            function handleDragOver(e) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+                return false;
+            }
+
+            function handleDrop(e) {
+                e.stopPropagation();
+                const targetIndex = parseInt(this.dataset.index);
+                
+                if (draggedItemIndex !== null && draggedItemIndex !== targetIndex) {
+                    const itemToMove = filesArray.splice(draggedItemIndex, 1)[0];
+                    filesArray.splice(targetIndex, 0, itemToMove);
+                    updateImageGrid();
+                }
+                return false;
+            }
+
+            function handleDragEnd() {
+                this.style.opacity = '1';
+                draggedItemIndex = null;
+            }
+
+            function resetWorkspace() {
+                filesArray.forEach(item => URL.revokeObjectURL(item.previewUrl));
+                filesArray = [];
+                fileInput.value = '';
+                
+                processingState.classList.add('hidden');
+                resultState.classList.add('hidden');
+                uploadArea.classList.remove('hidden');
+            }
+
+            resetBtn.addEventListener('click', resetWorkspace);
+            startOverBtn.addEventListener('click', resetWorkspace);
+
+            // Core PDF Generation using pdf-lib
+            convertBtn.addEventListener('click', async () => {
+                if (filesArray.length === 0) return;
+                
+                convertBtn.textContent = 'Embedding PNGs...';
+                convertBtn.disabled = true;
+
+                try {
+                    const { PDFDocument } = PDFLib;
+                    const pdfDoc = await PDFDocument.create();
+
+                    for (const item of filesArray) {
+                        const fileBuffer = await item.file.arrayBuffer();
+                        
+                        // Native pdf-lib PNG embedding handles alpha transparency automatically
+                        const pdfImage = await pdfDoc.embedPng(fileBuffer);
+
+                        // Match page size perfectly to image pixel dimensions
+                        const { width, height } = pdfImage.scale(1);
+                        const page = pdfDoc.addPage([width, height]);
+                        
+                        page.drawImage(pdfImage, {
+                            x: 0,
+                            y: 0,
+                            width: width,
+                            height: height,
+                        });
+                    }
+
+                    const pdfBytes = await pdfDoc.save();
+                    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                    const url = URL.createObjectURL(blob);
+
+                    const downloadLink = document.getElementById('download-link');
+                    downloadLink.href = url;
+                    
+                    processingState.classList.add('hidden');
+                    resultState.classList.remove('hidden');
+                    if (window.showToast) window.showToast('PNGs converted to PDF successfully!', 'success');
+
+                } catch (error) {
+                    console.error('PNG conversion error:', error);
+                    if (window.showToast) window.showToast('Failed to generate PDF. A PNG file may be corrupted.', 'error');
+                } finally {
+                    convertBtn.textContent = 'Generate PDF';
+                    convertBtn.disabled = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

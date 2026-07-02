@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>Text List Organizer - Sort & Remove Duplicates Free | Toolenix</title>
+    <meta name="title" content="Text List Organizer - Sort & Remove Duplicates Free | Toolenix">
+    <meta name="description" content="Organize your text lists instantly. Alphabetize (A-Z), remove duplicate lines, and strip empty spaces safely offline in your browser.">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.toolenix.com/text-list-organizer.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/text-list-organizer.html">
+    <meta property="og:title" content="Text List Organizer - Clean Your Data Instantly">
+    <meta property="og:description" content="Sort, deduplicate, and clean up messy text lists, emails, and keywords perfectly using offline processing.">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/text-list-organizer.html">
+    <meta property="twitter:title" content="Text List Organizer - Clean Your Data Instantly">
+    <meta property="twitter:description" content="Sort, deduplicate, and clean up messy text lists, emails, and keywords perfectly using offline processing.">
+    
+    <!-- Assets -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <!-- Schema.org for SoftwareApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix Text List Organizer",
+      "operatingSystem": "All",
+      "applicationCategory": "UtilitiesApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A secure client-side application for manipulating text lists, featuring alphabetical sorting, deduplication, and line cleanup."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Text Tools",
+        "item": "https://www.toolenix.com/#seo-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Text List Organizer"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .workspace-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            box-shadow: var(--shadow-soft);
+            justify-content: center;
+        }
+
+        .toolbar-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding-right: 1rem;
+            border-right: 1px solid var(--border-glass);
+        }
+        
+        .toolbar-group:last-child {
+            border-right: none;
+            padding-right: 0;
+        }
+
+        @media (max-width: 900px) {
+            .toolbar-group {
+                border-right: none;
+                padding-right: 0;
+                justify-content: center;
+                border-bottom: 1px solid var(--border-glass);
+                padding-bottom: 1rem;
+                width: 100%;
+            }
+            .toolbar-group:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+        }
+
+        .action-btn {
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--border-glass);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .action-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+        }
+
+        .editor-pane {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: rgba(37, 99, 235, 0.05);
+            border-bottom: 1px solid var(--border-glass);
+        }
+        
+        .editor-stats {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .stat-highlight {
+            color: var(--primary);
+            background: rgba(37, 99, 235, 0.1);
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+        }
+
+        .text-input-area {
+            width: 100%;
+            height: 450px;
+            padding: 1.5rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: none;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1rem;
+            line-height: 1.6;
+            resize: vertical;
+            outline: none;
+            white-space: pre;
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <!-- Breadcrumbs -->
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#seo-tools">Text Tools</a> &gt; Text List Organizer
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <!-- Tool Interface -->
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 1000px;">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">Text List Organizer</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Clean, sort, and deduplicate your lists instantly. Apply sequential operations safely with 100% offline privacy.</p>
+                </div>
+
+                <div class="workspace-container">
+                    
+                    <!-- Formatting Toolbar -->
+                    <div class="toolbar">
+                        <div class="toolbar-group">
+                            <button class="action-btn" id="btn-sort-asc" title="Sort Alphabetically A to Z">⬇️ Sort A-Z</button>
+                            <button class="action-btn" id="btn-sort-desc" title="Sort Alphabetically Z to A">⬆️ Sort Z-A</button>
+                            <button class="action-btn" id="btn-reverse" title="Reverse the current order of lines">🔃 Reverse List</button>
+                        </div>
+                        <div class="toolbar-group">
+                            <button class="action-btn" id="btn-remove-dupes" title="Delete identical lines">🗑️ Remove Duplicates</button>
+                            <button class="action-btn" id="btn-remove-empty" title="Delete blank lines">🧹 Remove Empty Lines</button>
+                            <button class="action-btn" id="btn-trim" title="Remove spaces from start and end of each line">✂️ Trim Whitespace</button>
+                        </div>
+                    </div>
+
+                    <!-- Editor Pane -->
+                    <div class="editor-pane">
+                        <div class="editor-header">
+                            <div class="editor-stats">
+                                <span>Total Lines: <span id="line-count" class="stat-highlight">0</span></span>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="btn btn-outline" id="paste-btn" style="padding: 0.4rem 1rem; font-size: 0.9rem;">📋 Paste</button>
+                                <button class="btn btn-primary" id="copy-btn" style="padding: 0.4rem 1rem; font-size: 0.9rem;">📄 Copy List</button>
+                                <button class="btn btn-outline" id="clear-btn" style="padding: 0.4rem 1rem; font-size: 0.9rem; color: #EF4444; border-color: rgba(239, 68, 68, 0.3);">🗑️ Clear</button>
+                            </div>
+                        </div>
+                        <textarea id="text-input" class="text-input-area" placeholder="Paste your messy list here (one item per line). Then use the buttons above to organize it...
+
+Example:
+Banana
+Apple
+Orange
+Apple
+  Grapes  
+
+"></textarea>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Deep SEO Editorial Section -->
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Comprehensive Guide to Data Cleaning and List Organization</h2>
+                <p>In the digital age, professionals frequently work with massive amounts of unstructured text. Whether you are an SEO specialist compiling hundreds of keyword variations, an email marketer extracting a list of subscriber addresses, or a developer formatting an array of variables, raw data is rarely clean. It is often plagued by duplicate entries, accidental blank lines, and trailing spaces.</p>
+                
+                <p>Manually scanning a 5,000-line document to find and delete duplicates is an impossible, error-prone task. You need a dedicated <strong>Text List Organizer</strong>. Welcome to the Toolenix List Manipulation Utility. We engineered this tool to provide instant, sequential text formatting. By keeping the input and output in a single, unified workspace, you can apply multiple operations (like removing empty lines, trimming spaces, and then sorting A-Z) in a matter of seconds.</p>
+
+                <h2>Essential List Formatting Operations</h2>
+                <p>Our utility provides six core operations that form the foundation of text data cleaning:</p>
+                
+                <h3>1. Removing Duplicates (Deduplication)</h3>
+                <p>When merging data from multiple sources (like combining two different email marketing lists), duplicate entries are inevitable. Sending the same marketing email twice to a client looks highly unprofessional and can trigger spam filters. Our "Remove Duplicates" algorithm instantly scans your entire list, identifies exact matches, and deletes the redundant lines, leaving you with a perfectly unique dataset.</p>
+                
+                <h3>2. Natural Alphabetical Sorting (A-Z & Z-A)</h3>
+                <p>Organizing data alphabetically makes it readable and searchable for humans. However, standard computer sorting algorithms struggle with numbers. If you ask a basic program to sort <code>Item 1, Item 10, Item 2</code>, it will sort them as <code>1, 10, 2</code> because it reads the "1" in 10 before the "2". </p>
+                <p><strong>Toolenix uses Natural Sorting.</strong> Our algorithm intelligently recognizes numbers within strings, ensuring that your data sorts exactly as a human would expect: <code>Item 1, Item 2, Item 10</code>.</p>
+
+                <h3>3. Trimming Whitespace</h3>
+                <p>When copying data from Excel spreadsheets or PDF documents, invisible spaces are often added to the beginning or end of your text (e.g., <code>"  keyword  "</code>). These invisible spaces will ruin database imports and cause exact-match queries to fail. The "Trim Whitespace" button instantly strips all leading and trailing spaces from every single line in your document simultaneously.</p>
+                
+                <h3>4. Removing Empty Lines</h3>
+                <p>Copying text from badly formatted websites often results in double or triple line breaks. The "Remove Empty Lines" feature instantly collapses your list, deleting any line that does not contain text. This ensures your final copied array is dense and ready for deployment.</p>
+
+                <h2>The Privacy Advantage of Client-Side Processing</h2>
+                <p>If you search for a "Duplicate Line Remover" on Google, you will find dozens of free websites. However, pasting your data into these tools is incredibly dangerous. If you are cleaning a list of private client emails, proprietary database IDs, or highly sensitive financial entries, pasting them into a cloud-based server exposes your data to third-party logging.</p>
+                <p><strong>Toolenix ensures your data remains strictly confidential.</strong> Our list organizer is built utilizing pure Vanilla JavaScript that executes exclusively within your web browser's local sandbox. When you click "Sort" or "Remove Duplicates," your own device's CPU performs the string parsing. Your lists are never transmitted across the internet, ensuring enterprise-grade data privacy.</p>
+
+                <h2>Step-by-Step Guide: How to Clean Your Data</h2>
+                <p>Optimizing your lists is an effortless, sequential process:</p>
+                <ol>
+                    <li><strong>Input the Data:</strong> Paste your raw, messy list into the large workspace editor. The real-time counter will instantly tell you how many lines you are working with.</li>
+                    <li><strong>Clean the Structure:</strong> Click <strong>Trim Whitespace</strong> first. This ensures that <code>"Apple"</code> and <code>"Apple "</code> are treated identically. Next, click <strong>Remove Empty Lines</strong> to condense the list.</li>
+                    <li><strong>Deduplicate:</strong> Click <strong>Remove Duplicates</strong>. Watch the line counter drop as the redundant entries are stripped away.</li>
+                    <li><strong>Organize:</strong> Finally, click <strong>Sort A-Z</strong> to alphabetize your pristine dataset.</li>
+                    <li><strong>Export:</strong> Click the blue "Copy List" button to save your formatted data to your clipboard.</li>
+                </ol>
+
+                <h2>Complementary Text Optimization Utilities</h2>
+                <p>Enhance your writing and data processing workflows with our other free offline utilities:</p>
+                <ul>
+                    <li><a href="case-converter.html"><strong>Case Converter:</strong></a> If your newly sorted list has inconsistent capitalization, paste it here to standardize everything into Title Case or lowercase.</li>
+                    <li><a href="word-counter.html"><strong>Word Counter:</strong></a> Get deep analytics on your text, including exact character counts and reading time estimates.</li>
+                    <li><a href="text-to-slug.html"><strong>Text to Slug:</strong></a> If your list contains blog post titles, use this tool to convert them all into SEO-friendly URL slugs.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Manual data entry and cleanup is a massive waste of professional productivity. By utilizing the Toolenix Text List Organizer, you gain access to an instantaneous, mathematically precise formatting engine. Maintain the privacy of your sensitive datasets, eliminate redundancies effortlessly, and bookmark this page to ensure your lists are always flawlessly organized.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <!-- Tool Execution Code -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const textInput = document.getElementById('text-input');
+            const lineCountDisplay = document.getElementById('line-count');
+            
+            const btnSortAsc = document.getElementById('btn-sort-asc');
+            const btnSortDesc = document.getElementById('btn-sort-desc');
+            const btnReverse = document.getElementById('btn-reverse');
+            const btnRemoveDupes = document.getElementById('btn-remove-dupes');
+            const btnRemoveEmpty = document.getElementById('btn-remove-empty');
+            const btnTrim = document.getElementById('btn-trim');
+            
+            const copyBtn = document.getElementById('copy-btn');
+            const clearBtn = document.getElementById('clear-btn');
+            const pasteBtn = document.getElementById('paste-btn');
+
+            // --- Core Helper Functions ---
+            
+            function getLines() {
+                // Return array of lines, avoiding a single empty string if textarea is totally empty
+                if (textInput.value === '') return [];
+                return textInput.value.split('\n');
+            }
+
+            function updateWorkspace(linesArray) {
+                textInput.value = linesArray.join('\n');
+                updateLineCount();
+            }
+
+            function updateLineCount() {
+                const lines = getLines();
+                // Count actual lines, even if empty (standard text editor behavior)
+                // But if the box is totally empty, show 0
+                lineCountDisplay.textContent = textInput.value === '' ? 0 : lines.length;
+            }
+
+            // Real-time counter
+            textInput.addEventListener('input', updateLineCount);
+
+            // --- Tool Operations ---
+
+            btnSortAsc.addEventListener('click', () => {
+                let lines = getLines();
+                if (lines.length === 0) return;
+                
+                // Natural Sort implementation (handles numbers correctly)
+                lines.sort((a, b) => a.localeCompare(b, undefined, {numeric: true, sensitivity: 'base'}));
+                updateWorkspace(lines);
+                if(window.showToast) window.showToast('List sorted A-Z', 'success');
+            });
+
+            btnSortDesc.addEventListener('click', () => {
+                let lines = getLines();
+                if (lines.length === 0) return;
+                
+                lines.sort((a, b) => b.localeCompare(a, undefined, {numeric: true, sensitivity: 'base'}));
+                updateWorkspace(lines);
+                if(window.showToast) window.showToast('List sorted Z-A', 'success');
+            });
+
+            btnReverse.addEventListener('click', () => {
+                let lines = getLines();
+                if (lines.length === 0) return;
+                
+                lines.reverse();
+                updateWorkspace(lines);
+                if(window.showToast) window.showToast('List order reversed', 'success');
+            });
+
+            btnRemoveDupes.addEventListener('click', () => {
+                let lines = getLines();
+                if (lines.length === 0) return;
+                
+                const originalCount = lines.length;
+                lines = [...new Set(lines)]; // Set automatically removes exact duplicates
+                const newCount = lines.length;
+                
+                updateWorkspace(lines);
+                if(window.showToast) {
+                    const removed = originalCount - newCount;
+                    window.showToast(`Removed ${removed} duplicate line(s)`, 'success');
+                }
+            });
+
+            btnRemoveEmpty.addEventListener('click', () => {
+                let lines = getLines();
+                if (lines.length === 0) return;
+                
+                const originalCount = lines.length;
+                // Filter out lines that are completely empty or just spaces
+                lines = lines.filter(line => line.trim() !== '');
+                const newCount = lines.length;
+                
+                updateWorkspace(lines);
+                if(window.showToast) {
+                    const removed = originalCount - newCount;
+                    window.showToast(`Removed ${removed} empty line(s)`, 'success');
+                }
+            });
+
+            btnTrim.addEventListener('click', () => {
+                let lines = getLines();
+                if (lines.length === 0) return;
+                
+                lines = lines.map(line => line.trim());
+                updateWorkspace(lines);
+                if(window.showToast) window.showToast('Whitespace trimmed from all lines', 'success');
+            });
+
+            // --- General UI Actions ---
+
+            copyBtn.addEventListener('click', () => {
+                if (!textInput.value) {
+                    if(window.showToast) window.showToast('Nothing to copy!', 'error');
+                    return;
+                }
+                
+                navigator.clipboard.writeText(textInput.value).then(() => {
+                    if(window.showToast) window.showToast('List copied to clipboard!', 'success');
+                    
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✅ Copied!';
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                    }, 2000);
+                });
+            });
+
+            clearBtn.addEventListener('click', () => {
+                textInput.value = '';
+                updateLineCount();
+                textInput.focus();
+            });
+
+            pasteBtn.addEventListener('click', async () => {
+                try {
+                    const text = await navigator.clipboard.readText();
+                    // If there's already text, append it on a new line
+                    if (textInput.value) {
+                        textInput.value = textInput.value + '\n' + text;
+                    } else {
+                        textInput.value = text;
+                    }
+                    updateLineCount();
+                    if(window.showToast) window.showToast('Pasted from clipboard!', 'success');
+                } catch (err) {
+                    console.error('Failed to read clipboard contents: ', err);
+                    if(window.showToast) window.showToast('Please press Ctrl+V / Cmd+V to paste manually.', 'error');
+                }
+            });
+
+            // Initialize count
+            updateLineCount();
+        });
+    </script>
+</body>
+</html>

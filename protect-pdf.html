@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Protect PDF - Add Password Encryption Free & Offline | Toolenix</title>
+    <meta name="title" content="Protect PDF - Add Password Encryption Free & Offline | Toolenix">
+    <meta name="description" content="Secure your PDF files by adding strong password protection. 100% free, perfectly secure, and client-side processed. Your files never leave your device.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/protect-pdf.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/protect-pdf.html">
+    <meta property="og:title" content="Protect PDF - Secure Documents with Passwords">
+    <meta property="og:description" content="Encrypt your PDF files with a secure password locally on your device. Prevent unauthorized viewing without uploading data to the cloud.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/protect-pdf.html">
+    <meta property="twitter:title" content="Protect PDF - Secure Documents with Passwords">
+    <meta property="twitter:description" content="Encrypt your PDF files with a secure password locally on your device. Prevent unauthorized viewing without uploading data to the cloud.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix PDF Protector",
+      "operatingSystem": "All",
+      "applicationCategory": "SecurityApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A secure client-side utility that adds AES encryption and password protection to PDF documents locally on the user's device."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "PDF Tools",
+        "item": "https://www.toolenix.com/#pdf-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Protect PDF"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .upload-area {
+            border: 2px dashed var(--primary);
+            border-radius: 16px;
+            padding: 4rem 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: rgba(37, 99, 235, 0.05);
+            cursor: pointer;
+            margin-bottom: 2rem;
+        }
+        .upload-area:hover, .upload-area.dragover {
+            background: rgba(37, 99, 235, 0.1);
+            transform: translateY(-2px);
+            border-color: var(--secondary);
+        }
+        .hidden { display: none !important; }
+
+        /* Security Input Interface */
+        .password-container {
+            background: var(--bg-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin: 2rem auto;
+            max-width: 500px;
+            text-align: left;
+            box-shadow: var(--shadow-soft);
+        }
+        
+        .password-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .password-group label {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .password-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-input-wrapper input {
+            width: 100%;
+            padding: 1rem;
+            padding-right: 3rem;
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            background: var(--card-bg);
+            color: var(--text-main);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .password-input-wrapper input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        .password-input-wrapper input.error-border {
+            border-color: #EF4444;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .file-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#pdf-tools">PDF Tools</a> &gt; Protect PDF
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 900px;">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">Protect PDF with Password</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Encrypt your sensitive documents. Our 100% private client-side processing guarantees your file and password are never sent to a server.</p>
+                </div>
+
+                <div class="glass" style="padding: 2rem;">
+                    
+                    <div id="upload-state" class="upload-area">
+                        <input type="file" id="pdf-input" accept="application/pdf" class="hidden">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🔐</div>
+                        <h3 style="margin-bottom: 0.5rem;">Drag & drop your PDF file here</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">or</p>
+                        <button class="btn btn-primary" onclick="document.getElementById('pdf-input').click()">Select PDF File</button>
+                    </div>
+
+                    <div id="processing-state" class="hidden" style="text-align: center;">
+                        <div class="file-badge">
+                            📄 <span id="filename-display">document.pdf</span> is ready to secure
+                        </div>
+                        
+                        <div class="password-container">
+                            <h3 style="margin-bottom: 0.5rem;">Set Document Password</h3>
+                            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">This password will be required to open the document. Do not forget it, as we cannot recover it for you.</p>
+                            
+                            <div class="password-group">
+                                <label for="pdf-password">Create Password</label>
+                                <div class="password-input-wrapper">
+                                    <input type="password" id="pdf-password" placeholder="Enter a strong password..." autocomplete="new-password">
+                                    <button class="toggle-password" id="toggle-pwd1" aria-label="Toggle Password Visibility">👁️</button>
+                                </div>
+                            </div>
+
+                            <div class="password-group">
+                                <label for="pdf-password-confirm">Confirm Password</label>
+                                <div class="password-input-wrapper">
+                                    <input type="password" id="pdf-password-confirm" placeholder="Re-enter password..." autocomplete="new-password">
+                                    <button class="toggle-password" id="toggle-pwd2" aria-label="Toggle Password Visibility">👁️</button>
+                                </div>
+                                <small id="password-match-error" class="hidden" style="color: #EF4444; margin-top: 0.5rem; font-weight: 500;">Passwords do not match.</small>
+                            </div>
+
+                            <button class="btn btn-primary" id="protect-btn" style="width: 100%; margin-top: 1rem;">Encrypt PDF Document</button>
+                        </div>
+
+                        <div style="margin-top: 1.5rem;">
+                            <button class="btn btn-outline" id="reset-btn">Cancel and Choose Different File</button>
+                        </div>
+                    </div>
+
+                    <div id="result-state" class="hidden" style="text-align: center; padding: 3rem 0;">
+                        <div style="font-size: 4rem; color: #10B981; margin-bottom: 1rem;">🛡️</div>
+                        <h3 style="margin-bottom: 1rem; font-size: 1.5rem;">PDF Protected Successfully!</h3>
+                        <p style="color: var(--text-muted); margin-bottom: 2rem;">Your document is now encrypted and requires a password to view.</p>
+                        <div style="display: flex; gap: 1rem; justify-content: center;">
+                            <button class="btn btn-outline" id="start-over-btn">Protect Another File</button>
+                            <a id="download-link" class="btn btn-primary" href="#" download="Toolenix_Protected.pdf">Download Secure PDF</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Comprehensive Guide to Password Protecting PDF Files</h2>
+                <p>In an era of rampant data breaches, unsecured email servers, and accidental file sharing, sending sensitive information as plain text is incredibly risky. Whether you are a business owner distributing financial forecasts, an HR manager emailing employee W-2 tax forms, or a freelancer submitting proprietary designs, you must ensure that only the intended recipient can view your files. The most universally accepted and rigorous way to do this is to <strong>password protect your PDF documents</strong>.</p>
+                
+                <p>Welcome to the Toolenix <strong>Protect PDF</strong> utility. We have engineered a platform that brings enterprise-grade encryption directly to your local machine. Unlike traditional cloud-based security tools that ironically require you to upload your sensitive files to their servers to secure them, Toolenix operates 100% offline within your browser. Below, we explain the mechanics of PDF encryption, the critical danger of cloud-based password tools, and best practices for securing your digital assets.</p>
+
+                <h2>How PDF Encryption Actually Works</h2>
+                <p>When you add a password to a Portable Document Format (PDF) file, you are not simply placing a digital "lock icon" on the file folder. You are fundamentally altering the binary code of the document through a mathematical process known as encryption. Toolenix utilizes advanced cryptography to secure your files, but what does that mean practically?</p>
+                <p>If someone without the password tries to force open the document using a raw text editor or bypass the PDF viewer entirely, they will not see your text. Instead, they will see a scrambled, randomized string of alphanumeric garbage. The password you set acts as the mathematical key. When the correct key is typed into Adobe Acrobat or Google Chrome, the software runs the algorithm in reverse, unscrambling the code back into readable text and images.</p>
+
+                <h2>The Flaw in Online Security Tools: Why Cloud Uploads are Dangerous</h2>
+                <p>If you search for "protect PDF online," you will find numerous websites offering to add a password to your file. However, almost all of them utilize a remote server architecture. They ask you to upload your confidential document, and then you type your chosen password into their webpage.</p>
+                <p>Think about the fundamental flaw in this process: <strong>You are uploading an unencrypted, completely vulnerable document to an unknown third-party server, along with the password you intend to use.</strong></p>
+                <ul>
+                    <li>The server processes your raw data.</li>
+                    <li>The server has access to your chosen password in plain text before it is applied.</li>
+                    <li>You have absolutely no guarantee that the server deletes the unencrypted version of your document from its temporary storage cache.</li>
+                </ul>
+                <p><strong>Toolenix eliminates this massive security hole through Client-Side Encryption.</strong> When you drag your document into our workspace, the file stays on your computer. When you type your password, it stays on your computer. Advanced WebAssembly (Wasm) and JavaScript libraries encrypt the file locally using your device's own CPU. The secured file is generated locally. We provide the privacy of a heavy, expensive desktop software directly inside a free web browser tab.</p>
+
+                <h2>Features of the Toolenix PDF Protector</h2>
+                <ul>
+                    <li><strong>Absolute Privacy Guarantee:</strong> No server uploads mean zero risk of interception or data logging. Your file and your password remain strictly local.</li>
+                    <li><strong>Instant Processing:</strong> Bypassing the need to upload large files across the internet allows our encryption script to execute instantly.</li>
+                    <li><strong>No Software Installation:</strong> Achieve military-grade document security without downloading sketchy software or paying for premium desktop application subscriptions.</li>
+                    <li><strong>Cross-Platform Compatibility:</strong> Generate secure PDFs on Windows, macOS, Linux, or mobile devices effortlessly.</li>
+                </ul>
+
+                <h2>Step-by-Step Guide: How to Secure Your PDF</h2>
+                <p>Adding robust protection to your documents takes only seconds. Follow these steps:</p>
+                <ol>
+                    <li><strong>Upload the Target File:</strong> Drag and drop your unencrypted PDF into the dashed upload area. The local script will instantly parse the file structure.</li>
+                    <li><strong>Create a Strong Password:</strong> In the first input field, type the password you want to use to lock the document. Use a combination of letters, numbers, and symbols for maximum security.</li>
+                    <li><strong>Confirm the Password:</strong> Retype the exact same password into the second field to prevent typos. If they do not match, the tool will alert you.</li>
+                    <li><strong>Encrypt the File:</strong> Click the solid blue "Encrypt PDF Document" button. The client-side engine will lock the file.</li>
+                    <li><strong>Download the Secure Document:</strong> Click the download button to save your newly protected PDF to your computer. Test it by opening it in your browser before sending it to the recipient.</li>
+                </ol>
+
+                <h2>Best Practices for Password Management</h2>
+                <p>Encryption is only as strong as the password you choose and how you deliver it. Follow these security protocols:</p>
+                <p><strong>Never Email the Password with the Document:</strong> Sending an encrypted PDF to a client, and then typing the password in the exact same email, defeats the purpose of encryption. If a hacker intercepts the email, they get both the lock and the key. Instead, deliver the password via a secondary channel, such as an SMS text message or a phone call.</p>
+                <p><strong>Avoid Predictable Passwords:</strong> Do not use "12345", the company name, or the word "Password". For highly sensitive documents, utilize our <a href="password-generator.html">Password Generator</a> to create a complex, randomized string.</p>
+                <p><strong>Do Not Lose the Password:</strong> Toolenix does not keep a record of your password. Because the file is encrypted locally on your machine, we have absolutely no way to recover or reset the password for you if you forget it. Always keep a secure backup of your unencrypted file, or store the password in a trusted password manager.</p>
+
+                <h2>Frequently Asked Questions (FAQs)</h2>
+                
+                <h3>What kind of encryption does Toolenix use?</h3>
+                <p>Our underlying library utilizes industry-standard AES (Advanced Encryption Standard) algorithms to secure the document structure, ensuring it complies with modern security requirements and can be opened by all standard PDF readers like Adobe Acrobat and Apple Preview.</p>
+
+                <h3>Can I add a password to a file that is already encrypted?</h3>
+                <p>No. You cannot "double encrypt" a PDF directly. If your document already has an owner or user password, you must first remove it using our <a href="unlock-pdf.html">Unlock PDF Tool</a> before applying a new password.</p>
+
+                <h3>Will encrypting the PDF change its layout or quality?</h3>
+                <p>No. The encryption process scrambles the underlying code for security but does not alter the actual content, resolution, or formatting of the document. When opened with the correct password, it will look exactly as it did before.</p>
+
+                <h3>Are there any file size limits for encryption?</h3>
+                <p>Because Toolenix relies on your local device's memory (RAM) to process the file rather than our servers, there are no artificial size limits. You can secure large 100MB reports just as easily as 1MB invoices.</p>
+
+                <h2>Complementary Document Utilities</h2>
+                <p>Before you lock your document, ensure it is perfectly optimized with our other free tools:</p>
+                <ul>
+                    <li><a href="merge-pdf.html"><strong>Merge PDF:</strong></a> Combine multiple loose files into one master document before encrypting the entire package.</li>
+                    <li><a href="compress-pdf.html"><strong>Compress PDF:</strong></a> Shrink the file size of your report so it easily bypasses email attachment limits.</li>
+                    <li><a href="delete-pdf-pages.html"><strong>Delete PDF Pages:</strong></a> Remove unnecessary or blank pages to keep your final secure document clean and professional.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Securing your confidential information is a professional necessity. However, uploading your private documents to third-party cloud servers to add a password is a contradiction in security. By harnessing the power of local browser execution, the Toolenix Protect PDF utility provides instant, flawlessly secure, and private document encryption. Bookmark this page to ensure you always have a trusted security tool ready for your sensitive files.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const uploadArea = document.getElementById('upload-state');
+            const fileInput = document.getElementById('pdf-input');
+            
+            const processingState = document.getElementById('processing-state');
+            const filenameDisplay = document.getElementById('filename-display');
+            
+            const pwdInput1 = document.getElementById('pdf-password');
+            const pwdInput2 = document.getElementById('pdf-password-confirm');
+            const toggleBtn1 = document.getElementById('toggle-pwd1');
+            const toggleBtn2 = document.getElementById('toggle-pwd2');
+            const matchError = document.getElementById('password-match-error');
+            
+            const protectBtn = document.getElementById('protect-btn');
+            
+            const resultState = document.getElementById('result-state');
+            const startOverBtn = document.getElementById('start-over-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const downloadLink = document.getElementById('download-link');
+            
+            let currentFileBuffer = null;
+            let currentFileName = "";
+
+            // Drag and Drop Logic
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaultBehavior, false);
+            });
+
+            function preventDefaultBehavior(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.add('dragover'), false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.remove('dragover'), false);
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                handleFileSelection(e.dataTransfer.files[0]);
+            });
+
+            fileInput.addEventListener('change', function() {
+                if (this.files.length > 0) handleFileSelection(this.files[0]);
+            });
+
+            async function handleFileSelection(file) {
+                if (!file || file.type !== 'application/pdf') {
+                    if (window.showToast) window.showToast('Please provide a valid PDF document.', 'error');
+                    return;
+                }
+                
+                currentFileName = file.name.replace(/\.[^/.]+$/, "");
+                filenameDisplay.textContent = file.name;
+                
+                try {
+                    currentFileBuffer = await file.arrayBuffer();
+                    
+                    // Quick test load to ensure the file isn't already encrypted or corrupted
+                    const { PDFDocument } = PDFLib;
+                    try {
+                        await PDFDocument.load(currentFileBuffer);
+                        // Safe to proceed
+                        uploadArea.classList.add('hidden');
+                        processingState.classList.remove('hidden');
+                        pwdInput1.focus();
+                    } catch (loadError) {
+                        if (loadError.message.includes('encrypted')) {
+                            if (window.showToast) window.showToast('This file is already encrypted. Please unlock it first.', 'error');
+                        } else {
+                            if (window.showToast) window.showToast('Failed to parse document. It may be corrupted.', 'error');
+                        }
+                        resetWorkspace();
+                    }
+                } catch (err) {
+                    console.error('File reading error:', err);
+                    resetWorkspace();
+                }
+            }
+
+            // Toggle Password Visibility Logic
+            function setupToggle(btn, input) {
+                btn.addEventListener('click', () => {
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        btn.textContent = '🙈';
+                    } else {
+                        input.type = 'password';
+                        btn.textContent = '👁️';
+                    }
+                });
+            }
+            
+            setupToggle(toggleBtn1, pwdInput1);
+            setupToggle(toggleBtn2, pwdInput2);
+
+            // Validation Logic
+            function validatePasswords() {
+                const p1 = pwdInput1.value;
+                const p2 = pwdInput2.value;
+                
+                if (p1 === "" && p2 === "") {
+                    pwdInput1.classList.remove('error-border');
+                    pwdInput2.classList.remove('error-border');
+                    matchError.classList.add('hidden');
+                    return false;
+                }
+                
+                if (p1 !== p2 && p2 !== "") {
+                    pwdInput1.classList.add('error-border');
+                    pwdInput2.classList.add('error-border');
+                    matchError.classList.remove('hidden');
+                    return false;
+                } else {
+                    pwdInput1.classList.remove('error-border');
+                    pwdInput2.classList.remove('error-border');
+                    matchError.classList.add('hidden');
+                    return p1 !== ""; // Valid if not empty and match
+                }
+            }
+
+            pwdInput1.addEventListener('input', validatePasswords);
+            pwdInput2.addEventListener('input', validatePasswords);
+            
+            pwdInput2.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && validatePasswords()) {
+                    executeEncryption();
+                }
+            });
+
+            protectBtn.addEventListener('click', () => {
+                if (!pwdInput1.value) {
+                    if (window.showToast) window.showToast('Please enter a password.', 'error');
+                    pwdInput1.focus();
+                    return;
+                }
+                if (validatePasswords()) {
+                    executeEncryption();
+                }
+            });
+
+            async function executeEncryption() {
+                const finalPassword = pwdInput1.value;
+
+                protectBtn.textContent = 'Encrypting...';
+                protectBtn.disabled = true;
+
+                try {
+                    const { PDFDocument } = PDFLib;
+                    
+                    // Load the unencrypted buffer
+                    const pdfDoc = await PDFDocument.load(currentFileBuffer);
+                    
+                    // Save with encryption applied
+                    const encryptedPdfBytes = await pdfDoc.save({
+                        userPassword: finalPassword,
+                        ownerPassword: finalPassword,
+                        permissions: {
+                            modifying: false,
+                            copying: false,
+                            annotating: false,
+                            fillingForms: false,
+                            contentAccessibility: false,
+                            documentAssembly: false
+                        }
+                    });
+                    
+                    const blob = new Blob([encryptedPdfBytes], { type: 'application/pdf' });
+                    const url = URL.createObjectURL(blob);
+
+                    downloadLink.href = url;
+                    downloadLink.download = `${currentFileName}_protected.pdf`;
+                    
+                    processingState.classList.add('hidden');
+                    resultState.classList.remove('hidden');
+                    if (window.showToast) window.showToast('Document securely encrypted!', 'success');
+
+                } catch (error) {
+                    console.error('Encryption error:', error);
+                    if (window.showToast) window.showToast('An error occurred during encryption.', 'error');
+                } finally {
+                    protectBtn.textContent = 'Encrypt PDF Document';
+                    protectBtn.disabled = false;
+                }
+            }
+
+            function resetWorkspace() {
+                currentFileBuffer = null;
+                currentFileName = "";
+                fileInput.value = '';
+                pwdInput1.value = '';
+                pwdInput2.value = '';
+                
+                pwdInput1.classList.remove('error-border');
+                pwdInput2.classList.remove('error-border');
+                matchError.classList.add('hidden');
+                
+                pwdInput1.type = 'password';
+                pwdInput2.type = 'password';
+                toggleBtn1.textContent = '👁️';
+                toggleBtn2.textContent = '👁️';
+                
+                if (downloadLink.href) {
+                    URL.revokeObjectURL(downloadLink.href);
+                    downloadLink.href = '#';
+                }
+                
+                processingState.classList.add('hidden');
+                resultState.classList.add('hidden');
+                uploadArea.classList.remove('hidden');
+            }
+
+            resetBtn.addEventListener('click', resetWorkspace);
+            startOverBtn.addEventListener('click', resetWorkspace);
+        });
+    </script>
+</body>
+</html>

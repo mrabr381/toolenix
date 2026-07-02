@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>JWT Decoder - Decode JSON Web Tokens Offline & Securely | Toolenix</title>
+    <meta name="title" content="JWT Decoder - Decode JSON Web Tokens Offline & Securely | Toolenix">
+    <meta name="description" content="Decode and inspect JWT (JSON Web Tokens) instantly. 100% free, offline, and secure client-side decoding to protect your API payloads and secrets.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/jwt-decoder.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/jwt-decoder.html">
+    <meta property="og:title" content="Secure JWT Decoder - No Server Uploads">
+    <meta property="og:description" content="Decode your JWT headers and payloads safely in your browser. Ensure your authentication tokens remain strictly confidential.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/jwt-decoder.html">
+    <meta property="twitter:title" content="Secure JWT Decoder - No Server Uploads">
+    <meta property="twitter:description" content="Decode your JWT headers and payloads safely in your browser. Ensure your authentication tokens remain strictly confidential.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix JWT Decoder",
+      "operatingSystem": "All",
+      "applicationCategory": "DeveloperApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A secure client-side application for software engineers to decode and inspect Base64Url encoded JSON Web Tokens (JWT) locally without transmitting sensitive payloads."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Dev Tools",
+        "item": "https://www.toolenix.com/#dev-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "JWT Decoder"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .editor-pane {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            background: var(--card-bg);
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: rgba(37, 99, 235, 0.05);
+            border-bottom: 1px solid var(--border-glass);
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .text-area {
+            width: 100%;
+            padding: 1.5rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: none;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1rem;
+            line-height: 1.6;
+            resize: vertical;
+            outline: none;
+            word-break: break-all;
+        }
+
+        .token-input {
+            height: 200px;
+        }
+
+        /* Split Output Area */
+        .decoded-sections {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 900px) {
+            .decoded-sections {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .json-box {
+            height: 350px;
+            background: rgba(0, 0, 0, 0.02);
+            color: var(--primary);
+            white-space: pre;
+            overflow-x: auto;
+        }
+
+        .header-box {
+            color: #EF4444; /* Red tint for header visually matching jwt.io standard */
+        }
+        
+        .payload-box {
+            color: #8B5CF6; /* Purple tint for payload */
+        }
+
+        /* Status and Badges */
+        .status-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background: rgba(239, 68, 68, 0.1);
+            color: #EF4444;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#dev-tools">Developer Tools</a> &gt; JWT Decoder
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 1200px;">
+                <div style="text-align: center; margin-bottom: 3rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">JWT Decoder</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Instantly decode JSON Web Tokens to inspect headers and payloads. Processed entirely offline to guarantee your API security.</p>
+                </div>
+
+                <div class="workspace-grid">
+                    
+                    <div class="editor-pane">
+                        <div class="editor-header">
+                            <span>Encoded Token (JWT)</span>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="btn btn-outline" id="paste-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem;">📋 Paste</button>
+                                <button class="btn btn-outline" id="clear-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem; color: #EF4444; border-color: rgba(239, 68, 68, 0.3);">🗑️ Clear</button>
+                            </div>
+                        </div>
+                        <textarea id="token-input" class="text-area token-input" placeholder="Paste your massive Base64 encoded token string here..."></textarea>
+                    </div>
+
+                    <div id="error-status" class="status-bar">Invalid Token Format</div>
+
+                    <div class="decoded-sections" id="output-sections">
+                        
+                        <div class="editor-pane">
+                            <div class="editor-header">
+                                <span style="color: #EF4444;">Header (Algorithm & Type)</span>
+                            </div>
+                            <textarea id="header-output" class="text-area json-box header-box" readonly placeholder="Decoded Header JSON..."></textarea>
+                        </div>
+
+                        <div class="editor-pane">
+                            <div class="editor-header">
+                                <span style="color: #8B5CF6;">Payload (Data / Claims)</span>
+                                <button class="btn btn-outline" id="copy-payload-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem;">📄 Copy Data</button>
+                            </div>
+                            <textarea id="payload-output" class="text-area json-box payload-box" readonly placeholder="Decoded Payload JSON..."></textarea>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Developer's Guide to JSON Web Tokens (JWT)</h2>
+                <p>In modern web architecture, maintaining user sessions securely across distributed systems and microservices is a complex challenge. Traditional cookie-based sessions require the server to store a record of every logged-in user in a database, which scales poorly. The industry standard solution is the <strong>JSON Web Token (JWT)</strong>.</p>
+                
+                <p>A JWT is a compact, URL-safe string used to securely transmit information between a client (like a React frontend) and a server (like a Node.js backend) as a JSON object. This information can be verified and trusted because it is digitally signed. Welcome to the Toolenix JWT Decoder. This utility allows developers to instantly inspect the contents of their tokens locally without compromising their application's security.</p>
+
+                <h2>Understanding the JWT Structure</h2>
+                <p>If you look at a raw JWT, it appears to be a random, massive string of gibberish. However, it is structurally divided into three distinct parts, separated by periods (<code>.</code>):</p>
+                
+                <h3>1. The Header (Red)</h3>
+                <p>The first section of the token is the header. It typically consists of two parts: the type of the token (which is JWT) and the signing algorithm being used, such as HMAC SHA256 (HS256) or RSA. This JSON object is then <strong>Base64Url</strong> encoded to form the first part of the string.</p>
+
+                <h3>2. The Payload (Purple)</h3>
+                <p>The second part is the payload, which contains the "claims". Claims are statements about an entity (typically the user) and additional data. There are registered claims (like <code>exp</code> for expiration time and <code>sub</code> for the subject/user ID), public claims, and private claims (like custom user roles: <code>"role": "admin"</code>). This payload is also Base64Url encoded.</p>
+
+                <h3>3. The Signature (Blue)</h3>
+                <p>The third part is the cryptographic signature. To create it, the server takes the encoded header, the encoded payload, a secret key known only to the server, and hashes them together using the algorithm specified in the header. <em>Note: Our client-side decoder tool does not verify the signature, as verifying requires your server's highly confidential secret key.</em></p>
+
+                <h2>Security Warning: Encoding is NOT Encryption</h2>
+                <p>A critical mistake made by junior developers is confusing Base64Url encoding with encryption. <strong>A standard JWT is not encrypted; it is only encoded.</strong></p>
+                <p>Anyone who intercepts your JWT can paste it into the Toolenix Decoder and instantly read your payload claims. Therefore, you must <strong>never</strong> put highly sensitive information (like user passwords, credit card numbers, or proprietary system paths) inside a standard JWT payload. The purpose of a JWT is to prove <em>authenticity</em> (that the token was genuinely created by your server), not to provide <em>secrecy</em>.</p>
+
+                <h2>The Threat of Cloud-Based JWT Decoders</h2>
+                <p>During the debugging process, frontend developers frequently need to inspect their JWTs to ensure the backend attached the correct roles or expiration times. If you search for a "JWT Decoder" online, many popular sites process your tokens via their backend servers.</p>
+                <p>Pasting a production JWT into a cloud-based server is a massive security breach. A malicious server can log your active token and immediately use it to impersonate your users and hijack sessions on your platform. <strong>Toolenix eliminates this risk entirely.</strong> Our utility decodes your strings natively within your browser's local sandbox utilizing native JavaScript APIs. Your active tokens never leave your computer, ensuring enterprise-grade API security.</p>
+
+                <h2>Step-by-Step Guide: How to Inspect Your Token</h2>
+                <p>Debugging your authentication flow takes seconds:</p>
+                <ol>
+                    <li><strong>Paste the Token:</strong> Copy your JWT (usually found in your browser's LocalStorage or Authorization headers) and paste it into the primary input box.</li>
+                    <li><strong>Instant Analysis:</strong> Our script instantly splits the string by its periods and reverses the Base64Url encoding locally.</li>
+                    <li><strong>Inspect the JSON:</strong> The output will neatly display your Header and Payload as fully indented, human-readable JSON objects. Check your <code>exp</code> (expiration) and <code>iat</code> (issued at) timestamps to debug session timeouts.</li>
+                </ol>
+
+                <h2>Complementary Web Development Utilities</h2>
+                <p>Secure and optimize your backend integrations with our other offline developer tools:</p>
+                <ul>
+                    <li><a href="base64-encoder-decoder.html"><strong>Base64 Encoder/Decoder:</strong></a> Need to encode basic strings or authentication headers directly? Use our primary Base64 utility.</li>
+                    <li><a href="hash-generator.html"><strong>Hash Generator:</strong></a> Generate MD5 or SHA-256 hashes locally to verify data integrity before signing your payloads.</li>
+                    <li><a href="uuid-generator.html"><strong>UUID Generator:</strong></a> Generate cryptographically secure v4 identifiers to use as unique <code>sub</code> (subject) claims within your JWTs.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Debugging authentication tokens shouldn't require exposing your system to third-party logging. By utilizing the Toolenix JWT Decoder, you gain access to an instantaneous, mathematically accurate parsing engine that operates completely offline. Protect your user sessions, inspect your payloads safely, and bookmark this page to streamline your backend engineering workflow today.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tokenInput = document.getElementById('token-input');
+            const headerOutput = document.getElementById('header-output');
+            const payloadOutput = document.getElementById('payload-output');
+            const errorStatus = document.getElementById('error-status');
+            
+            const copyPayloadBtn = document.getElementById('copy-payload-btn');
+            const clearBtn = document.getElementById('clear-btn');
+            const pasteBtn = document.getElementById('paste-btn');
+
+            // Safe Base64Url Decoding Algorithm
+            function base64UrlDecode(str) {
+                // Convert Base64Url to standard Base64 by replacing characters
+                let base64 = str.replace(/-/g, '+').replace(/_/g, '/');
+                
+                // Add padding if required
+                while (base64.length % 4) {
+                    base64 += '=';
+                }
+                
+                // Decode using atob, and securely parse UTF-8 characters
+                return decodeURIComponent(escape(window.atob(base64)));
+            }
+
+            function decodeJWT() {
+                const token = tokenInput.value.trim();
+                
+                if (!token) {
+                    headerOutput.value = '';
+                    payloadOutput.value = '';
+                    errorStatus.style.display = 'none';
+                    return;
+                }
+
+                const parts = token.split('.');
+
+                if (parts.length !== 3) {
+                    headerOutput.value = '';
+                    payloadOutput.value = '';
+                    errorStatus.style.display = 'flex';
+                    errorStatus.textContent = 'Invalid JWT Format: Token must contain 3 parts separated by dots.';
+                    return;
+                }
+
+                try {
+                    // Decode Header
+                    const rawHeader = base64UrlDecode(parts[0]);
+                    const jsonHeader = JSON.parse(rawHeader);
+                    headerOutput.value = JSON.stringify(jsonHeader, null, 4);
+
+                    // Decode Payload
+                    const rawPayload = base64UrlDecode(parts[1]);
+                    const jsonPayload = JSON.parse(rawPayload);
+                    payloadOutput.value = JSON.stringify(jsonPayload, null, 4);
+
+                    // Success
+                    errorStatus.style.display = 'none';
+
+                } catch (error) {
+                    headerOutput.value = '';
+                    payloadOutput.value = '';
+                    errorStatus.style.display = 'flex';
+                    errorStatus.textContent = 'Decoding Error: The token strings are not valid Base64Url or JSON.';
+                    console.error("JWT Decode Error:", error);
+                }
+            }
+
+            // Real-time Event Listener
+            tokenInput.addEventListener('input', decodeJWT);
+
+            // Copy Payload Action
+            copyPayloadBtn.addEventListener('click', () => {
+                if (!payloadOutput.value) {
+                    if (window.showToast) window.showToast('No payload to copy!', 'error');
+                    return;
+                }
+                
+                navigator.clipboard.writeText(payloadOutput.value).then(() => {
+                    if (window.showToast) window.showToast('Payload copied!', 'success');
+                    
+                    const originalText = copyPayloadBtn.textContent;
+                    copyPayloadBtn.textContent = '✅ Copied!';
+                    setTimeout(() => {
+                        copyPayloadBtn.textContent = originalText;
+                    }, 2000);
+                });
+            });
+
+            // Clear Action
+            clearBtn.addEventListener('click', () => {
+                tokenInput.value = '';
+                headerOutput.value = '';
+                payloadOutput.value = '';
+                errorStatus.style.display = 'none';
+                tokenInput.focus();
+            });
+
+            // Paste Action
+            pasteBtn.addEventListener('click', async () => {
+                try {
+                    const text = await navigator.clipboard.readText();
+                    tokenInput.value = text;
+                    decodeJWT();
+                    if (window.showToast) window.showToast('Token pasted from clipboard!', 'success');
+                } catch (err) {
+                    console.error('Failed to read clipboard contents: ', err);
+                    if (window.showToast) window.showToast('Please press Ctrl+V / Cmd+V to paste manually.', 'error');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

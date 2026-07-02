@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags -->
+    <title>Find and Replace Text with Regex Free | Toolenix</title>
+    <meta name="title" content="Find and Replace Text with Regex Free | Toolenix">
+    <meta name="description" content="Find and replace text patterns instantly using Literal matches or advanced Regular Expressions (Regex). 100% free, secure, and offline text manipulation.">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.toolenix.com/find-replace.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/find-replace.html">
+    <meta property="og:title" content="Find and Replace Text (Regex Supported)">
+    <meta property="og:description" content="Search and substitute text strings or complex Regex patterns perfectly securely in your browser.">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/find-replace.html">
+    <meta property="twitter:title" content="Find and Replace Text (Regex Supported)">
+    <meta property="twitter:description" content="Search and substitute text strings or complex Regex patterns perfectly securely in your browser.">
+    
+    <!-- Assets -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <!-- Schema.org for SoftwareApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix Find and Replace",
+      "operatingSystem": "All",
+      "applicationCategory": "UtilitiesApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A secure client-side text manipulation tool allowing users to find and replace substrings using literal text or JavaScript-flavored Regular Expressions (Regex)."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Text Tools",
+        "item": "https://www.toolenix.com/#seo-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Find and Replace"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .controls-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-soft);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .controls-panel {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .input-group label {
+            font-weight: 600;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        .control-input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .control-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .options-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            padding: 1rem 1.5rem;
+            background: rgba(37, 99, 235, 0.03);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            align-items: center;
+        }
+
+        /* Custom Checkboxes */
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-main);
+            user-select: none;
+            font-size: 0.95rem;
+        }
+        
+        .checkbox-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+        
+        .checkmark {
+            height: 20px;
+            width: 20px;
+            background-color: var(--bg-main);
+            border: 1px solid var(--border-glass);
+            border-radius: 4px;
+            margin-right: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .checkbox-container:hover input ~ .checkmark {
+            border-color: var(--primary);
+        }
+        
+        .checkbox-container input:checked ~ .checkmark {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .checkmark:after {
+            content: "";
+            display: none;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            margin-bottom: 2px;
+        }
+        
+        .checkbox-container input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        /* Split Editor Layout */
+        .split-editors {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 900px) {
+            .split-editors {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .editor-pane {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: rgba(37, 99, 235, 0.05);
+            border-bottom: 1px solid var(--border-glass);
+            font-weight: 600;
+        }
+
+        .text-area {
+            width: 100%;
+            height: 350px;
+            padding: 1.5rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: none;
+            font-family: inherit;
+            font-size: 1rem;
+            line-height: 1.6;
+            resize: vertical;
+            outline: none;
+        }
+
+        .output-area {
+            background: rgba(0, 0, 0, 0.01);
+        }
+
+        .stat-badge {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10B981;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+        }
+
+        .error-message {
+            color: #EF4444;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+        .seo-article code { background: rgba(100, 116, 139, 0.1); padding: 0.2rem 0.4rem; border-radius: 4px; font-family: monospace; }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <!-- Breadcrumbs -->
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#seo-tools">Text Tools</a> &gt; Find and Replace
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <!-- Tool Interface -->
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 1200px;">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">Find and Replace Text</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Perform bulk text substitutions using literal matching or advanced Regex patterns. Instant and offline.</p>
+                </div>
+
+                <div class="workspace-grid">
+                    
+                    <!-- Search & Replace Controls -->
+                    <div class="controls-panel">
+                        <div class="input-group">
+                            <label for="find-input">Find Pattern</label>
+                            <input type="text" id="find-input" class="control-input" placeholder="e.g., Apple">
+                            <div id="regex-error" class="error-message">Invalid Regular Expression syntax.</div>
+                        </div>
+                        <div class="input-group">
+                            <label for="replace-input">Replace With</label>
+                            <input type="text" id="replace-input" class="control-input" placeholder="e.g., Orange">
+                        </div>
+                    </div>
+
+                    <!-- Toggles -->
+                    <div class="options-bar">
+                        <span style="font-weight: 600; color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase;">Options:</span>
+                        
+                        <label class="checkbox-container" title="Use JavaScript Regular Expressions">
+                            <input type="checkbox" id="opt-regex">
+                            <span class="checkmark"></span>
+                            Use Regex (.*)
+                        </label>
+
+                        <label class="checkbox-container" title="Match exact casing (e.g. 'Apple' won't match 'apple')">
+                            <input type="checkbox" id="opt-case">
+                            <span class="checkmark"></span>
+                            Match Case (Aa)
+                        </label>
+
+                        <label class="checkbox-container" title="Match whole words only">
+                            <input type="checkbox" id="opt-word">
+                            <span class="checkmark"></span>
+                            Whole Word (\b)
+                        </label>
+                    </div>
+
+                    <!-- Split Editors -->
+                    <div class="split-editors">
+                        <!-- Input -->
+                        <div class="editor-pane">
+                            <div class="editor-header">
+                                <span>Original Text</span>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <button class="btn btn-outline" id="paste-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem;">📋 Paste</button>
+                                    <button class="btn btn-outline" id="clear-btn" style="padding: 0.2rem 0.6rem; font-size: 0.8rem; color: #EF4444; border-color: rgba(239, 68, 68, 0.3);">🗑️ Clear</button>
+                                </div>
+                            </div>
+                            <textarea id="text-input" class="text-area" placeholder="Paste the document or code you want to modify here..."></textarea>
+                        </div>
+
+                        <!-- Output -->
+                        <div class="editor-pane">
+                            <div class="editor-header">
+                                <span>Modified Text</span>
+                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                    <span class="stat-badge" id="match-count">0 Replacements</span>
+                                    <button class="btn btn-primary" id="copy-btn" style="padding: 0.2rem 0.8rem; font-size: 0.85rem;">📄 Copy Result</button>
+                                </div>
+                            </div>
+                            <textarea id="text-output" class="text-area output-area" readonly placeholder="Your replaced text will appear here..."></textarea>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Deep SEO Editorial Section -->
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Ultimate Guide to Find and Replace (with Regex)</h2>
+                <p>Every standard text editor (like Microsoft Word or Notepad) has a basic "Ctrl+F" function to find and substitute words. However, when working with raw data, unformatted code, or complex marketing copy, a basic literal search is often not enough. What if you need to find <em>every</em> email address in a document and hide it? What if you need to swap the formatting of hundreds of dates from `DD/MM/YYYY` to `YYYY-MM-DD`?</p>
+                
+                <p>To accomplish bulk transformations across pasted content, developers and data analysts rely on <strong>Regular Expressions (Regex)</strong>. Welcome to the Toolenix Find and Replace utility. We built this tool to provide you with the power of an Integrated Development Environment (IDE) directly in your browser. Whether you are doing simple word swaps or complex pattern matching, this tool processes everything instantly and securely.</p>
+
+                <h2>Literal Matching vs. Regex Matching</h2>
+                
+                <h3>Literal Mode (Default)</h3>
+                <p>By default, this tool operates in "Literal Mode". This means that whatever you type into the Find box is exactly what the engine looks for. If you type <code>cat</code>, it will find "cat". By default, it will also find the "cat" inside the word "category". If you only want the isolated word, you must check the <strong>Whole Word</strong> toggle.</p>
+
+                <h3>Regex Mode</h3>
+                <p>When you check the <strong>Use Regex</strong> toggle, the Find box transforms into a JavaScript-powered Regular Expression engine. Special characters suddenly take on mathematical meanings. For example, a period <code>.</code> no longer means a full stop; it means "any single character." An asterisk <code>*</code> means "zero or more of the preceding character."</p>
+                <p>Regex allows you to hunt for patterns rather than specific strings. For instance, the regex pattern <code>\d+</code> will find every single number in your text, regardless of what the number is.</p>
+
+                <h2>Essential Regex Patterns for Everyday Use</h2>
+                <p>Here are a few powerful Regex patterns you can paste into the "Find" box right now to clean your data:</p>
+                <ul>
+                    <li><strong>Remove all numbers:</strong> Find: <code>\d+</code> | Replace: <em>(leave empty)</em></li>
+                    <li><strong>Remove excess whitespace:</strong> Find: <code>\s+</code> | Replace: <em>(type a single space)</em></li>
+                    <li><strong>Remove HTML Tags:</strong> Find: <code>&lt;[^&gt;]+&gt;</code> | Replace: <em>(leave empty)</em>. This is perfect for stripping code out of copied articles, leaving only plain text.</li>
+                </ul>
+
+                <h2>Using Capture Groups for Advanced Replacements</h2>
+                <p>One of the most powerful features of Regex is <strong>Capture Groups</strong>. When you wrap a part of your Find pattern in parentheses <code>()</code>, the engine "remembers" whatever text it found inside those parentheses. You can then spit that exact text back out in your Replace box using <code>$1</code> for the first group, <code>$2</code> for the second group, and so on.</p>
+                <p><strong>Example: Swapping First and Last Names</strong></p>
+                <p>Imagine you have a list formatted as <code>Smith, John</code> and you want it to say <code>John Smith</code>.
+                <br><strong>Find:</strong> <code>(\w+),\s*(\w+)</code>
+                <br><strong>Replace:</strong> <code>$2 $1</code></p>
+                <p>The engine captures "Smith" as group 1, and "John" as group 2. In the replacement, it prints group 2, a space, and then group 1. It will do this instantly for thousands of names on your list.</p>
+
+                <h2>The Security of Client-Side Text Processing</h2>
+                <p>Finding and replacing text often involves highly confidential information—like redacting phone numbers from a leaked internal document, or swapping API keys in a block of proprietary source code. If you paste this text into a random online converter, you are uploading your private data to an external server.</p>
+                <p><strong>Toolenix guarantees your data privacy.</strong> Because this tool utilizes JavaScript's built-in <code>String.prototype.replace()</code> engine, all the mathematical computing happens in your own local RAM. We do not use servers to process your text. You get the power of regex substitution with absolute, airtight offline security.</p>
+
+                <h2>Frequently Asked Questions (FAQs)</h2>
+                
+                <h3>Why isn't my Regex pattern working?</h3>
+                <p>Two common reasons: First, make sure you actually checked the "Use Regex" toggle. Second, check your escape characters. If you want to find an actual period <code>.</code> or an actual dollar sign <code>$</code>, you must "escape" them in Regex by putting a backslash in front of them: <code>\.</code> or <code>\$</code>.</p>
+
+                <h3>Is this search case-sensitive?</h3>
+                <p>By default, no. Searching for "apple" will replace "Apple" and "APPLE". To enforce exact casing, you must check the <strong>Match Case (Aa)</strong> toggle.</p>
+
+                <h3>How do I replace newlines or tabs?</h3>
+                <p>If you have Regex turned ON, you can use <code>\n</code> in the Find box to search for line breaks, and <code>\t</code> to search for tabs. You can also use these same codes in the Replace box to inject newlines.</p>
+
+                <h2>Complementary Text Utilities</h2>
+                <p>Expand your data cleaning workflow with our other free local tools:</p>
+                <ul>
+                    <li><a href="text-list-organizer.html"><strong>Text List Organizer:</strong></a> After replacing your text, use this tool to remove duplicates and sort your list alphabetically.</li>
+                    <li><a href="case-converter.html"><strong>Case Converter:</strong></a> Standardize the capitalization of your entire document with one click.</li>
+                    <li><a href="word-counter.html"><strong>Word Counter:</strong></a> Check the final character length and reading time of your modified text.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Manually editing massive blocks of text is a tedious, error-prone task. By utilizing the Toolenix Find and Replace utility, you unlock the enterprise-level power of Regular Expressions within a simple, visual interface. Safeguard your confidential documents with our offline architecture, automate your text formatting, and bookmark this tool to accelerate your daily workflow.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <!-- Tool Execution Code -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const findInput = document.getElementById('find-input');
+            const replaceInput = document.getElementById('replace-input');
+            const textInput = document.getElementById('text-input');
+            const textOutput = document.getElementById('text-output');
+            
+            const optRegex = document.getElementById('opt-regex');
+            const optCase = document.getElementById('opt-case');
+            const optWord = document.getElementById('opt-word');
+            const regexError = document.getElementById('regex-error');
+            
+            const matchCountDisplay = document.getElementById('match-count');
+            const copyBtn = document.getElementById('copy-btn');
+            const clearBtn = document.getElementById('clear-btn');
+            const pasteBtn = document.getElementById('paste-btn');
+
+            // Escape string for Literal regex parsing
+            function escapeRegExp(string) {
+                return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            }
+
+            function processText() {
+                const sourceText = textInput.value;
+                const findText = findInput.value;
+                // If using Literal Mode, interpret '\n' and '\t' naturally in replace string? 
+                // In standard JS replace with string, \n isn't parsed from an input box naturally unless we do it.
+                // We'll let regex mode handle \n. For literal, we use exact literal replacement.
+                let replaceText = replaceInput.value;
+
+                // If empty input or empty find, output equals input
+                if (!sourceText || !findText) {
+                    textOutput.value = sourceText;
+                    matchCountDisplay.textContent = '0 Replacements';
+                    regexError.style.display = 'none';
+                    findInput.classList.remove('invalid');
+                    return;
+                }
+
+                let regexPattern = '';
+                let regexFlags = 'g'; // Always global for bulk replace
+                
+                if (!optCase.checked) {
+                    regexFlags += 'i'; // Case insensitive
+                }
+
+                if (optRegex.checked) {
+                    // Regex Mode
+                    regexPattern = findText;
+                    // Also parse \n and \t in the replace text so users can inject linebreaks
+                    replaceText = replaceText.replace(/\\n/g, '\n').replace(/\\t/g, '\t');
+                } else {
+                    // Literal Mode
+                    regexPattern = escapeRegExp(findText);
+                }
+
+                // Whole word boundary
+                if (optWord.checked) {
+                    regexPattern = `\\b${regexPattern}\\b`;
+                }
+
+                try {
+                    const regex = new RegExp(regexPattern, regexFlags);
+                    
+                    // Count matches before replacing
+                    const matches = sourceText.match(regex);
+                    const count = matches ? matches.length : 0;
+                    
+                    const resultText = sourceText.replace(regex, replaceText);
+                    
+                    textOutput.value = resultText;
+                    matchCountDisplay.textContent = `${count} Replacement${count !== 1 ? 's' : ''}`;
+                    
+                    regexError.style.display = 'none';
+                    findInput.classList.remove('invalid');
+                    
+                } catch (e) {
+                    // Invalid Regex Syntax
+                    textOutput.value = sourceText;
+                    matchCountDisplay.textContent = 'Regex Error';
+                    regexError.style.display = 'block';
+                    findInput.classList.add('invalid');
+                }
+            }
+
+            // Real-time Listeners
+            const triggers = [findInput, replaceInput, textInput, optRegex, optCase, optWord];
+            triggers.forEach(el => {
+                el.addEventListener('input', processText);
+                if(el.type === 'checkbox') el.addEventListener('change', processText);
+            });
+
+            // Copy Action
+            copyBtn.addEventListener('click', () => {
+                if (!textOutput.value) {
+                    if (window.showToast) window.showToast('Nothing to copy!', 'error');
+                    return;
+                }
+                
+                navigator.clipboard.writeText(textOutput.value).then(() => {
+                    if (window.showToast) window.showToast('Replaced text copied!', 'success');
+                    
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✅ Copied!';
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                    }, 2000);
+                });
+            });
+
+            // Clear Action
+            clearBtn.addEventListener('click', () => {
+                textInput.value = '';
+                textOutput.value = '';
+                findInput.value = '';
+                replaceInput.value = '';
+                matchCountDisplay.textContent = '0 Replacements';
+                textInput.focus();
+            });
+
+            // Paste Action
+            pasteBtn.addEventListener('click', async () => {
+                try {
+                    const text = await navigator.clipboard.readText();
+                    textInput.value = text;
+                    processText();
+                    if (window.showToast) window.showToast('Pasted from clipboard!', 'success');
+                } catch (err) {
+                    console.error('Failed to read clipboard: ', err);
+                    if (window.showToast) window.showToast('Please press Ctrl+V / Cmd+V to paste manually.', 'error');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Case Converter - Change Text to Uppercase, Lowercase & Title Case | Toolenix</title>
+    <meta name="title" content="Case Converter - Change Text to Uppercase, Lowercase & Title Case | Toolenix">
+    <meta name="description" content="Instantly convert your text to UPPERCASE, lowercase, Title Case, camelCase, and more. A 100% free, private, and client-side formatting tool.">
+    
+    <link rel="canonical" href="https://www.toolenix.com/case-converter.html">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.toolenix.com/case-converter.html">
+    <meta property="og:title" content="Case Converter - Format Text Instantly">
+    <meta property="og:description" content="Change text case securely in your browser. Convert to Title Case, Sentence case, or developer formats like snake_case offline.">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.toolenix.com/case-converter.html">
+    <meta property="twitter:title" content="Case Converter - Format Text Instantly">
+    <meta property="twitter:description" content="Change text case securely in your browser. Convert to Title Case, Sentence case, or developer formats like snake_case offline.">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/theme.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Toolenix Case Converter",
+      "operatingSystem": "All",
+      "applicationCategory": "UtilitiesApplication",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "A secure, offline text manipulation tool that converts strings into various typographic and programming case formats using client-side processing."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.toolenix.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Text Tools",
+        "item": "https://www.toolenix.com/#seo-tools"
+      },{
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Case Converter"
+      }]
+    }
+    </script>
+
+    <style>
+        /* Tool-Specific UI Layout */
+        .converter-workspace {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            box-shadow: var(--shadow-soft);
+            justify-content: center;
+        }
+
+        .toolbar-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding-right: 1rem;
+            border-right: 1px solid var(--border-glass);
+        }
+        
+        .toolbar-group:last-child {
+            border-right: none;
+            padding-right: 0;
+        }
+
+        @media (max-width: 768px) {
+            .toolbar-group {
+                border-right: none;
+                padding-right: 0;
+                justify-content: center;
+                border-bottom: 1px solid var(--border-glass);
+                padding-bottom: 1rem;
+                width: 100%;
+            }
+            .toolbar-group:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+        }
+
+        .case-btn {
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--border-glass);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .case-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+        }
+
+        .editor-pane {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: rgba(37, 99, 235, 0.05);
+            border-bottom: 1px solid var(--border-glass);
+        }
+        
+        .editor-stats {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .text-input-area {
+            width: 100%;
+            height: 400px;
+            padding: 1.5rem;
+            background: var(--bg-main);
+            color: var(--text-main);
+            border: none;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            resize: vertical;
+            outline: none;
+        }
+
+        /* SEO Article Styles */
+        .seo-article { max-width: 800px; margin: 0 auto; color: var(--text-main); }
+        .seo-article h2 { font-size: 2rem; margin: 2.5rem 0 1rem; color: var(--text-main); }
+        .seo-article h3 { font-size: 1.5rem; margin: 2rem 0 1rem; color: var(--text-main); }
+        .seo-article p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; }
+        .seo-article ul, .seo-article ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; }
+        .seo-article li { margin-bottom: 0.5rem; }
+        .seo-article strong { color: var(--text-main); }
+        .seo-article code { background: rgba(100, 116, 139, 0.1); padding: 0.2rem 0.4rem; border-radius: 4px; font-family: monospace; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar glass" aria-label="Main Navigation">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#60A5FA"/><path d="M2 23L16 30L16 16L2 9V23Z" fill="#3B82F6"/><path d="M30 23L16 30L16 16L30 9V23Z" fill="#2563EB"/></svg>                Toolenix
+            </a>
+            <ul class="nav-links">
+    <li><a href="index.html#pdf-tools">PDF Tools</a></li>
+    <li><a href="index.html#image-tools">Image Tools</a></li>
+    <li><a href="index.html#seo-tools">Text & SEO</a></li>
+    <li><a href="index.html#dev-tools">Dev Tools</a></li>
+    <li><a href="index.html#calculators">Calculators</a></li>
+    <li><button onclick="toggleTheme()" class="btn btn-outline" style="padding: 0.5rem; border-radius: 50%;">🌙</button></li>
+</ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 2rem;">
+        <nav aria-label="breadcrumb">
+            <p style="color: var(--text-muted); font-size: 0.9rem;">
+                <a href="index.html">Home</a> &gt; <a href="index.html#seo-tools">Text Tools</a> &gt; Case Converter
+            </p>
+        </nav>
+    </div>
+
+    <main>
+        <section style="padding: 3rem 0;">
+            <div class="container" style="max-width: 1000px;">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem;">Case Converter</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-muted);">Transform messy text into standard typography or developer naming conventions instantly. Powered by secure, offline processing.</p>
+                </div>
+
+                <div class="converter-workspace">
+                    
+                    <div class="toolbar">
+                        <div class="toolbar-group">
+                            <button class="case-btn" id="btn-sentence">Sentence case</button>
+                            <button class="case-btn" id="btn-title">Title Case</button>
+                            <button class="case-btn" id="btn-upper">UPPERCASE</button>
+                            <button class="case-btn" id="btn-lower">lowercase</button>
+                            <button class="case-btn" id="btn-alt">aLtErNaTiNg</button>
+                        </div>
+                        <div class="toolbar-group">
+                            <button class="case-btn" id="btn-camel">camelCase</button>
+                            <button class="case-btn" id="btn-pascal">PascalCase</button>
+                            <button class="case-btn" id="btn-snake">snake_case</button>
+                            <button class="case-btn" id="btn-kebab">kebab-case</button>
+                        </div>
+                    </div>
+
+                    <div class="editor-pane">
+                        <div class="editor-header">
+                            <div class="editor-stats">
+                                <span>Words: <span id="word-count" style="color: var(--primary);">0</span></span>
+                                <span>Chars: <span id="char-count" style="color: var(--primary);">0</span></span>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button class="btn btn-primary" id="copy-btn" style="padding: 0.4rem 1rem; font-size: 0.9rem;">📄 Copy</button>
+                                <button class="btn btn-outline" id="clear-btn" style="padding: 0.4rem 1rem; font-size: 0.9rem; color: #EF4444; border-color: rgba(239, 68, 68, 0.3);">🗑️ Clear</button>
+                            </div>
+                        </div>
+                        <textarea id="text-input" class="text-input-area" placeholder="Type or paste your text here, then click a format button above to transform it instantly..."></textarea>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 4rem 0; background: var(--nav-bg); border-top: 1px solid var(--border-glass);">
+            <div class="container seo-article">
+                <h2>The Comprehensive Guide to Text Formatting and Case Conversion</h2>
+                <p>Have you ever accidentally left the Caps Lock key on and typed an entire paragraph of text? Or perhaps you received a massive spreadsheet of customer names where half the entries are fully capitalized, and the other half are entirely lowercase? Retyping this data manually is an agonizing waste of productivity. Whether you are a digital marketer writing SEO headlines, a developer standardizing variable names, or a student formatting an essay, consistent typography is essential. To fix messy text instantly, you need a professional <strong>Case Converter</strong>.</p>
+                
+                <p>Welcome to the Toolenix Text Case Converter. We engineered this utility to be a robust, all-in-one text manipulation engine. By utilizing powerful client-side string parsing via JavaScript, you can reformat thousands of words in a fraction of a second. Most importantly, because processing happens offline in your browser, your proprietary drafts and confidential data are never exposed to remote servers. Let’s dive into the different typographical cases, programming conventions, and why proper casing is vital for digital success.</p>
+
+                <h2>Understanding Standard Typography Cases</h2>
+                <p>In standard English writing and copywriting, formatting dictates tone, readability, and structural hierarchy. Our tool supports the four primary typographical structures:</p>
+                
+                <h3>1. Sentence case</h3>
+                <p>This is the standard format used in books, articles, and everyday communication. In <strong>Sentence case</strong>, only the first letter of the first word in a sentence (and proper nouns) is capitalized. Everything else is lowercase. Example: <em>"The quick brown fox jumps over the lazy dog."</em> This is the easiest format for the human eye to read over long paragraphs.</p>
+                
+                <h3>2. Title Case</h3>
+                <p>Title Case is crucial for SEO and digital marketing. It is primarily used for book titles, blog post headlines, and YouTube video titles. In <strong>Title Case</strong>, the first letter of every major word is capitalized, while minor words (like "a", "an", "the", "and", "but", "or") remain lowercase unless they start the sentence. Example: <em>"How to Bake a Cake in the Oven."</em> A properly formatted Title Case headline commands authority and significantly increases click-through rates (CTR).</p>
+                
+                <h3>3. UPPERCASE and lowercase</h3>
+                <p><strong>UPPERCASE</strong> (all caps) is used to indicate shouting, high-priority warnings, or legal disclaimers. Because it removes the varied heights of letters (ascenders and descenders), it is physically harder to read and should be used sparingly. <strong>lowercase</strong> removes all capitalization, which is often used in modern, minimalist branding or casual social media posts.</p>
+
+                <h2>Developer Formatting: Naming Conventions Explained</h2>
+                <p>Unlike standard English, programming languages cannot handle spaces between words when naming variables, functions, or file structures. Developers rely on specific casing conventions to string multiple words together. Our tool instantly converts standard text into these essential developer formats:</p>
+                
+                <h3>camelCase</h3>
+                <p>Widely used in JavaScript, Java, and C++, <code>camelCase</code> removes all spaces. The first word is entirely lowercase, and the first letter of every subsequent word is capitalized to create a visual "hump." Example: <code>myNewVariable</code>.</p>
+                
+                <h3>PascalCase</h3>
+                <p>Also known as UpperCamelCase, this format is heavily utilized in C#, Pascal, and for naming React/Vue components. It removes spaces and capitalizes the first letter of <em>every</em> word, including the first one. Example: <code>MyNewComponent</code>.</p>
+                
+                <h3>snake_case</h3>
+                <p>The undisputed standard for Python developers and database naming conventions. In <code>snake_case</code>, all spaces are replaced by underscores (_), and all letters are forced into lowercase. This format is incredibly easy to read. Example: <code>user_account_settings</code>.</p>
+                
+                <h3>kebab-case</h3>
+                <p>Also known as dash-case or lisp-case, this format replaces all spaces with a hyphen (-) and uses lowercase letters. It is the absolute standard for naming HTML elements, CSS classes, and crafting clean, SEO-friendly website URLs. Example: <code>main-navigation-menu</code>.</p>
+
+                <h2>The Security Reality of Client-Side Text Processing</h2>
+                <p>If you search the web for a case converter, you will find countless free websites. However, many of these platforms transmit the text you paste into their textareas directly to a backend cloud server for processing.</p>
+                <p>If you are reformatting a public blog post, this is a minor issue. But if you are reformatting a list of client email addresses, an unreleased financial report, or proprietary application source code, pasting it into a random server is a massive security breach.</p>
+                <p><strong>Toolenix ensures your data remains yours.</strong> Our text manipulation algorithms execute entirely on your device using your browser's native JavaScript engine. When you paste your text and click a button, your CPU performs the string parsing. The data is never sent across the network, providing you with absolute privacy and instantaneous formatting speeds regardless of your internet connection.</p>
+
+                <h2>Step-by-Step Guide: How to Convert Text Case</h2>
+                <p>Transforming your messy drafts into perfect copy is effortless:</p>
+                <ol>
+                    <li><strong>Input the Text:</strong> Paste your unformatted text directly into the large workspace editor. The real-time counters will instantly update to show your word and character count.</li>
+                    <li><strong>Choose Your Format:</strong> Click any of the formatting buttons in the toolbar (e.g., "Title Case" or "snake_case"). The script will instantaneously parse the string and apply the mathematical casing rules to your text.</li>
+                    <li><strong>Experiment:</strong> You can click multiple buttons sequentially. If you format to UPPERCASE and change your mind, simply click Sentence case to revert the structure.</li>
+                    <li><strong>Copy and Clear:</strong> Once your text is perfectly structured, click the blue "Copy" button to save it to your clipboard. Use the "Clear" button to wipe the workspace for your next task.</li>
+                </ol>
+
+                <h2>Frequently Asked Questions (FAQs)</h2>
+                
+                <h3>Why do minor words remain lowercase in Title Case?</h3>
+                <p>True typographical Title Case (based on AP and Chicago Manual of Style guidelines) dictates that short conjunctions, articles, and prepositions (under four letters) should remain lowercase to improve visual rhythm and readability. Our algorithm automatically identifies these words (like "the", "and", "of") and formats them correctly.</p>
+
+                <h3>Will formatting into developer cases remove my punctuation?</h3>
+                <p>Yes. Developer formats like camelCase and snake_case are designed specifically for code logic. To prevent syntax errors, our conversion algorithm automatically strips out standard punctuation (like periods, commas, and exclamation marks) before joining the words.</p>
+
+                <h3>Is there a limit to how much text I can format at once?</h3>
+                <p>Because Toolenix relies on your personal device's memory (RAM), there are no artificial server limits. You can paste an entire 50,000-word manuscript into the editor, and the JavaScript engine will reformat the entire block in a matter of milliseconds.</p>
+
+                <h2>Complementary Text and Developer Utilities</h2>
+                <p>Refine your digital writing and programming workflows with our other free offline utilities:</p>
+                <ul>
+                    <li><a href="word-counter.html"><strong>Word Counter:</strong></a> Get deep, real-time analytics on your text, including reading time and paragraph counts.</li>
+                    <li><a href="json-formatter.html"><strong>JSON Formatter:</strong></a> If you are dealing with messy API payloads rather than plain text, use this tool to beautify and validate your code.</li>
+                    <li><a href="url-encoder.html"><strong>URL Encoder:</strong></a> Ensure your freshly generated kebab-case strings are safely encoded for use in web links.</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>Whether you are fixing a typo-ridden essay or standardizing a massive database of variables, manual editing is obsolete. By utilizing the Toolenix Case Converter, you gain access to an instantaneous, mathematically precise formatting engine that respects your data privacy. Stop risking your confidential text on cloud servers. Bookmark this page and elevate the consistency of your digital output today.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background: var(--nav-bg); padding: 4rem 0 2rem; border-top: 1px solid var(--border-glass);">
+        <div class="container">
+            <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                &copy; 2026 Toolenix. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const textInput = document.getElementById('text-input');
+            const wordCountDisplay = document.getElementById('word-count');
+            const charCountDisplay = document.getElementById('char-count');
+            
+            const btnSentence = document.getElementById('btn-sentence');
+            const btnTitle = document.getElementById('btn-title');
+            const btnUpper = document.getElementById('btn-upper');
+            const btnLower = document.getElementById('btn-lower');
+            const btnAlt = document.getElementById('btn-alt');
+            
+            const btnCamel = document.getElementById('btn-camel');
+            const btnPascal = document.getElementById('btn-pascal');
+            const btnSnake = document.getElementById('btn-snake');
+            const btnKebab = document.getElementById('btn-kebab');
+            
+            const copyBtn = document.getElementById('copy-btn');
+            const clearBtn = document.getElementById('clear-btn');
+
+            // Real-time counter logic
+            function updateCounts() {
+                const text = textInput.value;
+                charCountDisplay.textContent = text.length;
+                
+                const wordsArray = text.trim().split(/\s+/).filter(word => word.length > 0);
+                wordCountDisplay.textContent = wordsArray.length;
+            }
+
+            textInput.addEventListener('input', updateCounts);
+
+            // ==========================================
+            // Standard Typography Functions
+            // ==========================================
+
+            btnUpper.addEventListener('click', () => {
+                textInput.value = textInput.value.toUpperCase();
+                updateCounts();
+            });
+
+            btnLower.addEventListener('click', () => {
+                textInput.value = textInput.value.toLowerCase();
+                updateCounts();
+            });
+
+            btnSentence.addEventListener('click', () => {
+                const text = textInput.value.toLowerCase();
+                // Match the first letter of the string, or the first letter following a period/question/exclamation and a space
+                textInput.value = text.replace(/(^\s*\w|[\.\!\?]\s*\w)/g, function(c) {
+                    return c.toUpperCase();
+                });
+                updateCounts();
+            });
+
+            btnTitle.addEventListener('click', () => {
+                const text = textInput.value.toLowerCase();
+                const minorWords = ['a', 'an', 'and', 'as', 'at', 'but', 'by', 'for', 'if', 'in', 'nor', 'of', 'on', 'or', 'so', 'the', 'to', 'up', 'yet'];
+                
+                textInput.value = text.replace(/\w\S*/g, function(word, index) {
+                    // Capitalize if it's the first word or not a minor word
+                    if (index === 0 || minorWords.indexOf(word) === -1) {
+                        return word.charAt(0).toUpperCase() + word.substr(1);
+                    }
+                    return word; // Keep minor words lowercase
+                });
+                updateCounts();
+            });
+
+            btnAlt.addEventListener('click', () => {
+                const chars = textInput.value.toLowerCase().split('');
+                for (let i = 0; i < chars.length; i += 2) {
+                    chars[i] = chars[i].toLowerCase();
+                    if(chars[i+1]) {
+                        chars[i+1] = chars[i+1].toUpperCase();
+                    }
+                }
+                textInput.value = chars.join('');
+                updateCounts();
+            });
+
+            // ==========================================
+            // Developer Case Functions
+            // ==========================================
+
+            // Helper to clean punctuation and split into words
+            function getCleanWords() {
+                const text = textInput.value;
+                if (!text) return [];
+                // Replace punctuation/symbols/dashes/underscores with space, then split
+                return text.replace(/[^a-zA-Z0-9]/g, ' ')
+                           .split(/\s+/)
+                           .filter(word => word.length > 0);
+            }
+
+            btnCamel.addEventListener('click', () => {
+                const words = getCleanWords();
+                if (words.length === 0) return;
+                
+                const camel = words.map((word, index) => {
+                    word = word.toLowerCase();
+                    if (index === 0) return word;
+                    return word.charAt(0).toUpperCase() + word.substr(1);
+                }).join('');
+                
+                textInput.value = camel;
+                updateCounts();
+            });
+
+            btnPascal.addEventListener('click', () => {
+                const words = getCleanWords();
+                if (words.length === 0) return;
+                
+                const pascal = words.map(word => {
+                    word = word.toLowerCase();
+                    return word.charAt(0).toUpperCase() + word.substr(1);
+                }).join('');
+                
+                textInput.value = pascal;
+                updateCounts();
+            });
+
+            btnSnake.addEventListener('click', () => {
+                const words = getCleanWords();
+                if (words.length === 0) return;
+                textInput.value = words.map(w => w.toLowerCase()).join('_');
+                updateCounts();
+            });
+
+            btnKebab.addEventListener('click', () => {
+                const words = getCleanWords();
+                if (words.length === 0) return;
+                textInput.value = words.map(w => w.toLowerCase()).join('-');
+                updateCounts();
+            });
+
+            // ==========================================
+            // Utilities
+            // ==========================================
+
+            copyBtn.addEventListener('click', () => {
+                if (!textInput.value) {
+                    if(window.showToast) window.showToast('Nothing to copy!', 'error');
+                    return;
+                }
+                
+                navigator.clipboard.writeText(textInput.value).then(() => {
+                    if(window.showToast) window.showToast('Text copied to clipboard!', 'success');
+                    
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✅ Copied!';
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                    }, 2000);
+                });
+            });
+
+            clearBtn.addEventListener('click', () => {
+                textInput.value = '';
+                updateCounts();
+                textInput.focus();
+            });
+            
+            // Initialize count
+            updateCounts();
+        });
+    </script>
+</body>
+</html>
